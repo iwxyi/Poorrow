@@ -9,6 +9,6 @@
     <string name="action_everyday">日视图</string>
     <string name="action_everymonth">月视图</string>
     <string name="action_everyyear">年视图</string>
-    <string name="none_data_default">你一穷二白\n\n你一贫如洗\n\n你一无是处</string>
-    <string name="hello_blank_fragment">你一穷二白\n\n你一贫如洗\n\n你一无是处</string>
+    <string name="none_data_default">你，一穷二白\n\n你，一贫如洗\n\n你，一无是处</string>
+    <string name="hello_blank_fragment">你，一穷二白\n\n你，一贫如洗\n\n你，一无是处</string>
 </resources>

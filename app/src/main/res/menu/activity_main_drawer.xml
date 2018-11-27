@@ -15,11 +15,11 @@
         <item
             android:id="@+id/nav_future"
             android:icon="@drawable/ic_eye"
-            android:title="未来预测" />
+            android:title="数据预测" />
         <item
             android:id="@+id/nav_export"
             android:icon="@drawable/ic_export"
-            android:title="导出数据" />
+            android:title="导入导出" />
     </group>
 
     <item android:title="社交">

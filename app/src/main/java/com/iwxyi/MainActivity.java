@@ -130,7 +130,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_history) {
-
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.frameLayout, BillsFragment.newInstance(1), "history").commit();
         } else if (id == R.id.nav_balance) {
 
         } else if (id == R.id.nav_future) {
