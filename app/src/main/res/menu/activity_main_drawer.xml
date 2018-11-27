@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_history"
+            android:icon="@drawable/ic_history"
+            android:title="活动记录" />
+        <item
+            android:id="@+id/nav_balance"
+            android:icon="@drawable/ic_card"
+            android:title="余额查询" />
+        <item
+            android:id="@+id/nav_future"
+            android:icon="@drawable/ic_eye"
+            android:title="未来预测" />
+        <item
+            android:id="@+id/nav_export"
+            android:icon="@drawable/ic_export"
+            android:title="导出数据" />
+    </group>
+
+    <item android:title="社交">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="分享给好友" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="发送账单" />
+        </menu>
+    </item>
+
+</menu>
