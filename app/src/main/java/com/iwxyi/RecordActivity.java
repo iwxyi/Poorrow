@@ -47,14 +47,15 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
 
         // 初始化种类
         int a = SettingsUtil.getInt(getApplicationContext(), "recent");
-        if (a == 0) {
-            mSpendingRb.setChecked(true);
-        } else if (a == 1) {
+        if (a == 1) { // 收入
             mIncomeRb.setChecked(true);
-        } else if (a == 2) {
+            SetGVAdapter("kinds_income.txt", "工资\n理财\n捡到\n礼物");
+        } else if (a == 2) { // 借贷
             mBorrowingRb.setChecked(true);
-        } else {
+            SetGVAdapter("kinds_borrowing.txt", "借出\n归还\n转账");
+        } else { // 支出
             mSpendingRb.setChecked(true);
+            SetGVAdapter("kinds_spending.txt", "三餐\n点心\n饮品\n房租\n娱乐\n旅行\n日用品\n运动\n美妆\n交通\n话费\n游戏");
         }
 
     }
@@ -75,17 +76,19 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         ArrayAdapter<String> cardAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, cardType);
         cardAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item); // 设置下拉框的样式
         mCardSp.setAdapter(cardAdapter);
+    }
 
+    private void SetGVAdapter(String fileName, String def) {
         // 读取消费种类的类型
         String kindString = null;
         try {
-            kindString = FileUtil.readTextVals("kinds.txt");
+            kindString = FileUtil.readTextVals("kinds_spending.txt");
         } catch (IOException e) {
             e.printStackTrace();
         }
         if ("".equals(kindString)) {
-            kindString = "三餐\n点心\n饮品\n烟酒\n房租\n娱乐\n旅行\n日用品\n运动\n美妆\n交通\n话费\n游戏";
-            FileUtil.writeTextVals("kinds.txt", kindString);
+            kindString = def;
+            FileUtil.writeTextVals(fileName, kindString);
         }
         String[] kindType = kindString.split("\n");
         ArrayList<String> kindArray = new ArrayList();
@@ -94,7 +97,6 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         }
         MyKindApdapter kindApdapter = new MyKindApdapter(this, kindArray);
         mKindGv.setAdapter(kindApdapter);
-
     }
 
     @Override
