@@ -1,6 +1,7 @@
 package com.iwxyi;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, BlankDataFragment.OnFragmentInteractionListener,
                 BillsFragment.OnListFragmentInteractionListener{
 
+    private final int REQUEST_CODE_RECORD = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,8 +43,8 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "抱歉，暂未开发", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //Snackbar.make(view, "抱歉，暂未开发", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                startActivityForResult(new Intent(getApplicationContext(), RecordActivity.class), REQUEST_CODE_RECORD);
             }
         });
 
@@ -157,6 +160,13 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().hide(frag).commit();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.frameLayout, fragment, "history").commit();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE_RECORD) { // 添加账单
+            ;
+        }
     }
 
     /**
