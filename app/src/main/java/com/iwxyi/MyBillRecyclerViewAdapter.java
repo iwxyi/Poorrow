@@ -2,14 +2,13 @@ package com.iwxyi;
 
 import android.annotation.SuppressLint;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.iwxyi.BillsFragment.OnListFragmentInteractionListener;
-import com.iwxyi.dummy.DummyContent.DummyItem;
+import com.iwxyi.DummyContent.DummyItem;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

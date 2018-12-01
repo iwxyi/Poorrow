@@ -1,4 +1,4 @@
-package com.iwxyi.dummy;
+package com.iwxyi;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -7,8 +7,8 @@
     app:cardElevation="1dp"
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp"
-    android:layout_marginLeft="2dp"
-    android:layout_marginRight="2dp"
+    android:layout_marginLeft="6dp"
+    android:layout_marginRight="6dp"
     app:cardCornerRadius="8dp">
 
     <LinearLayout
@@ -26,17 +26,18 @@
                 android:id="@+id/iv_billIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxWidth="25dp"
-                android:maxHeight="25dp"
+                android:maxWidth="20dp"
+                android:maxHeight="20dp"
                 android:adjustViewBounds="true"
                 android:src="@mipmap/ic_launcher"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="2dp"/>
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"/>
 
             <TextView
                 android:id="@+id/tv_source"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:text="账单来源"/>
 
         </LinearLayout>
@@ -46,7 +47,7 @@
             android:id="@+id/tv_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="10dp"
             android:textAppearance="?attr/textAppearanceListItem" />
 
         <!--备注-->
@@ -54,7 +55,7 @@
             android:id="@+id/tv_note"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"/>
+            android:layout_marginStart="10dp"/>
 
         <!--时间-->
         <TextView
@@ -63,7 +64,7 @@
             android:layout_height="wrap_content"
             android:gravity="right"
             android:textColor="@color/colorGray"
-            android:layout_marginRight="4dp"
+            android:layout_marginRight="5dp"
             android:textAppearance="?attr/textAppearanceListItem"
             tools:ignore="RtlHardcoded" />
 

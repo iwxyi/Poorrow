@@ -7,7 +7,7 @@
         <item
             android:id="@+id/nav_history"
             android:icon="@drawable/ic_history"
-            android:title="活动记录" />
+            android:title="账单历史" />
         <item
             android:id="@+id/nav_balance"
             android:icon="@drawable/ic_card"
