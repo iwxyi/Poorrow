@@ -82,7 +82,7 @@ public class FileUtil {
         StringBuilder sb = new StringBuilder();
         String line;
         while ( (line = bufr.readLine()) != null ) {
-            sb.append(line);
+            sb.append(line+"\n");
         }
         return sb.toString();
     }

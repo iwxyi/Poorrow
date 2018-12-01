@@ -20,41 +20,47 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <RadioButton
-            android:id="@+id/cb_spending"
-            android:layout_width="wrap_content"
+            android:id="@+id/rb_spending"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/spending"/>
 
         <RadioButton
-            android:id="@+id/cb_income"
-            android:layout_width="wrap_content"
+            android:id="@+id/rb_income"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/income" />
 
         <RadioButton
-            android:id="@+id/cb_borrowing"
-            android:layout_width="wrap_content"
+            android:id="@+id/rb_borrowing"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/borrowing" />
 
     </RadioGroup>
 
     <!--选择列表-->
-    <ScrollView
-        android:id="@+id/login_form"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/ll_check">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_kind"
+        <GridView
+            android:id="@+id/gv_kind"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </ScrollView>
+            android:layout_height="wrap_content"
+            android:columnWidth="60dp"
+            android:gravity="center"
+            android:horizontalSpacing="10dp"
+            android:numColumns="auto_fit"
+            android:padding="10dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="10dp"
+            app:layout_constraintTop_toBottomOf="@id/ll_check"
+            app:layout_constraintBottom_toTopOf="@id/ll_data"/>
 
     <!--输入数据-->
     <LinearLayout
+        android:id="@+id/ll_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -92,6 +98,12 @@
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
             android:hint="@string/bill_note_hint"/>
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ensure_submit"/>
 
     </LinearLayout>
 

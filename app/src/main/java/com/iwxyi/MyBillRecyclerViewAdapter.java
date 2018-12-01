@@ -44,7 +44,7 @@ public class MyBillRecyclerViewAdapter extends RecyclerView.Adapter<MyBillRecycl
         holder.mTvAmount.setText(mValues.get(position).amount+"");
         holder.mTvNote.setText(mValues.get(position).note);
         try {
-            holder.mTvTime.setText(longToString(mValues.get(position).timestamp, "yy-MM-dd HH:mm"));
+            holder.mTvTime.setText(longToString(mValues.get(position).timestamp, "MM-dd HH:mm"));
         } catch (ParseException e) {
             e.printStackTrace();
         }

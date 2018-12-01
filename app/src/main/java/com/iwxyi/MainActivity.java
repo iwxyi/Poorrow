@@ -167,20 +167,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * 空白列表被单击
-     * @param uri
-     */
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
-    /**
      * 账单历史被单击
      * @param item
      */
     @Override
     public void onListFragmentInteraction(DummyContent.DummyItem item) {
 
+    }
+
+    @Override
+    public void onTvClicked(Uri uri) {
+        startActivityForResult(new Intent(getApplicationContext(), RecordActivity.class), REQUEST_CODE_RECORD);
     }
 }
