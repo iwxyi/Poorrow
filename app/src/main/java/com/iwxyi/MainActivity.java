@@ -1,5 +1,6 @@
 package com.iwxyi;
 
+import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,8 +16,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.iwxyi.dummy.DummyContent;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, BlankDataFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, BlankDataFragment.OnFragmentInteractionListener,
+                BillsFragment.OnListFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,6 +134,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_history) {
+            for (android.support.v4.app.Fragment frag : getSupportFragmentManager().getFragments())
+                getSupportFragmentManager().beginTransaction().hide(frag).commit();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.frameLayout, BillsFragment.newInstance(1), "history").commit();
         } else if (id == R.id.nav_balance) {
@@ -149,8 +155,21 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * 空白列表被单击
+     * @param uri
+     */
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    /**
+     * 账单历史被单击
+     * @param item
+     */
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
 
     }
 }
