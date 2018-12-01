@@ -1,6 +1,7 @@
 package com.iwxyi;
 
 import android.os.Environment;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,16 +12,18 @@ import java.io.InputStreamReader;
 
 public class FileUtil {
 
+    private static final String FOLEDER_NAME = "Poorrow";
+
     /**
      * 寻找程序数据存储的外部文件夹
      * @return 文件夹路径（带"/"）
      */
     public static String getFolder() {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            return Environment.getExternalStorageDirectory().getPath() + "/Poorrow/";
+            return Environment.getExternalStorageDirectory().getPath() + "/" + FOLEDER_NAME;
         }
         else {
-            return "/storage/emulated/0/Poorrow/";
+            return "/data/data/com.Poorrow/files/"+FOLEDER_NAME;
         }
     }
 
@@ -31,14 +34,30 @@ public class FileUtil {
      * @return 写入文件是否成功
      */
     public static boolean writeTextVals(String fileName, String text) {
-        return writeTextFile(getFolder()+fileName, text);
+        return writeTextFile(getFolder() + "/" +fileName, text);
     }
 
+    /**
+     * 读取对应文件的设置
+     * @param fileName 文件名
+     * @return 读取到的文本内容
+     * @throws IOException
+     */
     public static String readTextVals(String fileName) throws IOException {
-        return readTextFile(getFolder()+fileName);
+        return readTextFile(getFolder() + "/" +fileName);
     }
 
-    public static boolean writeTextFile(String filePath, String text) {
+    /**
+     * 确保文件夹存在（目标是数据存储的主文件夹）
+     * @return 确认文件是否存在
+     */
+    public static boolean ensureFolder() {
+        return createFolder(getFolder());
+    }
+
+    private static boolean writeTextFile(String filePath, String text) {
+        createFile(filePath);
+
         try{
             // 创建 File类 指定数据存储的位置
             File file = new File(filePath);
@@ -54,7 +73,9 @@ public class FileUtil {
         }
     }
 
-    public static String readTextFile(String filePath) throws IOException {
+    private static String readTextFile(String filePath) throws IOException {
+        createFile(filePath);
+
         File file = new File(filePath);
         FileInputStream fis = new FileInputStream(file);
         BufferedReader bufr = new BufferedReader(new InputStreamReader(fis));
@@ -64,6 +85,28 @@ public class FileUtil {
             sb.append(line);
         }
         return sb.toString();
+    }
+
+    private static boolean createFolder(String path) {
+        File file;
+        try {
+            file = new File(path);
+            return file.exists() || file.mkdirs();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private static boolean createFile(String filePath) {
+        File file;
+        try {
+            file = new File(filePath);
+            return file.exists() || file.createNewFile();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }
