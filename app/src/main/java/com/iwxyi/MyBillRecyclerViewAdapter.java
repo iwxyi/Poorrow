@@ -1,6 +1,8 @@
 package com.iwxyi;
 
+import android.annotation.SuppressLint;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,9 @@ import android.widget.TextView;
 import com.iwxyi.BillsFragment.OnListFragmentInteractionListener;
 import com.iwxyi.dummy.DummyContent.DummyItem;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,8 +41,14 @@ public class MyBillRecyclerViewAdapter extends RecyclerView.Adapter<MyBillRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).source);
+        holder.mTvSource.setText(mValues.get(position).source);
+        holder.mTvAmount.setText(mValues.get(position).amount+"");
+        holder.mTvNote.setText(mValues.get(position).note);
+        try {
+            holder.mTvTime.setText(longToString(mValues.get(position).timestamp, "yyyy-MM-dd HH:mm:ss"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,22 +67,62 @@ public class MyBillRecyclerViewAdapter extends RecyclerView.Adapter<MyBillRecycl
         return mValues.size();
     }
 
+    // currentTime要转换的long类型的时间
+    // formatType要转换的string类型的时间格式
+    private static String longToString(long currentTime, String formatType)
+            throws ParseException {
+        Date date = longToDate(currentTime, formatType); // long类型转成Date类型
+        return dateToString(date, formatType);
+    }
+
+    // currentTime要转换的long类型的时间
+    // formatType要转换的时间格式yyyy-MM-dd HH:mm:ss //yyyy年MM月dd日 HH时mm分ss秒
+    private static Date longToDate(long currentTime, String formatType)
+            throws ParseException {
+        Date dateOld = new Date(currentTime); // 根据long类型的毫秒数生命一个date类型的时间
+        String sDateTime = dateToString(dateOld, formatType); // 把date类型的时间转换为string
+        Date date = stringToDate(sDateTime, formatType); // 把String类型转换为Date类型
+        return date;
+    }
+
+    // formatType格式为yyyy-MM-dd HH:mm:ss//yyyy年MM月dd日 HH时mm分ss秒
+    // data Date类型的时间
+    @SuppressLint("SimpleDateFormat")
+    private static String dateToString(Date data, String formatType) {
+        return new SimpleDateFormat(formatType).format(data);
+    }
+
+    // strTime要转换的string类型的时间，formatType要转换的格式yyyy-MM-dd HH:mm:ss//yyyy年MM月dd日
+    // HH时mm分ss秒，
+    // strTime的时间格式必须要与formatType的时间格式相同
+    public static Date stringToDate(String strTime, String formatType)
+            throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat(formatType);
+        Date date = null;
+        date = formatter.parse(strTime);
+        return date;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
+        public final TextView mTvSource;
+        public final TextView mTvAmount;
+        public final TextView mTvNote;
+        public final TextView mTvTime;
         public DummyItem mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mTvSource = (TextView) view.findViewById(R.id.tv_source);
+            mTvAmount = (TextView) view.findViewById(R.id.tv_amount);
+            mTvNote = (TextView) view.findViewById(R.id.tv_note);
+            mTvTime = (TextView) view.findViewById(R.id.tv_time);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mTvSource.getText() + "'";
         }
     }
 }

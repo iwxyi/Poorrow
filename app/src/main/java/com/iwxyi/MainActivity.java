@@ -92,8 +92,7 @@ public class MainActivity extends AppCompatActivity
         });
 
         // 初始化碎片
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.frameLayout, BlankDataFragment.newInstance()).commit();
+        switchFragment(BlankDataFragment.newInstance());
 
     }
 
@@ -134,10 +133,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_history) {
-            for (android.support.v4.app.Fragment frag : getSupportFragmentManager().getFragments())
-                getSupportFragmentManager().beginTransaction().hide(frag).commit();
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.frameLayout, BillsFragment.newInstance(1), "history").commit();
+            switchFragment(BillsFragment.newInstance(1));
         } else if (id == R.id.nav_balance) {
 
         } else if (id == R.id.nav_future) {
@@ -153,6 +149,14 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void switchFragment(android.support.v4.app.Fragment fragment) {
+        // 隐藏现有的Fragment避免显示重叠
+        for (android.support.v4.app.Fragment frag : getSupportFragmentManager().getFragments())
+            getSupportFragmentManager().beginTransaction().hide(frag).commit();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.frameLayout, fragment, "history").commit();
     }
 
     /**
