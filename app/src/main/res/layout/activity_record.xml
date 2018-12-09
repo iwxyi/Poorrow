@@ -25,21 +25,24 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="@string/spending"/>
+            android:text="@string/spending"
+            android:onClick="onClick"/>
 
         <RadioButton
             android:id="@+id/rb_income"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="@string/income" />
+            android:text="@string/income"
+            android:onClick="onClick"/>
 
         <RadioButton
             android:id="@+id/rb_borrowing"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="@string/borrowing" />
+            android:text="@string/borrowing"
+            android:onClick="onClick"/>
 
     </RadioGroup>
 

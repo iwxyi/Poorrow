@@ -20,21 +20,18 @@ public class SettingsUtil {
         edit.commit();
     }
 
-    public static int getInt(Context ct, String key) {
-        if (ct == null) {
-            return 0;
-        }
-        SharedPreferences sp = ct.getSharedPreferences("config", 0);
-        String rst = sp.getString(key, "");
-        if ("".equals(rst))
-            return 0;
-        return Integer.parseInt(rst);
-    }
-
     public static void setVal(Context ct, String key, int val) {
         SharedPreferences sp = ct.getSharedPreferences("config", 0);
         SharedPreferences.Editor edit = sp.edit();
         edit.putInt(key, val);
         edit.commit();
+    }
+
+    public static int getInt(Context ct, String key) {
+        if (ct == null) {
+            return 0;
+        }
+        SharedPreferences sp = ct.getSharedPreferences("config", 0);
+        return sp.getInt(key, 0);
     }
 }
