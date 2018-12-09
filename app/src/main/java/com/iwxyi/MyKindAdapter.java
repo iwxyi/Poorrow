@@ -6,17 +6,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MyKindApdapter extends BaseAdapter {
+public class MyKindAdapter extends BaseAdapter {
 
     private LayoutInflater mInflater = null;
     private Context mContext = null;
-    private ArrayList<String> mData = null;
+    private ArrayList<KindBean> mData = null;
 
-    public MyKindApdapter(Context context, ArrayList<String> arrayList) {
+    public MyKindAdapter(Context context, ArrayList<KindBean> arrayList) {
         mContext = context;
         mData = arrayList;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -40,14 +41,24 @@ public class MyKindApdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
-        String name = (String)getItem(position);
+        KindBean data = (KindBean)getItem(position);
+        String name = data.name;
+        int img = data.img;
+        boolean ch = data.choose;
         if (convertView == null) {
             convertView = mInflater.from(mContext).inflate(R.layout.item_kind, parent, false);
             holder = new ViewHolder();
+            holder.ll = (LinearLayout) convertView.findViewById(R.id.ll_all);
             holder.iv = (ImageView) convertView.findViewById(R.id.iv_icon);
             holder.tv = (TextView) convertView.findViewById(R.id.tv_name);
+
             holder.tv.setText(name);
-            holder.iv.setImageResource(nameToImage(name));
+            if (ch) {
+                holder.ll.setBackgroundResource(R.drawable.orange_border);
+            } else {
+                holder.ll.setBackgroundResource(0);
+            }
+            holder.iv.setImageResource(img);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
@@ -57,17 +68,9 @@ public class MyKindApdapter extends BaseAdapter {
         return convertView; // 每次都忘记修改null，真气人
     }
 
-    /**
-     * 种类名字转换成图片路径名
-     * @param name 种类名字
-     * @return
-     */
-    private int nameToImage(String name) {
-        return R.drawable.ic_card;
-    }
-
     class ViewHolder {
         ImageView iv;
         TextView tv;
+        LinearLayout ll;
     }
 }

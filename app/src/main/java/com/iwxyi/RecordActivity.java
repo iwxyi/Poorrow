@@ -18,6 +18,8 @@ import java.util.ArrayList;
 
 public class RecordActivity extends AppCompatActivity implements View.OnClickListener, OnItemClickListener {
 
+    private int RECULT_CODE_OK = 1;
+
     private RadioButton mSpendingRb;
     private RadioButton mIncomeRb;
     private RadioButton mBorrowingRb;
@@ -28,6 +30,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
     private Button mSubmitBtn;
 
     private String[] kindList;
+    private ArrayList<KindBean> kindArray;
     private int kindChoosing;
 
     @Override
@@ -50,14 +53,10 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         mSubmitBtn = (Button) findViewById(R.id.btn_submit);
         mKindGv.setOnItemClickListener(this);
         mSubmitBtn.setOnClickListener(this);
-
-        // 初始化种类
-        int a = SettingsUtil.getInt(getApplicationContext(), "record_kind");
-        emitGVAdapter(a);
     }
 
     private void initData() {
-        // 读取卡的列表
+        // 初始化卡
         String cardString = null;
         try {
             cardString = FileUtil.readTextVals("cards.txt");
@@ -72,6 +71,11 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         ArrayAdapter<String> cardAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, cardType);
         cardAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item); // 设置下拉框的样式
         mCardSp.setAdapter(cardAdapter);
+
+        // 初始化种类
+        kindArray = new ArrayList<>();
+        int a = SettingsUtil.getInt(getApplicationContext(), "record_kind");
+        emitGVAdapter(a);
     }
 
     private void emitGVAdapter(int x) {
@@ -89,7 +93,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
             fileName = "kinds_spending.txt";
             def = "三餐\n点心\n饮品\n衣服\n房租\n娱乐\n旅行\n日用品\n运动\n美妆\n交通\n话费\n游戏";
         }
-//        Toast.makeText(this, def, Toast.LENGTH_SHORT).show();
+
         // 读取消费种类的类型
         String kindString = null;
         kindChoosing = -1;
@@ -98,16 +102,18 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         } catch (IOException e) {
             e.printStackTrace();
         }
+        // 如果文件不存在，则创建文件，保存内容，并且使用默认的列表
         if ("".equals(kindString)) {
             kindString = def;
             FileUtil.writeTextVals(fileName, kindString);
         }
         kindList = kindString.split("\n");
-        ArrayList<String> kindArray = new ArrayList();
-        for (String s : kindList) { // 不知道该怎么转换，就只能用循环一个个遍历啦
-            kindArray.add(s);
+        // 将字符串数组转换到 KindBean 数组
+        kindArray.clear();
+        for (String s : kindList) {
+            kindArray.add(new KindBean(s));
         }
-        MyKindApdapter kindApdapter = new MyKindApdapter(this, kindArray);
+        MyKindAdapter kindApdapter = new MyKindAdapter(this, kindArray);
         mKindGv.setAdapter(kindApdapter);
     }
 
@@ -117,8 +123,11 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.btn_submit:
                 if ("".equals(mAmountEv.getText().toString())) {
                     Toast.makeText(this, "请输入金额", Toast.LENGTH_SHORT).show();
+                    return ;
                 }
 
+                setResult(RECULT_CODE_OK);
+                finish();
                 break;
             case R.id.rb_spending :
                 emitGVAdapter(0);
@@ -139,7 +148,18 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        if (kindChoosing == position) { // 重新点击选中的，取消选中
+            kindArray.get(position).choose = false;
+            kindChoosing = -1;
+        } else { // 未选中的，选中
+            if (kindChoosing >= 0) {
+                kindArray.get(kindChoosing).choose = false;
+            }
+            kindChoosing = position;
+            kindArray.get(position).choose = true;
+        }
+        MyKindAdapter kindApdapter = new MyKindAdapter(this, kindArray);
+        mKindGv.setAdapter(kindApdapter);
     }
 }
 
