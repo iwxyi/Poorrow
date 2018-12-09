@@ -41,10 +41,13 @@ public class FileUtil {
      * 读取对应文件的设置
      * @param fileName 文件名
      * @return 读取到的文本内容
-     * @throws IOException
      */
-    public static String readTextVals(String fileName) throws IOException {
-        return readTextFile(getFolder() + "/" +fileName);
+    public static String readTextVals(String fileName) {
+        try {
+            return readTextFile(getFolder() + "/" +fileName);
+        } catch (IOException e) {
+            return "";
+        }
     }
 
     /**

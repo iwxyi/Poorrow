@@ -3,20 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_everyday"
-        android:orderInCategory="100"
-        android:title="@string/action_everyday"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_everymonth"
-        android:orderInCategory="100"
-        android:title="@string/action_everymonth"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_about"
+        android:orderInCategory="100"
+        android:title="@string/action_about"
+        app:showAsAction="never" />
+
 </menu>

@@ -5,30 +5,35 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Helper class for providing sample content for user interfaces created by
- * Android template wizards.
- * <p>
- * TODO: Replace all uses of this class before publishing your app.
- */
+
 public class DummyContent {
 
-    /**
-     * An array of sample (dummy) items.
-     */
+
     public static final List<DummyItem> ITEMS = new ArrayList<DummyItem>();
-
-    /**
-     * A map of sample (dummy) items, by ID.
-     */
     public static final Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
-
     private static final int COUNT = 25;
 
     static {
-        // Add some sample items.
-        for (int i = 1; i <= COUNT; i++) {
+        /*for (int i = 1; i <= COUNT; i++) {
             addItem(createDummyItem(i));
+        }*/
+        String texts = FileUtil.readTextVals("bills.txt");
+        ArrayList<String>bills = StringUtil.getXmls(texts, "BILL");
+        for (String b :bills) {
+            String id = StringUtil.getXml(b, "ID"); // 必须
+            String source = StringUtil.getXml(b, "SR");
+            int mode = StringUtil.getXmlInt(b, "MD");
+            String kind = StringUtil.getXml(b, "KD");
+            double amount = StringUtil.getXmlDouble(b, "AM"); // 必须
+            String note = StringUtil.getXml(b, "NT");
+            String card = StringUtil.getXml(b, "CD");
+            long timestamp = StringUtil.getXmlLong(b, "TT");
+            long addTime = StringUtil.getXmlLong(b, "AT");
+            long changeTime = StringUtil.getXmlLong(b, "CT");
+            boolean reimburse = StringUtil.getXmlBoolean(b, "RB");
+            long remind = StringUtil.getXmlLong(b, "RM");
+
+            addItem(createDummyItem(id, amount, mode, source, kind, note, card, timestamp, addTime, changeTime, reimburse, remind));
         }
     }
 
@@ -37,14 +42,18 @@ public class DummyContent {
         ITEM_MAP.put(item.id, item);
     }
 
-    private static DummyItem createDummyItem(int position) {
-        return new DummyItem(position+"", 100);
+    /**
+     * 类似工厂模式添加 Dummy
+     */
+    private static DummyItem createDummyItem(String id, double amount, int mode, String source, String kind, String note, String card, long timestamp, long addTime, long changeTime, Boolean reimburse, long remind) {
+        return new DummyItem(id, amount, mode, source, kind, note, card, timestamp, addTime, changeTime, reimburse, remind);
     }
 
     public static class DummyItem {
 
         public String  id;         // 账单ID（根据时间随机）
-        public int     amount;     // 账单金额（+收入，-支出）
+        public double  amount;     // 账单金额（+收入，-支出）
+        public int     mode;       // 账单类型（支出、收入、借贷）
         public String  source;     // 账单源头（消费、获取）
         public String  kind;       // 账单种类（吃喝住行、工资、借还等）
         public String  note;       // 账单备注
@@ -53,16 +62,17 @@ public class DummyContent {
         public long    addTime;    // 添加时间戳（以添加时间为准）
         public long    changeTime; // 修改时间戳
         public Boolean reimburse;  // 是否能报销/归还
-        public long    remind;     // 定时提醒
+        public long    remind;     // 提醒时间戳
 
         public DummyItem(String id, int amount) {
             this.id = id;
             this.amount = amount;
         }
 
-        public DummyItem(String id, int amount, String source, String kind, String note, String card, long timestamp, long addTime, long changeTime, Boolean reimburse, long remind) {
+        public DummyItem(String id, double amount, int mode, String source, String kind, String note, String card, long timestamp, long addTime, long changeTime, Boolean reimburse, long remind) {
             this.id = id;
             this.amount = amount;
+            this.mode = mode;
             this.source = source;
             this.kind = kind;
             this.note = note;
@@ -76,14 +86,18 @@ public class DummyContent {
 
         @Override
         public String toString() {
-            return xml(id, "ID") + xml(source, "SR") + xml(kind, "KD") + xml(amount+"", "AM")
-                    + xml(note, "NT") + xml(card, "CD") + xml(timestamp+"", "TT")
-                    + xml(addTime+"", "AT") + xml(changeTime+"", "CT")
-                    + xml(reimburse+"", "RB") + xml(remind+"", "RM");
-        }
-
-        private String xml(String data, String tag) {
-            return "<" + tag + ">" + data + "</" + tag + ">";
+            return StringUtil.toXml(id, "ID")
+                    + StringUtil.toXml(source, "SR")
+                    + StringUtil.toXml(mode+"", "MD")
+                    + StringUtil.toXml(kind, "KD")
+                    + StringUtil.toXml(amount, "AM")
+                    + StringUtil.toXml(note, "NT")
+                    + StringUtil.toXml(card, "CD")
+                    + StringUtil.toXml(timestamp, "TT")
+                    + StringUtil.toXml(addTime, "AT")
+                    + StringUtil.toXml(changeTime, "CT")
+                    + StringUtil.toXml(reimburse, "RB")
+                    + StringUtil.toXml(remind, "RM");
         }
     }
 }

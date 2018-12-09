@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity
 
         // 初始化碎片
         switchFragment(BlankDataFragment.newInstance());
-
     }
 
     @Override
@@ -118,10 +117,8 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.action_settings) {
             return true;
-        }
-        else if (id == R.id.action_everyday) {
-        }
-        else if (id == R.id.action_everymonth) {
+        } else if (id == R.id.action_about) {
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

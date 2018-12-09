@@ -1,5 +1,6 @@
 package com.iwxyi;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -58,11 +59,8 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
     private void initData() {
         // 初始化卡
         String cardString = null;
-        try {
-            cardString = FileUtil.readTextVals("cards.txt");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        cardString = FileUtil.readTextVals("cards.txt");
+
         if ("".equals(cardString)) {
             cardString = "默认\n现金";
             FileUtil.writeTextVals("cards.txt", cardString);
@@ -97,11 +95,8 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         // 读取消费种类的类型
         String kindString = null;
         kindChoosing = -1;
-        try {
-            kindString = FileUtil.readTextVals(fileName);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        kindString = FileUtil.readTextVals(fileName);
+
         // 如果文件不存在，则创建文件，保存内容，并且使用默认的列表
         if ("".equals(kindString)) {
             kindString = def;
@@ -126,7 +121,29 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                     return ;
                 }
 
-                setResult(RECULT_CODE_OK);
+                int mode = 0;
+                if (mSpendingRb.isChecked()) {
+                    mode = 0;
+                } else if (mIncomeRb.isChecked()) {
+                    mode = 1;
+                } else if (mBorrowingRb.isChecked()) {
+                    mode = 2;
+                }
+                String kind = "";
+                if (kindChoosing >= 0) {
+                    kind = kindList[kindChoosing];
+                }
+                double amount = Double.valueOf(mAmountEv.getText().toString());
+                String note = mNoteEv.getText().toString();
+
+                // 保存到 Bundle
+                Intent intent = new Intent();
+                intent.putExtra("record_mode", mode);
+                intent.putExtra("record_kind", kind);
+                intent.putExtra("record_amount", amount);
+                intent.putExtra("record_note", note);
+
+                setResult(RECULT_CODE_OK, intent);
                 finish();
                 break;
             case R.id.rb_spending :

@@ -42,11 +42,18 @@ public class MyBillRecyclerViewAdapter extends RecyclerView.Adapter<MyBillRecycl
         holder.mItem = mValues.get(position);
         holder.mTvSource.setText(mValues.get(position).source);
         holder.mTvAmount.setText(mValues.get(position).amount+"");
-        holder.mTvNote.setText(mValues.get(position).note);
-        try {
-            holder.mTvTime.setText(longToString(mValues.get(position).timestamp, "MM-dd HH:mm"));
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if ("".equals(mValues.get(position).note)) {
+            holder.mTvNote.setVisibility(View.GONE);
+        } else {
+            holder.mTvNote.setVisibility(View.VISIBLE);
+            holder.mTvNote.setText(mValues.get(position).note);
+        }
+        if (mValues.get(position).timestamp != 0) { // 如果为空，就不显示了
+            try {
+                holder.mTvTime.setText(longToString(mValues.get(position).timestamp, "MM-dd HH:mm"));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
