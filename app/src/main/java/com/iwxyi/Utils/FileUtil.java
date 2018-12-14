@@ -1,4 +1,4 @@
-package com.iwxyi;
+package com.iwxyi.Utils;
 
 import android.os.Environment;
 import android.widget.Toast;
@@ -48,6 +48,16 @@ public class FileUtil {
         } catch (IOException e) {
             return "";
         }
+    }
+
+    /**
+     * 文件是否存在。用以做一些初始化工作
+     * @param filename 文件名
+     * @return
+     */
+    public static boolean exist(String filename) {
+        File file = new File(getFolder() + "/" +filename);
+        return file.exists();
     }
 
     /**
@@ -111,5 +121,4 @@ public class FileUtil {
             return false;
         }
     }
-
 }

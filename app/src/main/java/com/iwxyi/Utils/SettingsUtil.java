@@ -1,4 +1,4 @@
-package com.iwxyi;
+package com.iwxyi.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

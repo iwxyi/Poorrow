@@ -1,4 +1,4 @@
-package com.iwxyi;
+package com.iwxyi.BillsListFragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,7 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.iwxyi.DummyContent.DummyItem;
+import com.iwxyi.BillsListFragment.DummyContent.DummyItem;
+import com.iwxyi.R;
 
 /**
  * A fragment representing a list of Items.

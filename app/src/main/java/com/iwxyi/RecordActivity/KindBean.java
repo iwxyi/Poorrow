@@ -1,4 +1,6 @@
-package com.iwxyi;
+package com.iwxyi.RecordActivity;
+
+import com.iwxyi.R;
 
 public class KindBean {
     public String name;

@@ -12,6 +12,14 @@
     <string name="none_data_default">你，一穷二白……\n\n你，一贫如洗……\n\n你，一无是处……</string>
     <string name="hello_blank_fragment">你，一穷二白……\n\n你，一贫如洗……\n\n你，一无是处……</string>
     <string name="title_activity_record">添加账单记录</string>
+    
+    <!--文件存储路径-->
+    <string name="data_bills">bills.txt</string>
+    <string name="data_cards">cards.txt</string>
+    <string name="data_kinds">kinds.txt</string>
+    <string name="data_kinds_spending">kinds_spending.txt</string>
+    <string name="data_kinds_income">kinds_income.txt</string>
+    <string name="data_kinds_borrowing">kinds_borrowing</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

@@ -1,4 +1,7 @@
-package com.iwxyi;
+package com.iwxyi.BillsListFragment;
+
+import com.iwxyi.Utils.FileUtil;
+import com.iwxyi.Utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,7 +11,6 @@ import java.util.Map;
 
 public class DummyContent {
 
-
     public static final List<DummyItem> ITEMS = new ArrayList<DummyItem>();
     public static final Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
     private static final int COUNT = 25;
@@ -17,6 +19,9 @@ public class DummyContent {
         /*for (int i = 1; i <= COUNT; i++) {
             addItem(createDummyItem(i));
         }*/
+        if (!FileUtil.exist("bills")) {
+            initStartBills();
+        }
         String texts = FileUtil.readTextVals("bills.txt");
         ArrayList<String>bills = StringUtil.getXmls(texts, "BILL");
         for (String b :bills) {
@@ -35,6 +40,15 @@ public class DummyContent {
 
             addItem(createDummyItem(id, amount, mode, source, kind, note, card, timestamp, addTime, changeTime, reimburse, remind));
         }
+    }
+
+    public static void addNew(String id, double amount, int mode, String source, String kind, String note, String card, long timestamp, long addTime, long changeTime, Boolean reimburse, long remind) {
+        DummyItem item = createDummyItem(id, amount, mode, source, kind, note, card, timestamp, addTime, changeTime, reimburse, remind);
+        addItem(item);
+
+        String text = FileUtil.readTextVals("bills.txt");
+        text += item.toString();
+        FileUtil.writeTextVals("bills.txt", text);
     }
 
     private static void addItem(DummyItem item) {
@@ -99,5 +113,13 @@ public class DummyContent {
                     + StringUtil.toXml(reimburse, "RB")
                     + StringUtil.toXml(remind, "RM");
         }
+    }
+
+    private static void initStartBills() {
+        String text = "<BILL><ID>0</ID><SR>欢迎来到 穷光蛋的世界</SR><AM>1.00</AM><NT>你知道，自己只是个穷光蛋，一贫如洗</NT></BILL>";
+        text += "<BILL><ID>0</ID><SR>其实啊，你很幸运</SR><AM>1.00</AM><NT>真的很幸运，能和本开发者一同品味着贫穷，品味着无力</NT></BILL>";
+        text += "<BILL><ID>0</ID><SR>下一世</SR><AM>1.00</AM><NT>下一世，我们必将，生活在无忧无虑的富饶世界！</NT></BILL>";
+
+        FileUtil.writeTextVals("bills.txt", text);
     }
 }

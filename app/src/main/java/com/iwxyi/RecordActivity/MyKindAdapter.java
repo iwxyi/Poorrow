@@ -1,4 +1,4 @@
-package com.iwxyi;
+package com.iwxyi.RecordActivity;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.iwxyi.R;
 
 import java.util.ArrayList;
 

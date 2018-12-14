@@ -14,6 +14,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.iwxyi.BillsListFragment.BillsFragment;
+import com.iwxyi.BillsListFragment.DummyContent;
+import com.iwxyi.RecordActivity.RecordActivity;
+import com.iwxyi.Utils.FileUtil;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, BlankDataFragment.OnFragmentInteractionListener,
                 BillsFragment.OnListFragmentInteractionListener{

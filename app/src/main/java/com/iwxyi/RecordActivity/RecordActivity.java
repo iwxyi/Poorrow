@@ -1,4 +1,4 @@
-package com.iwxyi;
+package com.iwxyi.RecordActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +14,10 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.io.IOException;
+import com.iwxyi.Utils.FileUtil;
+import com.iwxyi.R;
+import com.iwxyi.Utils.SettingsUtil;
+
 import java.util.ArrayList;
 
 public class RecordActivity extends AppCompatActivity implements View.OnClickListener, OnItemClickListener {
@@ -133,15 +136,19 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                 if (kindChoosing >= 0) {
                     kind = kindList[kindChoosing];
                 }
+                String card = mCardSp.toString();
                 double amount = Double.valueOf(mAmountEv.getText().toString());
                 String note = mNoteEv.getText().toString();
+                long timestamp = 0;
 
                 // 保存到 Bundle
                 Intent intent = new Intent();
                 intent.putExtra("record_mode", mode);
                 intent.putExtra("record_kind", kind);
+                intent.putExtra("record_card", card);
                 intent.putExtra("record_amount", amount);
                 intent.putExtra("record_note", note);
+                intent.putExtra("record_timestamp", timestamp);
 
                 setResult(RECULT_CODE_OK, intent);
                 finish();

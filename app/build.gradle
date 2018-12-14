@@ -16,6 +16,28 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main {
+            res.srcDirs =
+                    [
+                            'src/main/res/layout/Main',
+                            'src/main/res/layout/Fragments',
+                            'src/main/res/layout/ListItems',
+                            'src/main/res/layout',
+                            'src/main/res'
+                    ]
+        }
+    }
+    def listSubFile = {
+        def resFolder = 'src/main/res/layout'
+        def files = file(resFolder).listFiles()
+        def folders = []
+        files.each {
+            item -> folders.add(item.absolutePath)
+        }
+        folders.add(file(resFolder).parentFile.absolutePath)
+        return folders
+    }
 }
 
 dependencies {

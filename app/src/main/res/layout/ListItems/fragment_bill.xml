@@ -4,8 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardElevation="3dp"
+    app:cardElevation="2dp"
     android:layout_margin="8dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
     app:cardCornerRadius="4dp"
     android:foreground="?android:attr/selectableItemBackground">
 
@@ -25,8 +27,8 @@
                 android:id="@+id/iv_billIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxWidth="20dp"
-                android:maxHeight="20dp"
+                android:maxWidth="17dp"
+                android:maxHeight="17dp"
                 android:adjustViewBounds="true"
                 android:src="@mipmap/ic_launcher"
                 android:layout_marginStart="10dp"/>
@@ -35,6 +37,7 @@
                 android:id="@+id/tv_source"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
                 android:text="账单来源"/>
 
         </LinearLayout>
@@ -52,6 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:textSize="25sp"
             android:textAppearance="?attr/textAppearanceListItem" />
 
         <!--备注-->
@@ -59,6 +63,8 @@
             android:id="@+id/tv_note"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:textSize="10sp"
             android:layout_marginStart="10dp"/>
 
         <!--时间-->

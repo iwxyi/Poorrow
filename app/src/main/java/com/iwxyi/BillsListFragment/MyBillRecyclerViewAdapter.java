@@ -1,4 +1,4 @@
-package com.iwxyi;
+package com.iwxyi.BillsListFragment;
 
 import android.annotation.SuppressLint;
 import android.support.v7.widget.RecyclerView;
@@ -7,8 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.iwxyi.BillsFragment.OnListFragmentInteractionListener;
-import com.iwxyi.DummyContent.DummyItem;
+import com.iwxyi.BillsListFragment.BillsFragment.OnListFragmentInteractionListener;
+import com.iwxyi.BillsListFragment.DummyContent.DummyItem;
+import com.iwxyi.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
