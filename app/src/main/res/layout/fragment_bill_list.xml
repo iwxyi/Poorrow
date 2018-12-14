@@ -8,5 +8,5 @@
     android:layout_height="match_parent"
     android:background="@color/colorLightGrayBg"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".Fragments.BillsListFragment.BillsFragment"
+    tools:context=".Fragments.BillsList.BillsFragment"
     tools:listitem="@layout/fragment_bill" />

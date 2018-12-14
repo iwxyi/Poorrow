@@ -1,4 +1,4 @@
-package com.iwxyi.Fragments.BillsListFragment;
+package com.iwxyi.Fragments.BillsList;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.iwxyi.Fragments.BillsListFragment.DummyContent.DummyItem;
+import com.iwxyi.Fragments.BillsList.DummyContent.DummyItem;
 import com.iwxyi.R;
 
 /**

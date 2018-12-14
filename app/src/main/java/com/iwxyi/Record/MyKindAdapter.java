@@ -1,4 +1,4 @@
-package com.iwxyi.RecordActivity;
+package com.iwxyi.Record;
 
 import android.content.Context;
 import android.view.LayoutInflater;

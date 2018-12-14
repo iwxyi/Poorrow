@@ -1,4 +1,4 @@
-package com.iwxyi.RecordActivity;
+package com.iwxyi.Record;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,7 +16,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.iwxyi.MainActivity;
 import com.iwxyi.R;
 import com.iwxyi.Utils.DateTimeUtil;
 import com.iwxyi.Utils.FileUtil;
@@ -81,8 +80,8 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         tsMinute = addMinute;
          */
 
-        mDateTv.setText("日期：" + DateTimeUtil.DataToString(addYear, addMonth, addDate));
-        mTimeTv.setText("时间：" + DateTimeUtil.TimeToString(addHour, addMinute));
+        mDateTv.setText("日期：" + DateTimeUtil.dataToString(addYear, addMonth, addDate));
+        mTimeTv.setText("时间：" + DateTimeUtil.timeToString(addHour, addMinute));
 
         super.onStart();
     }
@@ -184,7 +183,8 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                 String card = mCardSp.toString();
                 double amount = Double.valueOf(mAmountEv.getText().toString());
                 String note = mNoteEv.getText().toString();
-                long timestamp = 0;
+                long timestamp = DateTimeUtil.valsToTimestamp(tsYear, tsMonth, tsDate, tsHour, tsMinute, 0);
+                long addTime = DateTimeUtil.valsToTimestamp(addYear, addMonth, addDate, addHour, addMinute, 0);
 
                 // 保存到 Bundle
                 Intent intent = new Intent();
@@ -194,6 +194,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                 intent.putExtra("record_amount", amount);
                 intent.putExtra("record_note", note);
                 intent.putExtra("record_timestamp", timestamp);
+                intent.putExtra("record_addTime", addTime);
 
                 setResult(RECULT_CODE_OK, intent);
                 finish();
@@ -228,7 +229,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                                 tsMonth = month;
                                 tsDate = day;
 
-                                mDateTv.setText("日期：" + DateTimeUtil.DataToString(tsYear, tsMonth, tsDate));
+                                mDateTv.setText("日期：" + DateTimeUtil.dataToString(tsYear, tsMonth, tsDate));
                             }
 
                             @Override
@@ -254,7 +255,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                                 tsHour = hour;
                                 tsMinute = minutes;
 
-                                mTimeTv.setText("时间：" + DateTimeUtil.TimeToString(tsHour, tsMinute));
+                                mTimeTv.setText("时间：" + DateTimeUtil.timeToString(tsHour, tsMinute));
                             }
 
                             @Override

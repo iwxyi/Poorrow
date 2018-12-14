@@ -14,10 +14,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.iwxyi.Fragments.BillsListFragment.BillsFragment;
-import com.iwxyi.Fragments.BillsListFragment.DummyContent;
+import com.iwxyi.Fragments.BillsList.BillsFragment;
+import com.iwxyi.Fragments.BillsList.DummyContent;
 import com.iwxyi.Fragments.BlankDataFragment;
-import com.iwxyi.RecordActivity.RecordActivity;
+import com.iwxyi.Record.RecordActivity;
 import com.iwxyi.Utils.FileUtil;
 
 public class MainActivity extends AppCompatActivity

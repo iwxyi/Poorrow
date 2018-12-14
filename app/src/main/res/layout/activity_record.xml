@@ -10,14 +10,14 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/colorLightGrayBg"
-    tools:context=".RecordActivity.RecordActivity">
+    tools:context=".Record.RecordActivity">
 
     <LinearLayout
         android:id="@+id/ll_datetime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/tv_date"
@@ -69,8 +69,7 @@
 
     </RadioGroup>
 
-    <!--选择列表-->
-
+    <!--选择种类-->
     <GridView
         android:id="@+id/gv_kind"
         android:layout_width="match_parent"

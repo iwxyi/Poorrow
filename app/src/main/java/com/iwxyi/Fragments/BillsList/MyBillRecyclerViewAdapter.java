@@ -1,4 +1,4 @@
-package com.iwxyi.Fragments.BillsListFragment;
+package com.iwxyi.Fragments.BillsList;
 
 import android.annotation.SuppressLint;
 import android.support.v7.widget.RecyclerView;
@@ -7,9 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.iwxyi.Fragments.BillsListFragment.BillsFragment.OnListFragmentInteractionListener;
-import com.iwxyi.Fragments.BillsListFragment.DummyContent.DummyItem;
+import com.iwxyi.Fragments.BillsList.BillsFragment.OnListFragmentInteractionListener;
+import com.iwxyi.Fragments.BillsList.DummyContent.DummyItem;
 import com.iwxyi.R;
+import com.iwxyi.Utils.DateTimeUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -51,7 +52,7 @@ public class MyBillRecyclerViewAdapter extends RecyclerView.Adapter<MyBillRecycl
         }
         if (mValues.get(position).timestamp != 0) { // 如果为空，就不显示了
             try {
-                holder.mTvTime.setText(longToString(mValues.get(position).timestamp, "MM-dd HH:mm"));
+                holder.mTvTime.setText(DateTimeUtil.longToString(mValues.get(position).timestamp, "MM-dd HH:mm"));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -72,42 +73,6 @@ public class MyBillRecyclerViewAdapter extends RecyclerView.Adapter<MyBillRecycl
     @Override
     public int getItemCount() {
         return mValues.size();
-    }
-
-    // currentTime要转换的long类型的时间
-    // formatType要转换的string类型的时间格式
-    private static String longToString(long currentTime, String formatType)
-            throws ParseException {
-        Date date = longToDate(currentTime, formatType); // long类型转成Date类型
-        return dateToString(date, formatType);
-    }
-
-    // currentTime要转换的long类型的时间
-    // formatType要转换的时间格式yyyy-MM-dd HH:mm:ss //yyyy年MM月dd日 HH时mm分ss秒
-    private static Date longToDate(long currentTime, String formatType)
-            throws ParseException {
-        Date dateOld = new Date(currentTime); // 根据long类型的毫秒数生命一个date类型的时间
-        String sDateTime = dateToString(dateOld, formatType); // 把date类型的时间转换为string
-        Date date = stringToDate(sDateTime, formatType); // 把String类型转换为Date类型
-        return date;
-    }
-
-    // formatType格式为yyyy-MM-dd HH:mm:ss//yyyy年MM月dd日 HH时mm分ss秒
-    // data Date类型的时间
-    @SuppressLint("SimpleDateFormat")
-    private static String dateToString(Date data, String formatType) {
-        return new SimpleDateFormat(formatType).format(data);
-    }
-
-    // strTime要转换的string类型的时间，formatType要转换的格式yyyy-MM-dd HH:mm:ss//yyyy年MM月dd日
-    // HH时mm分ss秒，
-    // strTime的时间格式必须要与formatType的时间格式相同
-    public static Date stringToDate(String strTime, String formatType)
-            throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat(formatType);
-        Date date = null;
-        date = formatter.parse(strTime);
-        return date;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
