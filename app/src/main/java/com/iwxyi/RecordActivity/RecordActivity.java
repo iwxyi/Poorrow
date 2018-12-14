@@ -1,5 +1,6 @@
 package com.iwxyi.RecordActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,13 +13,20 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.iwxyi.Utils.FileUtil;
+import com.iwxyi.MainActivity;
 import com.iwxyi.R;
+import com.iwxyi.Utils.DateTimeUtil;
+import com.iwxyi.Utils.FileUtil;
 import com.iwxyi.Utils.SettingsUtil;
 
+import net.steamcrafted.lineartimepicker.dialog.LinearDatePickerDialog;
+import net.steamcrafted.lineartimepicker.dialog.LinearTimePickerDialog;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class RecordActivity extends AppCompatActivity implements View.OnClickListener, OnItemClickListener {
 
@@ -32,10 +40,15 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
     private EditText mAmountEv;
     private EditText mNoteEv;
     private Button mSubmitBtn;
+    private TextView mDateTv;
+    private TextView mTimeTv;
 
     private String[] kindList;
     private ArrayList<KindBean> kindArray;
     private int kindChoosing;
+
+    private int addYear, addMonth, addDate, addHour, addMinute;
+    private int tsYear, tsMonth, tsDate, tsHour, tsMinute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +57,34 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
 
         initView();
         initData();
+    }
+
+    /**
+     * 这个是每次切换都会产生的
+     * 因为每次添加都要重新修改时间
+     */
+    @Override
+    protected void onStart() {
+        Calendar c = Calendar.getInstance();
+        addYear = c.get(Calendar.YEAR);
+        addMonth = c.get(Calendar.MONTH)+1;
+        addDate = c.get(Calendar.DAY_OF_MONTH);
+        addHour = c.get(Calendar.HOUR_OF_DAY);
+        addMinute = c.get(Calendar.MINUTE);
+
+        tsYear = tsMonth = tsDate = tsHour = tsMinute = 0;
+        /*
+        tsYear = addYear;
+        tsMonth = addMonth;
+        tsDate = addDate;
+        tsHour = addHour;
+        tsMinute = addMinute;
+         */
+
+        mDateTv.setText("日期：" + DateTimeUtil.DataToString(addYear, addMonth, addDate));
+        mTimeTv.setText("时间：" + DateTimeUtil.TimeToString(addHour, addMinute));
+
+        super.onStart();
     }
 
     private void initView() {
@@ -55,7 +96,11 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         mAmountEv = (EditText) findViewById(R.id.ev_amount);
         mNoteEv = (EditText) findViewById(R.id.ev_note);
         mSubmitBtn = (Button) findViewById(R.id.btn_submit);
+        mDateTv = (TextView) findViewById(R.id.tv_date);
+        mTimeTv = (TextView) findViewById(R.id.tv_time);
         mKindGv.setOnItemClickListener(this);
+        mDateTv.setOnClickListener(this);
+        mTimeTv.setOnClickListener(this);
         mSubmitBtn.setOnClickListener(this);
     }
 
@@ -118,10 +163,10 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_submit:
+            case R.id.btn_submit: // 确定添加
                 if ("".equals(mAmountEv.getText().toString())) {
                     Toast.makeText(this, "请输入金额", Toast.LENGTH_SHORT).show();
-                    return ;
+                    return;
                 }
 
                 int mode = 0;
@@ -153,17 +198,73 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                 setResult(RECULT_CODE_OK, intent);
                 finish();
                 break;
-            case R.id.rb_spending :
+            case R.id.rb_spending: // 选择支出
                 emitGVAdapter(0);
                 SettingsUtil.setVal(getApplicationContext(), "record_kind", 0);
                 break;
-            case R.id.rb_income :
+            case R.id.rb_income: // 选择收入
                 emitGVAdapter(1);
                 SettingsUtil.setVal(getApplicationContext(), "record_kind", 1);
                 break;
-            case R.id.rb_borrowing :
+            case R.id.rb_borrowing: // 选择借贷
                 SettingsUtil.setVal(getApplicationContext(), "record_kind", 2);
                 emitGVAdapter(2);
+                break;
+            case R.id.tv_date :
+                boolean data_tutorial = false;
+                if (SettingsUtil.getInt(getApplicationContext(), "LinearDatePicker_tutorial") != 0) {
+                    data_tutorial = true;
+                    SettingsUtil.setVal(getApplicationContext(), "LinearDataPicker__tutorial", 0);
+                }
+                LinearDatePickerDialog.Builder.with(RecordActivity.this)
+                        .setYear(addYear)
+                        .setMinYear(2000)
+                        .setMaxYear(2030)
+                        .setShowTutorial(data_tutorial)
+                        .setButtonCallback(new LinearDatePickerDialog.ButtonCallback() {
+                            @Override
+                            public void onPositive(DialogInterface dialog, int year, int month, int day) {
+                                tsYear = year;
+                                tsMonth = month;
+                                tsDate = day;
+
+                                mDateTv.setText("日期：" + DateTimeUtil.DataToString(tsYear, tsMonth, tsDate));
+                            }
+
+                            @Override
+                            public void onNegative(DialogInterface dialog) {
+
+                            }
+                        })
+                        .build()
+                        .show();
+
+                break;
+            case R.id.tv_time :
+                boolean time_tutorial = false;
+                if (SettingsUtil.getInt(getApplicationContext(), "LinearTimePicker_tutorial") != 0) {
+                    time_tutorial = true;
+                    SettingsUtil.setVal(getApplicationContext(), "LinearTimePicker__tutorial", 0);
+                }
+                LinearTimePickerDialog dialog = LinearTimePickerDialog.Builder.with(RecordActivity.this)
+                        .setShowTutorial(time_tutorial)
+                        .setButtonCallback(new LinearTimePickerDialog.ButtonCallback() {
+                            @Override
+                            public void onPositive(DialogInterface dialog, int hour, int minutes) {
+                                tsHour = hour;
+                                tsMinute = minutes;
+
+                                mTimeTv.setText("时间：" + DateTimeUtil.TimeToString(tsHour, tsMinute));
+                            }
+
+                            @Override
+                            public void onNegative(DialogInterface dialog) {
+
+                            }
+                        })
+                        .build();
+                dialog.show();
+
                 break;
             default:
                 break;

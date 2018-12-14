@@ -13,8 +13,11 @@
     tools:context=".RecordActivity.RecordActivity">
 
     <LinearLayout
+        android:id="@+id/ll_datetime"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent" >
 
         <TextView
             android:id="@+id/tv_date"
@@ -38,15 +41,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/ll_datetime">
 
         <RadioButton
             android:id="@+id/rb_spending"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/spending"
-            android:onClick="onClick"/>
+            android:onClick="onClick"
+            android:text="@string/spending" />
 
         <RadioButton
             android:id="@+id/rb_income"
