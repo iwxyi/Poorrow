@@ -1,4 +1,4 @@
-package com.iwxyi.BillsListFragment;
+package com.iwxyi.Fragments.BillsListFragment;
 
 import com.iwxyi.Utils.FileUtil;
 import com.iwxyi.Utils.StringUtil;
