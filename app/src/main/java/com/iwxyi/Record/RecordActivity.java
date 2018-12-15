@@ -311,6 +311,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.tv_place :
                 //startActivityForResult(new Intent(getApplicationContext(), MapActivity.class), REQUEST_CODE_MAP);
+                startActivity(new Intent(getApplicationContext(), MapActivity.class));
                 break;
             default:
                 break;
