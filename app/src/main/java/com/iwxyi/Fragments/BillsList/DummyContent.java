@@ -1,5 +1,8 @@
 package com.iwxyi.Fragments.BillsList;
 
+import android.util.Log;
+import android.widget.Toast;
+
 import com.iwxyi.Utils.FileUtil;
 import com.iwxyi.Utils.StringUtil;
 
@@ -13,16 +16,18 @@ public class DummyContent {
 
     public static final List<DummyItem> ITEMS = new ArrayList<DummyItem>();
     public static final Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
-    private static final int COUNT = 25;
+    public static String _text = "not inited";
 
     static {
-        /*for (int i = 1; i <= COUNT; i++) {
-            addItem(createDummyItem(i));
-        }*/
-        if (!FileUtil.exist("bills")) {
+        // 如果文件不存在，则初始化文件
+        if (!FileUtil.exist("bills.txt")) {
             initStartBills();
         }
+
+        // 从文件中读取 Bills
         String texts = FileUtil.readTextVals("bills.txt");
+        _text = texts;
+        Log.i("read bills.txt texts", texts);
         ArrayList<String>bills = StringUtil.getXmls(texts, "BILL");
         for (String b :bills) {
             String id = StringUtil.getXml(b, "ID"); // 必须
@@ -38,16 +43,21 @@ public class DummyContent {
             boolean reimburse = StringUtil.getXmlBoolean(b, "RB");
             long remind = StringUtil.getXmlLong(b, "RM");
 
-            addItem(createDummyItem(id, amount, mode, source, kind, note, card, timestamp, addTime, changeTime, reimburse, remind));
+            addItem(createDummyItem(id, amount, mode, kind, source, note, card, timestamp, addTime, changeTime, reimburse, remind));
         }
     }
 
-    public static void addNew(String id, double amount, int mode, String source, String kind, String note, String card, long timestamp, long addTime, long changeTime, Boolean reimburse, long remind) {
-        DummyItem item = createDummyItem(id, amount, mode, source, kind, note, card, timestamp, addTime, changeTime, reimburse, remind);
+    public static void addNew(double amount, int mode, String kind, String source, String note, String card, long timestamp, long addTime) {
+        String id = addTime + "_" + ITEMS.size();
+        addNew(id, amount, mode, kind, source, note, card, timestamp, addTime, 0, false, 0);
+    }
+
+    public static void addNew(String id, double amount, int mode, String kind, String source, String note, String card, long timestamp, long addTime, long changeTime, Boolean reimburse, long remind) {
+        DummyItem item = createDummyItem(id, amount, mode, kind, source, note, card, timestamp, addTime, changeTime, reimburse, remind);
         addItem(item);
 
         String text = FileUtil.readTextVals("bills.txt");
-        text += item.toString();
+        text = item.toString() + text;
         FileUtil.writeTextVals("bills.txt", text);
     }
 
@@ -59,8 +69,8 @@ public class DummyContent {
     /**
      * 类似工厂模式添加 Dummy
      */
-    private static DummyItem createDummyItem(String id, double amount, int mode, String source, String kind, String note, String card, long timestamp, long addTime, long changeTime, Boolean reimburse, long remind) {
-        return new DummyItem(id, amount, mode, source, kind, note, card, timestamp, addTime, changeTime, reimburse, remind);
+    private static DummyItem createDummyItem(String id, double amount, int mode, String kind, String source, String note, String card, long timestamp, long addTime, long changeTime, Boolean reimburse, long remind) {
+        return new DummyItem(id, amount, mode, kind, source, note, card, timestamp, addTime, changeTime, reimburse, remind);
     }
 
     public static class DummyItem {
@@ -83,7 +93,7 @@ public class DummyContent {
             this.amount = amount;
         }
 
-        public DummyItem(String id, double amount, int mode, String source, String kind, String note, String card, long timestamp, long addTime, long changeTime, Boolean reimburse, long remind) {
+        public DummyItem(String id, double amount, int mode, String kind, String source, String note, String card, long timestamp, long addTime, long changeTime, Boolean reimburse, long remind) {
             this.id = id;
             this.amount = amount;
             this.mode = mode;
@@ -100,10 +110,11 @@ public class DummyContent {
 
         @Override
         public String toString() {
-            return StringUtil.toXml(id, "ID")
-                    + StringUtil.toXml(source, "SR")
+            return StringUtil.toXml(
+                    StringUtil.toXml(id, "ID")
                     + StringUtil.toXml(mode+"", "MD")
                     + StringUtil.toXml(kind, "KD")
+                            + StringUtil.toXml(source, "SR")
                     + StringUtil.toXml(amount, "AM")
                     + StringUtil.toXml(note, "NT")
                     + StringUtil.toXml(card, "CD")
@@ -111,7 +122,8 @@ public class DummyContent {
                     + StringUtil.toXml(addTime, "AT")
                     + StringUtil.toXml(changeTime, "CT")
                     + StringUtil.toXml(reimburse, "RB")
-                    + StringUtil.toXml(remind, "RM");
+                    + StringUtil.toXml(remind, "RM")
+            , "BILL");
         }
     }
 
@@ -119,7 +131,7 @@ public class DummyContent {
         String text = "<BILL><ID>0</ID><SR>欢迎来到 穷光蛋的世界</SR><AM>1.00</AM><NT>你知道，自己只是个穷光蛋，一贫如洗</NT></BILL>";
         text += "<BILL><ID>0</ID><SR>其实啊，你很幸运</SR><AM>1.00</AM><NT>真的很幸运，能和本开发者一同品味着贫穷，品味着无力</NT></BILL>";
         text += "<BILL><ID>0</ID><SR>下一世</SR><AM>1.00</AM><NT>下一世，我们必将，生活在无忧无虑的富饶世界！</NT></BILL>";
-
         FileUtil.writeTextVals("bills.txt", text);
+        Log.i("initStartBills", text);
     }
 }

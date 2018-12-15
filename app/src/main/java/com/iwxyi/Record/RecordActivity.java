@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -16,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.iwxyi.Fragments.BillsList.DummyContent;
 import com.iwxyi.R;
 import com.iwxyi.Utils.DateTimeUtil;
 import com.iwxyi.Utils.FileUtil;
@@ -45,6 +47,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
     private String[] kindList;
     private ArrayList<KindBean> kindArray;
     private int kindChoosing;
+    private String cardChoosing = "默认";
 
     private int addYear, addMonth, addDate, addHour, addMinute;
     private int tsYear, tsMonth, tsDate, tsHour, tsMinute;
@@ -66,7 +69,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
     protected void onStart() {
         Calendar c = Calendar.getInstance();
         addYear = c.get(Calendar.YEAR);
-        addMonth = c.get(Calendar.MONTH)+1;
+        addMonth = c.get(Calendar.MONTH) + 1;
         addDate = c.get(Calendar.DAY_OF_MONTH);
         addHour = c.get(Calendar.HOUR_OF_DAY);
         addMinute = c.get(Calendar.MINUTE);
@@ -101,6 +104,18 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         mDateTv.setOnClickListener(this);
         mTimeTv.setOnClickListener(this);
         mSubmitBtn.setOnClickListener(this);
+        mCardSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selected = parent.getItemAtPosition(position).toString();
+                cardChoosing = selected;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void initData() {
@@ -116,6 +131,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         ArrayAdapter<String> cardAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, cardType);
         cardAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item); // 设置下拉框的样式
         mCardSp.setAdapter(cardAdapter);
+        cardChoosing = cardType[0];
 
         // 初始化种类
         kindArray = new ArrayList<>();
@@ -180,13 +196,25 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                 if (kindChoosing >= 0) {
                     kind = kindList[kindChoosing];
                 }
-                String card = mCardSp.toString();
+                String card = cardChoosing;
                 double amount = Double.valueOf(mAmountEv.getText().toString());
+                String source;
                 String note = mNoteEv.getText().toString();
                 long timestamp = DateTimeUtil.valsToTimestamp(tsYear, tsMonth, tsDate, tsHour, tsMinute, 0);
                 long addTime = DateTimeUtil.valsToTimestamp(addYear, addMonth, addDate, addHour, addMinute, 0);
+                int linePos = note.indexOf("\n");
+                if (linePos > -1) {
+                    source = note.substring(0, linePos);
+                    note = note.substring(linePos, note.length());
+                } else {
+                    if ("".equals(note))
+                        source = kind;
+                    else
+                        source = note;
+                    note = "";
+                }
 
-                // 保存到 Bundle
+                // 保存到 Bundle，原 Activity 便于读取
                 Intent intent = new Intent();
                 intent.putExtra("record_mode", mode);
                 intent.putExtra("record_kind", kind);
@@ -195,6 +223,8 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                 intent.putExtra("record_note", note);
                 intent.putExtra("record_timestamp", timestamp);
                 intent.putExtra("record_addTime", addTime);
+
+                DummyContent.addNew(amount, mode, kind, source, note, card, timestamp, addTime);
 
                 setResult(RECULT_CODE_OK, intent);
                 finish();
@@ -211,7 +241,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                 SettingsUtil.setVal(getApplicationContext(), "record_kind", 2);
                 emitGVAdapter(2);
                 break;
-            case R.id.tv_date :
+            case R.id.tv_date:
                 boolean data_tutorial = false;
                 if (SettingsUtil.getInt(getApplicationContext(), "LinearDatePicker_tutorial") != 0) {
                     data_tutorial = true;
@@ -241,7 +271,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                         .show();
 
                 break;
-            case R.id.tv_time :
+            case R.id.tv_time:
                 boolean time_tutorial = false;
                 if (SettingsUtil.getInt(getApplicationContext(), "LinearTimePicker_tutorial") != 0) {
                     time_tutorial = true;
@@ -266,6 +296,8 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                         .build();
                 dialog.show();
 
+                break;
+            case R.id.sp_card:// TODO 18/12/15
                 break;
             default:
                 break;

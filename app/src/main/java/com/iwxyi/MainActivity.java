@@ -1,5 +1,6 @@
 package com.iwxyi;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -98,7 +100,8 @@ public class MainActivity extends AppCompatActivity
         });
 
         // 初始化碎片
-        switchFragment(BlankDataFragment.newInstance());
+//        switchFragment(BlankDataFragment.newInstance());
+        switchFragment(BillsFragment.newInstance(1));
     }
 
     @Override
@@ -137,6 +140,8 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_history) {
             switchFragment(BillsFragment.newInstance(1));
+            if (DummyContent.ITEMS.size() == 0)
+                switchFragment(BlankDataFragment.newInstance());
         } else if (id == R.id.nav_balance) {
 
         } else if (id == R.id.nav_future) {
@@ -157,15 +162,15 @@ public class MainActivity extends AppCompatActivity
     private void switchFragment(android.support.v4.app.Fragment fragment) {
         // 隐藏现有的Fragment避免显示重叠
         for (android.support.v4.app.Fragment frag : getSupportFragmentManager().getFragments())
-            getSupportFragmentManager().beginTransaction().hide(frag).commit();
+            getSupportFragmentManager().beginTransaction().hide(frag).commitAllowingStateLoss();// commit 会导致错误
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.frameLayout, fragment, "history").commit();
+                .replace(R.id.frameLayout, fragment, "history").commitAllowingStateLoss();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE_RECORD) { // 添加账单
-            ;
+        if (requestCode == REQUEST_CODE_RECORD) { // 添加账单结束
+            switchFragment(BillsFragment.newInstance(1));
         }
     }
 

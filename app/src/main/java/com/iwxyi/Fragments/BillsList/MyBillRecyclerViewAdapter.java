@@ -56,6 +56,12 @@ public class MyBillRecyclerViewAdapter extends RecyclerView.Adapter<MyBillRecycl
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+        } else { // 如果时间戳是空的，那么就改成添加的时间
+            try {
+                holder.mTvTime.setText(DateTimeUtil.longToString(mValues.get(position).addTime, "MM-dd HH:mm"));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {

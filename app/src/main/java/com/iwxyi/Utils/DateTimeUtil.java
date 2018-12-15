@@ -1,6 +1,7 @@
 package com.iwxyi.Utils;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,6 +33,29 @@ public class DateTimeUtil {
 
     public static long valsToTimestamp(int year, int month, int date, int hour, int minute, int second) {
         String o = year + "-" + month+"-"+date + " " + hour + ":" + minute + ":" + second;
+        if (year == 0)
+            return 0;
+        /*String o;
+        if (year == 0)
+            o = "0000-";
+        else
+            o = year + "-";
+        if (month < 10)
+            o += "0";
+        o += month + "-";
+        if (date < 10)
+            o += "0";
+        o += date + " ";
+        if (hour < 10)
+            o += "0";
+        o += hour + ":";
+        if (minute < 10)
+            o += "0";
+        o += minute + ":";
+        if (second < 10)
+            o += "0";
+        o += second;*/
+
         Date d = null;
         try {
             d = stringToDate(o, "yyyy-MM-dd HH:mm:ss");

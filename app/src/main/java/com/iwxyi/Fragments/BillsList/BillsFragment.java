@@ -3,12 +3,14 @@ package com.iwxyi.Fragments.BillsList;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DrawableUtils;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.iwxyi.Fragments.BillsList.DummyContent.DummyItem;
 import com.iwxyi.R;
@@ -34,8 +36,6 @@ public class BillsFragment extends Fragment {
     public BillsFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
     public static BillsFragment newInstance(int columnCount) {
         BillsFragment fragment = new BillsFragment();
         Bundle args = new Bundle();

@@ -12,6 +12,7 @@
     android:background="@color/colorLightGrayBg"
     tools:context=".Record.RecordActivity">
 
+    <!--日期时间-->
     <LinearLayout
         android:id="@+id/ll_datetime"
         android:layout_width="match_parent"

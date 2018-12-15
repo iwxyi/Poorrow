@@ -37,7 +37,7 @@
     <string name="spending">支出</string>
     <string name="income">收入</string>
     <string name="borrowing">借贷</string>
-    <string name="bill_note_hint">账单备注（可空）：</string>
+    <string name="bill_note_hint">账单来源与备注（可空）</string>
     <string name="ensure_submit">确认添加</string>
     <string name="action_about">关于</string>
 </resources>
