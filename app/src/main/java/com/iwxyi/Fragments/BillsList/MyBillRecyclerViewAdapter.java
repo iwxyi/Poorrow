@@ -1,6 +1,7 @@
 package com.iwxyi.Fragments.BillsList;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,23 +43,41 @@ public class MyBillRecyclerViewAdapter extends RecyclerView.Adapter<MyBillRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mTvSource.setText(mValues.get(position).source);
-        holder.mTvAmount.setText(mValues.get(position).amount+"");
-        if ("".equals(mValues.get(position).note)) {
+        if ("".equals(holder.mItem.source) || holder.mItem.source.equals(holder.mItem.kind)) {
+            holder.mTvSource.setText(holder.mItem.kind);
+        } else {
+            if ("".equals(holder.mItem.kind)) {
+                holder.mTvSource.setText(holder.mItem.source);
+            } else {
+                holder.mTvSource.setText(holder.mItem.kind + " · " + holder.mItem.source);
+            }
+        }
+        if (holder.mItem.mode == 0) {
+            holder.mTvAmount.setTextColor(Color.rgb(255, 99, 71));
+            holder.mTvAmount.setText("-" + holder.mItem.amount);
+        } else if (holder.mItem.mode == 1) {
+            holder.mTvAmount.setTextColor(Color.rgb(34, 139, 34));
+            holder.mTvAmount.setText("+" + holder.mItem.amount);
+        } else {
+            holder.mTvAmount.setTextColor(Color.rgb(0, 51, 153));
+            holder.mTvAmount.setText(" " + holder.mItem.amount);
+        }
+
+        if ("".equals(holder.mItem.note)) {
             holder.mTvNote.setVisibility(View.GONE);
         } else {
             holder.mTvNote.setVisibility(View.VISIBLE);
-            holder.mTvNote.setText(mValues.get(position).note);
+            holder.mTvNote.setText(holder.mItem.note);
         }
-        if (mValues.get(position).timestamp != 0) { // 如果为空，就不显示了
+        if (holder.mItem.timestamp != 0) { // 如果为空，就不显示了
             try {
-                holder.mTvTime.setText(DateTimeUtil.longToString(mValues.get(position).timestamp, "MM-dd HH:mm"));
+                holder.mTvTime.setText(DateTimeUtil.longToString(holder.mItem.timestamp, "MM-dd HH:mm"));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         } else { // 如果时间戳是空的，那么就改成添加的时间
             try {
-                holder.mTvTime.setText(DateTimeUtil.longToString(mValues.get(position).addTime, "MM-dd HH:mm"));
+                holder.mTvTime.setText(DateTimeUtil.longToString(holder.mItem.addTime, "MM-dd HH:mm"));
             } catch (ParseException e) {
                 e.printStackTrace();
             }

@@ -12,7 +12,7 @@
     <string name="none_data_default">你，一穷二白……\n\n你，一贫如洗……\n\n你，一无是处……</string>
     <string name="hello_blank_fragment">你，一穷二白……\n\n你，一贫如洗……\n\n你，一无是处……</string>
     <string name="title_activity_record">添加账单记录</string>
-    
+
     <!--文件存储路径-->
     <string name="data_bills">bills.txt</string>
     <string name="data_cards">cards.txt</string>
@@ -40,4 +40,9 @@
     <string name="bill_note_hint">账单来源与备注（可空）</string>
     <string name="ensure_submit">确认添加</string>
     <string name="action_about">关于</string>
+    <string name="title_activity_maps">Map</string>
+
+    <string name="title_activity_map">MapActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

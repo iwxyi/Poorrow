@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -31,7 +30,8 @@ import java.util.Calendar;
 
 public class RecordActivity extends AppCompatActivity implements View.OnClickListener, OnItemClickListener {
 
-    private int RECULT_CODE_OK = 1;
+    private int REQUEST_CODE_MAP = 10;
+    private int RESULT_CODE_OK = 1;
 
     private RadioButton mSpendingRb;
     private RadioButton mIncomeRb;
@@ -43,11 +43,13 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
     private Button mSubmitBtn;
     private TextView mDateTv;
     private TextView mTimeTv;
+    private TextView mPlaceTv;
 
     private String[] kindList;
     private ArrayList<KindBean> kindArray;
     private int kindChoosing;
     private String cardChoosing = "默认";
+    private String placeChoosing;
 
     private int addYear, addMonth, addDate, addHour, addMinute;
     private int tsYear, tsMonth, tsDate, tsHour, tsMinute;
@@ -67,6 +69,8 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
      */
     @Override
     protected void onStart() {
+        initData();
+
         Calendar c = Calendar.getInstance();
         addYear = c.get(Calendar.YEAR);
         addMonth = c.get(Calendar.MONTH) + 1;
@@ -100,9 +104,11 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         mSubmitBtn = (Button) findViewById(R.id.btn_submit);
         mDateTv = (TextView) findViewById(R.id.tv_date);
         mTimeTv = (TextView) findViewById(R.id.tv_time);
+        mPlaceTv = (TextView) findViewById(R.id.tv_place);
         mKindGv.setOnItemClickListener(this);
         mDateTv.setOnClickListener(this);
         mTimeTv.setOnClickListener(this);
+        mPlaceTv.setOnClickListener(this);
         mSubmitBtn.setOnClickListener(this);
         mCardSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -119,7 +125,11 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initData() {
-        // 初始化卡
+        kindChoosing = -1;
+        cardChoosing = "默认";
+        placeChoosing = "";
+
+        // ==== 初始化卡 ====
         String cardString = null;
         cardString = FileUtil.readTextVals("cards.txt");
 
@@ -133,7 +143,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         mCardSp.setAdapter(cardAdapter);
         cardChoosing = cardType[0];
 
-        // 初始化种类
+        // ==== 初始化种类 ====
         kindArray = new ArrayList<>();
         int a = SettingsUtil.getInt(getApplicationContext(), "record_kind");
         emitGVAdapter(a);
@@ -197,6 +207,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                     kind = kindList[kindChoosing];
                 }
                 String card = cardChoosing;
+                String place = "";
                 double amount = Double.valueOf(mAmountEv.getText().toString());
                 String source;
                 String note = mNoteEv.getText().toString();
@@ -205,7 +216,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                 int linePos = note.indexOf("\n");
                 if (linePos > -1) {
                     source = note.substring(0, linePos);
-                    note = note.substring(linePos, note.length());
+                    note = note.substring(linePos+1, note.length());
                 } else {
                     if ("".equals(note))
                         source = kind;
@@ -221,12 +232,13 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                 intent.putExtra("record_card", card);
                 intent.putExtra("record_amount", amount);
                 intent.putExtra("record_note", note);
+                intent.putExtra("record_place", place);
                 intent.putExtra("record_timestamp", timestamp);
                 intent.putExtra("record_addTime", addTime);
 
-                DummyContent.addNew(amount, mode, kind, source, note, card, timestamp, addTime);
+                DummyContent.addNew(amount, mode, kind, source, note, card, place, timestamp, addTime);
 
-                setResult(RECULT_CODE_OK, intent);
+                setResult(RESULT_CODE_OK, intent);
                 finish();
                 break;
             case R.id.rb_spending: // 选择支出
@@ -297,7 +309,8 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                 dialog.show();
 
                 break;
-            case R.id.sp_card:// TODO 18/12/15
+            case R.id.tv_place :
+                //startActivityForResult(new Intent(getApplicationContext(), MapActivity.class), REQUEST_CODE_MAP);
                 break;
             default:
                 break;

@@ -6,4 +6,9 @@
     <color name="colorGray">#7D7D7D</color>
     <color name="colorLightGray">#CDCDCD</color>
     <color name="colorLightGrayBg">#EDEDED</color>
+    <color name="colorSpending">#FF6347</color>
+    <color name="colorIncome">#228B22</color>
+    <color name="colorBorrowing">#6495ED</color>
+
+    <color name="black_overlay">#66000000</color>
 </resources>
