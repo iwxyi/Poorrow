@@ -1,0 +1,143 @@
+file_names	downloadvals.php	/^$file_names = array('bills', 'cards',$/;"	v
+name	downloadvals.php	/^$name = seize0('filename');$/;"	v
+password	downloadvals.php	/^$password = seize0('password');$/;"	v
+row	downloadvals.php	/^	$row = row("SELECT $name from users where userID = '$userID'");$/;"	v
+userID	downloadvals.php	/^$userID = seize0('userID');$/;"	v
+sql	install.php	/^$sql = "CREATE TABLE `users`$/;"	v
+canLogin	login.php	/^function canLogin($username, $password)$/;"	f
+nickname	login.php	/^$nickname = $row['nickname'];$/;"	v
+password	login.php	/^$password = seize0('password');$/;"	v
+row	login.php	/^$row = row($sql);$/;"	v
+sql	login.php	/^	$sql = "SELECT * from users where username = '$username' && password = '$password'";$/;"	v
+sql	login.php	/^$sql = "SELECT userID from users where username = '$username' && password = '$password'";$/;"	v
+userID	login.php	/^$userID = $row['userID'];$/;"	v
+username	login.php	/^$username = seize0('username');$/;"	v
+sql	poorrow_module.php	/^	$sql = "SELECT * from users where userID = '$userID' && password = '$password'";$/;"	v
+user_login	poorrow_module.php	/^function user_login($userID, $password)$/;"	f
+F	public_module.php	/^	define("F", "<state>Bad<\/state>");$/;"	d
+LOW	public_module.php	/^	define("LOW", 100);$/;"	d
+MOD	public_module.php	/^	define("MOD", 886);$/;"	d
+MOD2	public_module.php	/^	define("MOD2", 100000);$/;"	d
+MySQL_database	public_module.php	/^	define("MySQL_database", "poorrow");$/;"	d
+MySQL_password	public_module.php	/^	define("MySQL_password", "root");$/;"	d
+MySQL_servername	public_module.php	/^	define("MySQL_servername", "localhost");$/;"	d
+MySQL_username	public_module.php	/^	define("MySQL_username", "root");$/;"	d
+T	public_module.php	/^	define("T", "<state>OK<\/state>");$/;"	d
+XML	public_module.php	/^	function XML($str, $tag)$/;"	f
+ans	public_module.php	/^		$ans = $prefix . $l . $m . $r;$/;"	v
+ans	public_module.php	/^		$ans = (int)($l \/ ($m >> 2)); \/\/ 计算的结果$/;"	v
+ans	public_module.php	/^		$ans = array();$/;"	v
+args	public_module.php	/^		$args = func_get_args();$/;"	v
+blank	public_module.php	/^	function format_input($s, $blank = 0) \/\/ 格式化输入内容$/;"	v
+blank	public_module.php	/^	function seize0($s, $blank = 0) \/\/ 获取必须存在且非空的表单，如果没有则强制退出$/;"	v
+blank	public_module.php	/^	function seize1($s, $blank = 0) \/\/ 获取一个表单$/;"	v
+blank	public_module.php	/^	function seize2($s, &$a, $blank = 0) \/\/ 获取表单并引用赋值$/;"	v
+blank	public_module.php	/^	function seizeval($s, $blank = 0) \/\/ 获取一个非空表单，否则为NULL$/;"	v
+check_account	public_module.php	/^	function check_account($userID, $password)$/;"	f
+con	public_module.php	/^		$con = mysql_connect(MySQL_servername, MySQL_username, MySQL_password);$/;"	v
+con	public_module.php	/^	$con = NULL;$/;"	v
+connect_sql	public_module.php	/^	function connect_sql() \/\/ 连接数据库$/;"	f
+die_if	public_module.php	/^	function die_if($b, $s = "") \/\/ 必须OK，否则结束程序$/;"	f
+die_if2	public_module.php	/^	function die_if2($b, $s = "")$/;"	f
+e	public_module.php	/^	function printres($b, $e="", $t="") \/\/ 输出结果，OK \/ Bad$/;"	v
+enull	public_module.php	/^	function enull($s) \/\/ 表单为空时也是NULL$/;"	f
+err	public_module.php	/^	function query2($sql, $err = "")$/;"	v
+format_input	public_module.php	/^	function format_input($s, $blank = 0) \/\/ 格式化输入内容$/;"	f
+fuck	public_module.php	/^	function fuck($s = "") \/\/ 全部操作退出$/;"	f
+getMid	public_module.php	/^	function getMid($str, $left, $right)$/;"	f
+getMids	public_module.php	/^	function getMids($str, $left, $right)$/;"	f
+getXML	public_module.php	/^	function getXML($str, $tag)$/;"	f
+getXMLs	public_module.php	/^	function getXMLs($str, $tag)$/;"	f
+get_IP	public_module.php	/^	function get_IP() \/\/ 获取真实的IP$/;"	f
+get_time	public_module.php	/^	function get_time() \/\/ 获取当前时间文本$/;"	f
+ip	public_module.php	/^			$ip = $_SERVER['REMOTE_ADDR'];$/;"	v
+ip	public_module.php	/^			$ip = getenv('HTTP_CLIENT_IP');$/;"	v
+ip	public_module.php	/^			$ip = getenv('HTTP_FORWARDED');$/;"	v
+ip	public_module.php	/^			$ip = getenv('HTTP_FORWARDED_FOR');$/;"	v
+ip	public_module.php	/^			$ip = getenv('HTTP_X_FORWARDED');$/;"	v
+ip	public_module.php	/^			$ip = getenv('HTTP_X_FORWARDED_FOR');$/;"	v
+ip	public_module.php	/^		$ip = "";$/;"	v
+is_connected	public_module.php	/^			$is_connected = 1;$/;"	v
+is_connected	public_module.php	/^		$is_connected = 1;$/;"	v
+is_connected	public_module.php	/^	$is_connected = 0;$/;"	v
+is_set	public_module.php	/^	function is_set($s) \/\/ 有没有存在对应的内容$/;"	f
+l	public_module.php	/^		$l = (int)$s_l;$/;"	v
+l	public_module.php	/^		$l = (int)($l * ($m >> 2));$/;"	v
+l	public_module.php	/^		$l = (int)(time() % MOD2); \/\/ 前 10位数$/;"	v
+left	public_module.php	/^		$left = "<" + $tag + ">";$/;"	v
+m	public_module.php	/^		$m = $r * $r % MOD * $r * $version % MOD + LOW;$/;"	v
+m	public_module.php	/^		$m = (int)$s_m;$/;"	v
+now	public_module.php	/^		$now = time() % MOD2; \/\/ 10位时间戳后半部分（不含秒）$/;"	v
+num	public_module.php	/^			$num = func_num_args();$/;"	v
+php_end	public_module.php	/^	function php_end() \/\/ 结束操作：关闭数据库$/;"	f
+php_start	public_module.php	/^	function php_start() \/\/ 开启操作：安全验证$/;"	f
+pos	public_module.php	/^			$pos = strpos($str, $left, $pos2);$/;"	v
+pos	public_module.php	/^		$pos = 0;$/;"	v
+pos	public_module.php	/^		$pos = strpos($str, $left);$/;"	v
+pos	public_module.php	/^		if ($pos === false) $pos = 0;$/;"	v
+pos2	public_module.php	/^			$pos2 = strpos($str, $right, $pos);$/;"	v
+pos2	public_module.php	/^		$pos2 = 0;$/;"	v
+pos2	public_module.php	/^		$pos2 = strpos($str, $right, $pos);$/;"	v
+pos2	public_module.php	/^		if ($pos2 === false) $pos2 = strlen($str);$/;"	v
+prefix	public_module.php	/^		$prefix = rand(10000, 99999); \/\/ 随机前缀5位数$/;"	v
+println	public_module.php	/^	function println($s) \/\/ 输出一行$/;"	f
+printres	public_module.php	/^	function printres($b, $e="", $t="") \/\/ 输出结果，OK \/ Bad$/;"	f
+query	public_module.php	/^	function query($sql, $err_s) \/\/ 查询语句$/;"	f
+query2	public_module.php	/^	function query2($sql, $err = "")$/;"	f
+r	public_module.php	/^		$r = $r * $r * $version % MOD + LOW;$/;"	v
+r	public_module.php	/^		$r = (int)$s_r;$/;"	v
+r	public_module.php	/^		$r = (int)($t1*1000); \/\/ 后 3位数$/;"	v
+res	public_module.php	/^		$res = $now - $ans < 10 && $now - $ans > -10;$/;"	v
+result	public_module.php	/^		$result = mysql_query($sql, $con);$/;"	v
+reverify	public_module.php	/^	function reverify() \/\/ 发送加密后的验证码$/;"	f
+right	public_module.php	/^		$right = "<\/" + $tag + ">";$/;"	v
+row	public_module.php	/^			$row = mysql_fetch_array($result);$/;"	v
+row	public_module.php	/^	function row($sql) \/\/ 查询一行，数据是否存在$/;"	f
+s	public_module.php	/^			$s = trim($s); \/\/ 去空格$/;"	v
+s	public_module.php	/^		$s = htmlspecialchars($s); \/\/ 防注入$/;"	v
+s	public_module.php	/^		$s = stripslashes($s); \/\/ 去转义$/;"	v
+s	public_module.php	/^	function die_if($b, $s = "") \/\/ 必须OK，否则结束程序$/;"	v
+s	public_module.php	/^	function die_if2($b, $s = "")$/;"	v
+s_l	public_module.php	/^		$s_l = substr($s, 5, strlen($s)-11); \/\/ 去掉前5位的 10位数(可能更大)$/;"	v
+s_m	public_module.php	/^		$s_m = substr($s, strlen($s)-6, 3); \/\/ 中 3位数$/;"	v
+s_r	public_module.php	/^		$s_r = substr($s, strlen($s)-3, 3); \/\/ 后 3位数$/;"	v
+seize	public_module.php	/^	function seize() \/\/ 函数重载吧……$/;"	f
+seize0	public_module.php	/^	function seize0($s, $blank = 0) \/\/ 获取必须存在且非空的表单，如果没有则强制退出$/;"	f
+seize1	public_module.php	/^	function seize1($s, $blank = 0) \/\/ 获取一个表单$/;"	f
+seize2	public_module.php	/^	function seize2($s, &$a, $blank = 0) \/\/ 获取表单并引用赋值$/;"	f
+seizeor	public_module.php	/^	function seizeor() \/\/ 多个表单有一个就行了$/;"	f
+seizeval	public_module.php	/^	function seizeval($s, $blank = 0) \/\/ 获取一个非空表单，否则为NULL$/;"	f
+sql	public_module.php	/^		$sql = "select * from users where userID = '$userID' && password = '$password'";$/;"	v
+time	public_module.php	/^		$time = date("y-m-d h:i:s", time());$/;"	v
+userID	public_module.php	/^	$userID = "";$/;"	v
+veri_code	public_module.php	/^		$veri_code = seize0("vericode");$/;"	v
+verify	public_module.php	/^	function verify() \/\/ 开始验证，版本号是必须的$/;"	f
+verify_encode	public_module.php	/^	function verify_encode() \/\/ 返回加密后的验证码$/;"	f
+verify_uncode	public_module.php	/^	function verify_uncode($s) \/\/ 解密$/;"	f
+version	public_module.php	/^		$version = seize0("version");$/;"	v
+version	public_module.php	/^	$version = seize("version");$/;"	v
+createUserID	register.php	/^function createUserID() \/\/ 生成独一无二的ID$/;"	f
+nickname	register.php	/^$nickname = seize('nickname');$/;"	v
+password	register.php	/^$password = seize0('password');$/;"	v
+result	register.php	/^		$result = mysql_query($sql);$/;"	v
+row	register.php	/^		$row = mysql_fetch_array($result);$/;"	v
+sql	register.php	/^		$sql = "select * from users where userID='$userID'";$/;"	v
+sql	register.php	/^	$sql = "SELECT * from users where username = '$username'";$/;"	v
+sql	register.php	/^$sql = "INSERT INTO users (userID, username, password) values ('$userID', 'username', 'password')";$/;"	v
+userID	register.php	/^		$userID = rand(100000000, 999999999);$/;"	v
+userID	register.php	/^	$userID = 0;$/;"	v
+userID	register.php	/^$userID = createUserID();$/;"	v
+username	register.php	/^$username = seize0('username');$/;"	v
+usernameExists	register.php	/^function usernameExists($username)$/;"	f
+content	uploadvals.php	/^	$content = seize($file_names[$i]);$/;"	v
+count	uploadvals.php	/^$count = count($filenames);$/;"	v
+file_names	uploadvals.php	/^$file_names = array('bills', 'cards',$/;"	v
+password	uploadvals.php	/^$password = seize0('password');$/;"	v
+sql	uploadvals.php	/^		$sql = "UPDATE users set ${$file_names[$i]} = '$content' where userID = '$userID'";$/;"	v
+userID	uploadvals.php	/^$userID = seize0('userID');$/;"	v
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_PROGRAM_VERSION	5.8	//
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
