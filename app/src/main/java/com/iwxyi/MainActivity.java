@@ -1,25 +1,24 @@
 package com.iwxyi;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import com.iwxyi.Fragments.BillsList.BillsFragment;
-import com.iwxyi.Fragments.BillsList.DummyContent;
-import com.iwxyi.Fragments.BlankDataFragment;
+import com.iwxyi.BillsFragment.BillsFragment;
+import com.iwxyi.BillsFragment.DummyContent;
 import com.iwxyi.Record.RecordActivity;
 import com.iwxyi.Utils.FileUtil;
 
@@ -31,6 +30,11 @@ public class MainActivity extends AppCompatActivity
     private final int REQUEST_CODE_MODIFY = 2;
     private final int RESULT_CODE_RECORD_OK = 101;
     private final int RESULT_CODE_MODIFY_OK = 102;
+    private int colums = 1; // 实现列表多列形式
+
+    private Fragment currentFragment = new Fragment();
+    //private BlankDataFragment blankDataFragment = BlankDataFragment.newInstance();
+    //private BillsFragment billsFragment = BillsFragment.newInstance(colums);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,8 +108,14 @@ public class MainActivity extends AppCompatActivity
         });
 
         // 初始化碎片
-//        switchFragment(BlankDataFragment.newInstance());
-        switchFragment(BillsFragment.newInstance(1));
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.frameLayout, BlankDataFragment.newInstance());
+        ft.add(R.id.frameLayout, BillsFragment.newInstance(colums));
+        ft.hide(BillsFragment.newInstance(colums));
+        ft.commit();
+
+        //switchFragment(BillsFragment.newInstance(1));
     }
 
     @Override
@@ -164,19 +174,34 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void switchFragment(android.support.v4.app.Fragment fragment) {
-        // 隐藏现有的Fragment避免显示重叠
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (!fragment.isAdded()) {
+            if (currentFragment != null) {
+                transaction.hide(currentFragment);
+            }
+            transaction.add(R.id.frameLayout, fragment, fragment.getClass().getName());
+        } else {
+            transaction.hide(currentFragment)
+                    .show(fragment);
+        }
+        currentFragment = fragment;
+        transaction.commitAllowingStateLoss();
+
+        /*// 隐藏现有的Fragment避免显示重叠
         for (android.support.v4.app.Fragment frag : getSupportFragmentManager().getFragments())
             getSupportFragmentManager().beginTransaction().hide(frag).commitAllowingStateLoss();// commit 会导致错误
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frameLayout, fragment, "history").commitAllowingStateLoss();
+                .replace(R.id.frameLayout, fragment, "history").commitAllowingStateLoss();*/
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_CODE_RECORD_OK) { // 添加账单结束
-            switchFragment(BillsFragment.newInstance(1));
+            //switchFragment(billsFragment);
+            switchFragment(BillsFragment.newInstance(colums));
         } else if (resultCode == RESULT_CODE_MODIFY_OK) { // 修改账单。与添加唯一不同的是保留滚动位置
-            switchFragment(BillsFragment.newInstance(1));
+            switchFragment(BillsFragment.newInstance(colums));
         }
     }
 

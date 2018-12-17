@@ -16,7 +16,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.iwxyi.Fragments.BillsList.DummyContent;
+import com.iwxyi.BillsFragment.DummyContent;
 import com.iwxyi.R;
 import com.iwxyi.Utils.DateTimeUtil;
 import com.iwxyi.Utils.FileUtil;
@@ -49,7 +49,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
     private TextView mTimeTv;
     private TextView mPlaceTv;
 
-    private String businessID;
+    private String businessID = null;
     private String[] kindList;
     private ArrayList<KindBean> kindArray;
     private int kindChoosing;
@@ -143,6 +143,10 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         businessID = intent.getStringExtra("billID");
         if (!"".equals(businessID)) {
             DummyContent.DummyItem item = DummyContent.ITEM_MAP.get(businessID);
+            if (item == null) {
+                businessID = "";
+                return ;
+            }
             double amount = item.amount;
             int mode = item.mode;
             String kind = item.kind;
@@ -270,12 +274,11 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                     note = "";
                 }
 
-                if ("".equals(businessID)) {
+                if ("".equals(businessID) && !"null".equals(businessID)) {
                     DummyContent.addNew(amount, mode, kind, source, note, card, place, timestamp, addTime);
                     setResult(RESULT_CODE_RECORD_OK);
                 } else {
                     DummyContent.moidfyItem(businessID, amount, mode, kind, source, note, card, place, timestamp, addTime);
-                    Toast.makeText(this, "修改成功", Toast.LENGTH_SHORT).show();
                     setResult(RESULT_CODE_MODIFY_OK);
                 }
 

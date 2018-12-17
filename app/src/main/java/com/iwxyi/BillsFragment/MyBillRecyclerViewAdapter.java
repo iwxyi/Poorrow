@@ -1,6 +1,5 @@
-package com.iwxyi.Fragments.BillsList;
+package com.iwxyi.BillsFragment;
 
-import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,14 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.iwxyi.Fragments.BillsList.BillsFragment.OnListFragmentInteractionListener;
-import com.iwxyi.Fragments.BillsList.DummyContent.DummyItem;
+import com.iwxyi.BillsFragment.BillsFragment.OnListFragmentInteractionListener;
+import com.iwxyi.BillsFragment.DummyContent.DummyItem;
 import com.iwxyi.R;
 import com.iwxyi.Utils.DateTimeUtil;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**

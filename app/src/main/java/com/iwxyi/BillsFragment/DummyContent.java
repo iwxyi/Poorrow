@@ -1,7 +1,6 @@
-package com.iwxyi.Fragments.BillsList;
+package com.iwxyi.BillsFragment;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.iwxyi.Utils.FileUtil;
 import com.iwxyi.Utils.StringUtil;
@@ -180,9 +179,9 @@ public class DummyContent {
     }
 
     private static void initStartBills() {
-        String text = "<BILL><ID>0</ID><SR>欢迎来到 穷光蛋的世界</SR><AM>1.00</AM><NT>你知道，自己只是个穷光蛋，一贫如洗</NT></BILL>";
-        text += "<BILL><ID>0</ID><SR>其实啊，你很幸运</SR><AM>1.00</AM><NT>真的很幸运，能和本开发者一同品味着贫穷，品味着无力</NT></BILL>";
-        text += "<BILL><ID>0</ID><SR>下一世</SR><AM>1.00</AM><NT>下一世，我们必将，生活在无忧无虑的富饶世界！</NT></BILL>";
+        String text = "<BILL><ID>01</ID><SR>欢迎来到 穷光蛋的世界</SR><AM>1.00</AM><NT>你知道，自己只是个穷光蛋，一贫如洗</NT></BILL>";
+        text += "<BILL><ID>02</ID><SR>其实啊，你很幸运</SR><AM>1.00</AM><NT>真的很幸运，能和本开发者一同品味着贫穷，品味着无力</NT></BILL>";
+        text += "<BILL><ID>03</ID><SR>下一世</SR><AM>1.00</AM><NT>下一世，我们必将，生活在无忧无虑的富饶世界！</NT></BILL>";
         FileUtil.writeTextVals("bills.txt", text);
         Log.i("initStartBills", text);
     }

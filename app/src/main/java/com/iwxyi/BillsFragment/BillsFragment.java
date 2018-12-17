@@ -1,18 +1,17 @@
-package com.iwxyi.Fragments.BillsList;
+package com.iwxyi.BillsFragment;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DrawableUtils;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.iwxyi.Fragments.BillsList.DummyContent.DummyItem;
+import com.iwxyi.BillsFragment.DummyContent.DummyItem;
 import com.iwxyi.R;
 
 /**
@@ -26,8 +25,11 @@ public class BillsFragment extends Fragment {
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
-    private int mColumnCount = 1;
+    private int mColumnCount = 3;
     private OnListFragmentInteractionListener mListener;
+
+    private RecyclerView gRecycleView;
+    private MyBillRecyclerViewAdapter adapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -67,7 +69,8 @@ public class BillsFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyBillRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            adapter = new MyBillRecyclerViewAdapter(DummyContent.ITEMS, mListener);
+            recyclerView.setAdapter(adapter);
         }
         return view;
     }
@@ -103,5 +106,22 @@ public class BillsFragment extends Fragment {
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(DummyItem item);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) { // fragment 隐藏时调用
+            ;
+        } else { // fragment 显示时调用
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i("====onResum", ""+mColumnCount);
+        adapter.notifyDataSetChanged();
     }
 }
