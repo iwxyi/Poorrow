@@ -30,8 +30,12 @@ import java.util.Calendar;
 
 public class RecordActivity extends AppCompatActivity implements View.OnClickListener, OnItemClickListener {
 
-    private int REQUEST_CODE_MAP = 10;
-    private int RESULT_CODE_OK = 1;
+    private int REQUEST_CODE_RECORD = 1;
+    private int REQUEST_CODE_MODIFY = 2;
+    private int REQUEST_CODE_MAP = 3;
+
+    private int RESULT_CODE_RECORD_OK = 101;
+    private int RESULT_CODE_MODIFY_OK = 102;
 
     private RadioButton mSpendingRb;
     private RadioButton mIncomeRb;
@@ -45,6 +49,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
     private TextView mTimeTv;
     private TextView mPlaceTv;
 
+    private String businessID;
     private String[] kindList;
     private ArrayList<KindBean> kindArray;
     private int kindChoosing;
@@ -61,36 +66,8 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
 
         initView();
         initData();
-    }
 
-    /**
-     * 这个是每次切换都会产生的
-     * 因为每次添加都要重新修改时间
-     */
-    @Override
-    protected void onStart() {
-        initData();
-
-        Calendar c = Calendar.getInstance();
-        addYear = c.get(Calendar.YEAR);
-        addMonth = c.get(Calendar.MONTH) + 1;
-        addDate = c.get(Calendar.DAY_OF_MONTH);
-        addHour = c.get(Calendar.HOUR_OF_DAY);
-        addMinute = c.get(Calendar.MINUTE);
-
-        tsYear = tsMonth = tsDate = tsHour = tsMinute = 0;
-        /*
-        tsYear = addYear;
-        tsMonth = addMonth;
-        tsDate = addDate;
-        tsHour = addHour;
-        tsMinute = addMinute;
-         */
-
-        mDateTv.setText("日期：" + DateTimeUtil.dataToString(addYear, addMonth, addDate));
-        mTimeTv.setText("时间：" + DateTimeUtil.timeToString(addHour, addMinute));
-
-        super.onStart();
+        initModify();
     }
 
     private void initView() {
@@ -147,6 +124,74 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         kindArray = new ArrayList<>();
         int a = SettingsUtil.getInt(getApplicationContext(), "record_kind");
         emitGVAdapter(a);
+
+        // ==== 初始化时间 ====
+        Calendar c = Calendar.getInstance();
+        addYear = c.get(Calendar.YEAR);
+        addMonth = c.get(Calendar.MONTH) + 1;
+        addDate = c.get(Calendar.DAY_OF_MONTH);
+        addHour = c.get(Calendar.HOUR_OF_DAY);
+        addMinute = c.get(Calendar.MINUTE);
+        tsYear = tsMonth = tsDate = tsHour = tsMinute = 0;
+        mDateTv.setText("" + DateTimeUtil.dataToString(addYear, addMonth, addDate));
+        mTimeTv.setText("" + DateTimeUtil.timeToString(addHour, addMinute));
+    }
+
+    private void initModify() {
+        // 如果是修改，读取修改的内容
+        Intent intent = getIntent();
+        businessID = intent.getStringExtra("billID");
+        if (!"".equals(businessID)) {
+            DummyContent.DummyItem item = DummyContent.ITEM_MAP.get(businessID);
+            double amount = item.amount;
+            int mode = item.mode;
+            String kind = item.kind;
+            String source = item.source;
+            String note = item.note;
+            String card = item.card;
+            String place = item.place;
+            long timestamp = item.timestamp;
+            long addTime = item.addTime;
+
+            if (amount != 0) {
+                mAmountEv.setText(amount+"");
+            }
+            if (mode == 1) {
+                mIncomeRb.setChecked(true);
+                emitGVAdapter(1);
+            } else if (mode == 2) {
+                mBorrowingRb.setChecked(true);
+                emitGVAdapter(2);
+            } else {
+                mSpendingRb.setChecked(true);
+                emitGVAdapter(0);
+            }
+            if (!"".equals(kind)) {
+                for (int i = 0; i < kindList.length; i++) {
+                    if (kind.equals(kindList[i])) {
+                        kindChoosing = i;
+                        kindArray.get(i).choose = true;
+                        MyKindAdapter kindApdapter = new MyKindAdapter(this, kindArray);
+                        mKindGv.setAdapter(kindApdapter);
+                        break;
+                    }
+                }
+            }
+            if (!("".equals(source))) {
+                if ("".equals(note)) {
+                    note = source;
+                }
+                else {
+                    note = source + "\n" + note;
+                }
+            }
+            mNoteEv.setText(note);
+            if (!"".equals(place)) {
+                mPlaceTv.setText(place);
+            }
+
+            mSubmitBtn.setText("确认修改");
+        }
     }
 
     private void emitGVAdapter(int x) {
@@ -225,20 +270,15 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                     note = "";
                 }
 
-                // 保存到 Bundle，原 Activity 便于读取
-                Intent intent = new Intent();
-                intent.putExtra("record_mode", mode);
-                intent.putExtra("record_kind", kind);
-                intent.putExtra("record_card", card);
-                intent.putExtra("record_amount", amount);
-                intent.putExtra("record_note", note);
-                intent.putExtra("record_place", place);
-                intent.putExtra("record_timestamp", timestamp);
-                intent.putExtra("record_addTime", addTime);
+                if ("".equals(businessID)) {
+                    DummyContent.addNew(amount, mode, kind, source, note, card, place, timestamp, addTime);
+                    setResult(RESULT_CODE_RECORD_OK);
+                } else {
+                    DummyContent.moidfyItem(businessID, amount, mode, kind, source, note, card, place, timestamp, addTime);
+                    Toast.makeText(this, "修改成功", Toast.LENGTH_SHORT).show();
+                    setResult(RESULT_CODE_MODIFY_OK);
+                }
 
-                DummyContent.addNew(amount, mode, kind, source, note, card, place, timestamp, addTime);
-
-                setResult(RESULT_CODE_OK, intent);
                 finish();
                 break;
             case R.id.rb_spending: // 选择支出

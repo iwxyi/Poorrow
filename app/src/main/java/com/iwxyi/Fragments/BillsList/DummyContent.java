@@ -56,6 +56,41 @@ public class DummyContent {
         insertNew(id, amount, mode, kind, source, note, card, place, timestamp, addTime, 0, false, 0);
     }
 
+    /**
+     * 修改某个选项
+     * 修改方式是全部删掉，重新建立
+     */
+    public static void moidfyItem(String id, double amount, int mode, String kind, String source, String note, String card, String place, long timestamp, long changeTime) {
+        DummyItem item = ITEM_MAP.get(id);
+        if (item == null) return ;
+        long addTime = item.addTime;
+        boolean reimburse = item.reimburse;
+        long remind = item.remind;
+        DummyItem item2 = createDummyItem(id, amount, mode, kind, source, note, card, place, timestamp, addTime, changeTime, reimburse, remind);
+
+        // 修改数组
+        for (int i = 0; i < ITEMS.size(); i++) {
+            if (ITEMS.get(i).id.equals(id)) {
+                ITEMS.set(i, item2);
+                ITEM_MAP.remove(id);
+                ITEM_MAP.put(id, item2);
+            }
+        }
+
+        // 修改文件
+        String itemText = item2.toString();
+        String text = FileUtil.readTextVals("bills.txt");
+        int pos = text.indexOf("<ID>" + id);
+        if (pos != -1) {
+            int left = text.lastIndexOf("<BILL>", pos);
+            int right = text.indexOf("</BILL>", pos);
+            text = text.substring(0, left) + itemText + text.substring(right+"</BILL>".length());
+        } else {
+            text = itemText + text;
+        }
+        FileUtil.writeTextVals("bills.txt", text);
+    }
+
     public static void insertNew(String id, double amount, int mode, String kind, String source, String note, String card, String place, long timestamp, long addTime, long changeTime, Boolean reimburse, long remind) {
         DummyItem item = createDummyItem(id, amount, mode, kind, source, note, card, place, timestamp, addTime, changeTime, reimburse, remind);
         ITEMS.add(0, item);

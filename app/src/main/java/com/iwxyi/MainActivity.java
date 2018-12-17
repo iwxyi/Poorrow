@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.iwxyi.Fragments.BillsList.BillsFragment;
 import com.iwxyi.Fragments.BillsList.DummyContent;
@@ -27,6 +28,9 @@ public class MainActivity extends AppCompatActivity
                 BillsFragment.OnListFragmentInteractionListener{
 
     private final int REQUEST_CODE_RECORD = 1;
+    private final int REQUEST_CODE_MODIFY = 2;
+    private final int RESULT_CODE_RECORD_OK = 101;
+    private final int RESULT_CODE_MODIFY_OK = 102;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,7 +173,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE_RECORD) { // 添加账单结束
+        if (resultCode == RESULT_CODE_RECORD_OK) { // 添加账单结束
+            switchFragment(BillsFragment.newInstance(1));
+        } else if (resultCode == RESULT_CODE_MODIFY_OK) { // 修改账单。与添加唯一不同的是保留滚动位置
             switchFragment(BillsFragment.newInstance(1));
         }
     }
@@ -180,7 +186,10 @@ public class MainActivity extends AppCompatActivity
      */
     @Override
     public void onListFragmentInteraction(DummyContent.DummyItem item) {
-
+        String id = item.id;
+        Intent intent = new Intent(getApplicationContext(), RecordActivity.class);
+        intent.putExtra("billID", id);
+        startActivityForResult(intent, REQUEST_CODE_MODIFY);
     }
 
     @Override
