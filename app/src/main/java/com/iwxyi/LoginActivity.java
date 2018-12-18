@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.iwxyi.Utils.Global;
+import com.iwxyi.Utils.SettingsUtil;
 import com.iwxyi.Utils.StreamUtil;
 import com.iwxyi.Utils.StringUtil;
 
@@ -377,6 +378,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             UserInfo.username = mEmail;
             UserInfo.password = mPassword;
             UserInfo.logined = true;
+
+            SettingsUtil.setVal(getApplicationContext(), "userID", UserInfo.userID);
+            SettingsUtil.setVal(getApplicationContext(), "username", UserInfo.username);
+            SettingsUtil.setVal(getApplicationContext(), "password", UserInfo.password);
+            SettingsUtil.setVal(getApplicationContext(), "nickname", UserInfo.nickname);
+            SettingsUtil.setVal(getApplicationContext(), "signature", UserInfo.signature);
+
             return true;
         }
 

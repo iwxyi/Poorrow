@@ -72,7 +72,11 @@
         <activity android:name=".Record.MapActivity" />
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".PersonActivity"
+            android:label="@string/title_activity_person"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

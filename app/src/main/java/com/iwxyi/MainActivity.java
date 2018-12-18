@@ -18,14 +18,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.iwxyi.BillsFragment.BillsFragment;
 import com.iwxyi.BillsFragment.DummyContent;
 import com.iwxyi.Record.RecordActivity;
 import com.iwxyi.Utils.FileUtil;
-
-import org.w3c.dom.Text;
+import com.iwxyi.Utils.SettingsUtil;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, BlankDataFragment.OnFragmentInteractionListener,
@@ -34,14 +32,16 @@ public class MainActivity extends AppCompatActivity
     private final int REQUEST_CODE_RECORD = 1;
     private final int REQUEST_CODE_MODIFY = 2;
     private final int REQUEST_CODE_LOGIN  = 3;
+    private final int REQUEST_CODE_PERSON = 4;
     private final int RESULT_CODE_RECORD_OK = 101;
     private final int RESULT_CODE_MODIFY_OK = 102;
     private final int RESULT_CODE_LOGIN_OK  = 103;
-    private int colums = 1; // 实现列表多列形式
+    private final int RESULT_CODE_PERSON_OK = 104;
+    private int columns = 1; // 实现列表多列形式
 
     private Fragment currentFragment = new Fragment();
     //private BlankDataFragment blankDataFragment = BlankDataFragment.newInstance();
-    //private BillsFragment billsFragment = BillsFragment.newInstance(colums);
+    //private BillsFragment billsFragment = BillsFragment.newInstance(columns);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +49,51 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         initView();
+        initData();
+    }
 
+    private void initData() {
         FileUtil.ensureFolder();
+
+        readUserInfo();
+    }
+
+    private void readUserInfo() {
+        // 修改抽屉头像
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        View drawView = navigationView.getHeaderView(0);
+        ImageView mHeadIv = (ImageView)drawView.findViewById(R.id.iv_avatar);
+        TextView mNickTv = (TextView)drawView.findViewById(R.id.tv_nickname);
+        TextView mSignTv = (TextView)drawView.findViewById(R.id.tv_signature);
+
+        if (!"".equals(SettingsUtil.getVal(getApplicationContext(), "userID"))) {
+            UserInfo.userID = SettingsUtil.getVal(getApplicationContext(), "userID");
+            UserInfo.username = SettingsUtil.getVal(getApplicationContext(), "username");
+            UserInfo.password = SettingsUtil.getVal(getApplicationContext(), "password");
+            UserInfo.nickname = SettingsUtil.getVal(getApplicationContext(), "nickname");
+            UserInfo.signature = SettingsUtil.getVal(getApplicationContext(), "signature");
+            UserInfo.logined = true;
+
+            if ("".equals(UserInfo.nickname))
+                mNickTv.setText("穷光蛋");
+            else
+                mNickTv.setText(UserInfo.nickname);
+            if ("".equals(UserInfo.nickname))
+                mSignTv.setText("点击头像进行同步数据和修改信息");
+            else
+                mNickTv.setText(UserInfo.signature);
+        } else {
+            UserInfo.userID = "";
+            UserInfo.username = "";
+            UserInfo.password = "";
+            UserInfo.signature = "";
+            UserInfo.logined = false;
+            UserInfo.isNew = false;
+
+            mNickTv.setText("未登录");
+            mSignTv.setText("你就是个小穷光蛋呐");
+        }
+
     }
 
     private void initView() {
@@ -86,9 +129,8 @@ public class MainActivity extends AppCompatActivity
         mHeadIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "fniur", Toast.LENGTH_SHORT).show();
                 if (UserInfo.logined) { // 用户已经登录，切换到用户信息界面
-                    ;
+                    startActivityForResult(new Intent(getApplicationContext(), PersonActivity.class), REQUEST_CODE_PERSON);
                 } else {
                     startActivityForResult(new Intent(getApplicationContext(), LoginActivity.class), REQUEST_CODE_LOGIN);
                 }
@@ -132,11 +174,13 @@ public class MainActivity extends AppCompatActivity
         });
 
         // 初始化碎片
+        columns = SettingsUtil.getInt(getApplicationContext(), "columns");
+        if (columns < 1) columns = 1; // 读取保存的列数
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.add(R.id.frameLayout, BlankDataFragment.newInstance());
-        ft.add(R.id.frameLayout, BillsFragment.newInstance(colums));
-        ft.hide(BillsFragment.newInstance(colums));
+        ft.add(R.id.frameLayout, BillsFragment.newInstance(columns));
+        ft.hide(BillsFragment.newInstance(columns));
         ft.commit();
 
         //switchFragment(BillsFragment.newInstance(1));
@@ -223,24 +267,11 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_CODE_RECORD_OK) { // 添加账单结束
             //switchFragment(billsFragment);
-            switchFragment(BillsFragment.newInstance(colums));
+            switchFragment(BillsFragment.newInstance(columns));
         } else if (resultCode == RESULT_CODE_MODIFY_OK) { // 修改账单。与添加唯一不同的是保留滚动位置
-            switchFragment(BillsFragment.newInstance(colums));
+            switchFragment(BillsFragment.newInstance(columns));
         } else if (resultCode == RESULT_CODE_LOGIN_OK) {
-            // 修改抽屉头像
-            NavigationView navigationView = findViewById(R.id.nav_view);
-            View drawView = navigationView.getHeaderView(0);
-            ImageView mHeadIv = (ImageView)drawView.findViewById(R.id.iv_avatar);
-            TextView mNickTv = (TextView)drawView.findViewById(R.id.tv_nickname);
-            TextView mSignTv = (TextView)drawView.findViewById(R.id.tv_signature);
-            if ("".equals(UserInfo.nickname))
-                mNickTv.setText("穷光蛋");
-            else
-                mNickTv.setText(UserInfo.nickname);
-            if ("".equals(UserInfo.nickname))
-                mSignTv.setText("点击头像进行同步数据和修改信息");
-            else
-                mNickTv.setText(UserInfo.signature);
+            readUserInfo();
         }
     }
 
