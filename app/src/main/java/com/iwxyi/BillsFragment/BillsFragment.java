@@ -121,7 +121,6 @@ public class BillsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.i("====onResum", ""+mColumnCount);
         adapter.notifyDataSetChanged();
     }
 }

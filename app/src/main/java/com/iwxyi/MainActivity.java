@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -80,10 +81,10 @@ public class MainActivity extends AppCompatActivity
                 mNickTv.setText(UserInfo.username);
             else
                 mNickTv.setText(UserInfo.nickname);
-            if ("".equals(UserInfo.nickname))
+            if ("".equals(UserInfo.signature))
                 mSignTv.setText("点击头像进行同步数据和修改信息");
             else
-                mNickTv.setText(UserInfo.signature);
+                mSignTv.setText(UserInfo.signature);
         } else {
             UserInfo.userID = "";
             UserInfo.username = "";
@@ -273,6 +274,8 @@ public class MainActivity extends AppCompatActivity
         } else if (resultCode == RESULT_CODE_MODIFY_OK) { // 修改账单。与添加唯一不同的是保留滚动位置
             switchFragment(BillsFragment.newInstance(columns));
         } else if (resultCode == RESULT_CODE_LOGIN_OK) {
+            readUserInfo();
+        } else if (resultCode == RESULT_CODE_PERSON_OK) {
             readUserInfo();
         }
     }

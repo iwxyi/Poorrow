@@ -31,4 +31,7 @@ dependencies {
     implementation 'com.android.support:cardview-v7:26.1.0'
 
     implementation 'net.codecrafted:lineartimepicker:1.0.0' // 线性日期时间选择器
+
+    //implementation 'com.afollestad.material-dialogs:core:2.0.0-rc3'   // MD 风格对话框核心
+    //implementation 'com.afollestad.material-dialogs:input:2.0.0-rc3'  // MD 风格输入对话框
 }
