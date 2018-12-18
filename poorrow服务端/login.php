@@ -11,6 +11,7 @@ die_if2(!row("SELECT * from users where username = '$username' && password = '$p
 $sql = "SELECT userID from users where username = '$username' && password = '$password'";
 $row = row($sql);
 
+echo XML($row['signature'], "SIGNATURE");
 echo XML($row['userID'], "USERID");
 echo XML($row['nickname'], "NICKNAME");
 echo T;

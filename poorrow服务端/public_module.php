@@ -13,6 +13,7 @@
  * - 新增 query2() 方法，失败输出 错误，并且 die
  * - 新增 die_if2() 方案，输出全局错误代码 F 以及错误原因
  * - getIP() 和 gettime() 等改成 下划线命名法
+ * - 调整放SQL注入策略，把HTML格式化变成只修改单引号
  */
 /*
 <?php
@@ -31,8 +32,8 @@
 	define("MySQL_password", "root");
 	define("MySQL_database", "poorrow");
 	
-	define("T", "<state>OK</state>");
-	define("F", "<state>Bad</state>");
+	define("T", "<STATE>OK</STATE>");
+	define("F", "<STATE>Bad</STATE>");
 
 	define("MOD", 886);
 	define("MOD2", 100000);
@@ -327,7 +328,8 @@
 		if (!$blank)
 			$s = trim($s); // 去空格
 		$s = stripslashes($s); // 去转义
-		$s = htmlspecialchars($s); // 防注入
+		$s = str_replace("'", "''", $s);
+		//$s = htmlspecialchars($s); // 防注入
 		return $s;
 	}
 
@@ -409,9 +411,12 @@
 	{
 		if (!query($sql))
 		{
+			echo F . '\n';
+			echo "<REASON>";
 			if ($err != "")
 				echo $err . ' ';
 			echo '<MYSQ_EOORO:>' . mysql_error();
+			echo "</REASON>";
 			die;
 		}
 	}

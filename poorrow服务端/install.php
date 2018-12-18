@@ -11,14 +11,16 @@ $sql = "CREATE TABLE `users`
 	username varchar(255),
 	password varchar(255),
 	nickname varchar(255) default '',
+	signature varchar(255) default '',
 	cellphone varchar(255) default '',
 
-	data_bills longtext default '',
-	date_kinds_spending longtext default '',
-	data_kinds_income longtext default '',
-	data_kinds_borrowing longtext default '',
-	data_cards longtext default '',
+	bills longtext default '',
+	kinds_spending longtext default '',
+	kinds_income longtext default '',
+	kinds_borrowing longtext default '',
+	cards longtext default '',
 	
+	sync_tie bigint default 0,
 	create_time bigint
 )";
 query2($sql, "创建用户表失败");

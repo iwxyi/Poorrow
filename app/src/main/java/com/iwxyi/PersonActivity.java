@@ -2,6 +2,8 @@ package com.iwxyi;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -17,14 +20,25 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.iwxyi.Utils.FileUtil;
+import com.iwxyi.Utils.Global;
 import com.iwxyi.Utils.SettingsUtil;
+import com.iwxyi.Utils.StreamUtil;
+import com.iwxyi.Utils.StringUtil;
 import com.iwxyi.Utils.UserInfo;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.regex.Pattern;
 
 public class PersonActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static int RESULT_CODE_PERSON_OK = 104;
+    private final int RESULT_CODE_PERSON_OK = 104;
+    private final int SYNC_RESULT = 1;
 
     private TextView mNicknameTv;
     private TextView mUsernameTv;
@@ -56,6 +70,7 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
             public void onClick(View view) {
                 Snackbar.make(view, "正在同步，请稍后", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                syncAll();
             }
         });
 
@@ -165,15 +180,14 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void onInputDialog(String aim, String s) {
-        if (aim.equals("username")) {
-            ;
-        } else if (aim.equals("nickname")) {
+        if (aim.equals("nickname")) {
             if (canMatch(s, "^[\\w_@]+$")) {
                 mNicknameTv.setText("昵　称：" + s);
                 UserInfo.nickname = s;
                 SettingsUtil.setVal(getApplicationContext(), "nickname", s);
                 setResult(RESULT_CODE_PERSON_OK);
                 setTitle(s);
+                updateContent("nickname", s);
             } else {
                 Toast.makeText(this, "请输入正确的格式", Toast.LENGTH_SHORT).show();
             }
@@ -190,6 +204,7 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
                 UserInfo.password = s;
                 SettingsUtil.setVal(getApplicationContext(), "password", s);
                 setResult(RESULT_CODE_PERSON_OK);
+                updateContent("password", s);
             } else if (!"".equals(s)) {
                 Toast.makeText(this, "请输入正确的格式", Toast.LENGTH_SHORT).show();
             }
@@ -199,6 +214,7 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
                 UserInfo.signature = s;
                 SettingsUtil.setVal(getApplicationContext(), "signature", s);
                 setResult(RESULT_CODE_PERSON_OK);
+                updateContent("signature", s);
             } else if (!"".equals(s)) {
                 Toast.makeText(this, "请输入正确的格式", Toast.LENGTH_SHORT).show();
             }
@@ -208,11 +224,106 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
                 UserInfo.cellphone = s;
                 SettingsUtil.setVal(getApplicationContext(), "cellphone", s);
                 setResult(RESULT_CODE_PERSON_OK);
+                updateContent("cellphone", s);
             } else if (!"".equals(s)) {
                 Toast.makeText(this, "请输入正确的格式", Toast.LENGTH_SHORT).show();
             }
         }
 
+    }
 
+    Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+            if (msg.what == SYNC_RESULT) {
+                String s = (String)msg.obj;
+                //Toast.makeText(PersonActivity.this, reason, Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.fab), s, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        }
+    };
+
+    private void updateContent(final String field, final String val) {
+        new Thread() {
+            public void run() {
+                String path = Global.URL_DOMAIN + "uploadcontent.php";
+                path += "?userID=" + UserInfo.userID + "&password=" + UserInfo.password;
+                path += "&" + field + "=" + val;
+                URL url = null;
+                try {
+                    url = new URL(path);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    urlConnection.setRequestMethod("GET");
+                    urlConnection.setConnectTimeout(5000);
+                    int code = urlConnection.getResponseCode();
+                    if (code == 200) {
+                        InputStream in = urlConnection.getInputStream();
+                        String content = StreamUtil.readStream(in);
+                        Message msg = Message.obtain();
+                        msg.what = SYNC_RESULT;
+                        if (!"OK".equals(StringUtil.getXml(content, "STATE"))) {
+                            msg.obj = StringUtil.getXml(content, "REASON");
+                        }
+                        else {
+                            msg.obj = "上传成功";
+                        }
+                        handler.sendMessage(msg);
+                    }
+                } catch (ProtocolException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
+    private void syncAll() {
+        new Thread() {
+            public void run() {
+                String path = Global.URL_DOMAIN + "uploadcontent.php";
+                path += "?userID=" + UserInfo.userID + "&password=" + UserInfo.password;
+
+                path += "&bills=" + FileUtil.readTextVals("bills.txt");
+                path += "&cards=" + FileUtil.readTextVals("cards.txt");
+                path += "&kinds_spending=" + FileUtil.readTextVals("kinds_spending.txt");
+                path += "&kinds_income=" + FileUtil.readTextVals("kinds_income.txt");
+                path += "&kinds_borrowing=" + FileUtil.readTextVals("kinds_borrowing.txt");
+Log.i("====sync", path);
+                URL url = null;
+                try {
+                    url = new URL(path);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    urlConnection.setRequestMethod("POST");
+                    urlConnection.setConnectTimeout(5000);
+                    int code = urlConnection.getResponseCode();
+                    if (code == 200) {
+                        InputStream in = urlConnection.getInputStream();
+                        String content = StreamUtil.readStream(in);
+                        Message msg = Message.obtain();
+                        msg.what = SYNC_RESULT;
+                        if (!"OK".equals(StringUtil.getXml(content, "STATE"))) {
+                            msg.obj = StringUtil.getXml(content, "REASON");
+                        }
+                        else {
+                            msg.obj = "上传成功";
+                        }
+                        handler.sendMessage(msg);
+                    }
+                } catch (ProtocolException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
 }

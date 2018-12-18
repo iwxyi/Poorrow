@@ -7,7 +7,7 @@ check_account($userID, $password);
 
 // 在数据库中搜索内容
 $field = seize0('field');
-$fields = array('nickname', 'username', 'password',
+$fields = array('nickname', 'username', 'password', 'signature',
 	'bills', 'cards',
 	'kinds_spending', 'kinds_income', 'kinds_borrowing' );
 if (in_array($field, $fields))
