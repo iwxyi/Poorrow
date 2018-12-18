@@ -16,11 +16,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.iwxyi.BillsFragment.BillsFragment;
 import com.iwxyi.BillsFragment.DummyContent;
 import com.iwxyi.Record.RecordActivity;
 import com.iwxyi.Utils.FileUtil;
+
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, BlankDataFragment.OnFragmentInteractionListener,
@@ -28,8 +33,10 @@ public class MainActivity extends AppCompatActivity
 
     private final int REQUEST_CODE_RECORD = 1;
     private final int REQUEST_CODE_MODIFY = 2;
+    private final int REQUEST_CODE_LOGIN  = 3;
     private final int RESULT_CODE_RECORD_OK = 101;
     private final int RESULT_CODE_MODIFY_OK = 102;
+    private final int RESULT_CODE_LOGIN_OK  = 103;
     private int colums = 1; // 实现列表多列形式
 
     private Fragment currentFragment = new Fragment();
@@ -68,10 +75,27 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        // 抽屉菜单事件
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // 抽屉响应事件
+        // 抽屉头像事件
+        //View drawView = navigationView.inflateHeaderView(R.layout.nav_header_main); // 用这句会重复头像
+        View drawView = navigationView.getHeaderView(0);
+        ImageView mHeadIv = (ImageView)drawView.findViewById(R.id.iv_avatar);
+        mHeadIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "fniur", Toast.LENGTH_SHORT).show();
+                if (UserInfo.logined) { // 用户已经登录，切换到用户信息界面
+                    ;
+                } else {
+                    startActivityForResult(new Intent(getApplicationContext(), LoginActivity.class), REQUEST_CODE_LOGIN);
+                }
+            }
+        });
+
+        // 抽屉滑动事件
         drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -202,6 +226,21 @@ public class MainActivity extends AppCompatActivity
             switchFragment(BillsFragment.newInstance(colums));
         } else if (resultCode == RESULT_CODE_MODIFY_OK) { // 修改账单。与添加唯一不同的是保留滚动位置
             switchFragment(BillsFragment.newInstance(colums));
+        } else if (resultCode == RESULT_CODE_LOGIN_OK) {
+            // 修改抽屉头像
+            NavigationView navigationView = findViewById(R.id.nav_view);
+            View drawView = navigationView.getHeaderView(0);
+            ImageView mHeadIv = (ImageView)drawView.findViewById(R.id.iv_avatar);
+            TextView mNickTv = (TextView)drawView.findViewById(R.id.tv_nickname);
+            TextView mSignTv = (TextView)drawView.findViewById(R.id.tv_signature);
+            if ("".equals(UserInfo.nickname))
+                mNickTv.setText("穷光蛋");
+            else
+                mNickTv.setText(UserInfo.nickname);
+            if ("".equals(UserInfo.nickname))
+                mSignTv.setText("点击头像进行同步数据和修改信息");
+            else
+                mNickTv.setText(UserInfo.signature);
         }
     }
 
