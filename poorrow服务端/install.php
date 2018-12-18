@@ -1,5 +1,5 @@
 <?php
-die; // 安装后这个变成 die
+// die; // 安装后去掉注释
 require 'public_module.php';
 
 // 添加用户表
@@ -10,20 +10,19 @@ $sql = "CREATE TABLE `users`
 	userID varchar(255),
 	username varchar(255),
 	password varchar(255),
-	nickname varchar(255),
-	cellphone varchar(255),
+	nickname varchar(255) default '',
+	cellphone varchar(255) default '',
 
-	data_bills longtext,
-	date_kinds_spending longtext,
-	data_kinds_income longtext,
-	data_kinds_borrowing longtext,
-	data_cards longtext,
+	data_bills longtext default '',
+	date_kinds_spending longtext default '',
+	data_kinds_income longtext default '',
+	data_kinds_borrowing longtext default '',
+	data_cards longtext default '',
 	
 	create_time bigint
 )";
-die_if(!query_sql($sql), "创建用户表失败" . mysql_error());
+query2($sql, "创建用户表失败");
 echo "创建用户表 users 成功\n";
-
 
 echo "\n初始化完毕，尽情享用吧！\n";
 ?>

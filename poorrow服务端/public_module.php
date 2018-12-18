@@ -302,6 +302,7 @@
 
 	/**
 	 * 如果表达式成立，则退出，输出 F 与 XML格式的错误原因
+	 * 用于强制退出程序的最后一步
 	 * @param  bool $b 表达式结果
 	 * @param  string $s 错误信息
 	 */
@@ -310,7 +311,7 @@
 		if ($b)
 		{
 			echo F . "\n";
-			die(XML($s, "RESON")); // <REASON>$s</REASON>
+			die(XML($s, "REASON")); // <REASON>$s</REASON>
 		}
 	}
 
@@ -389,7 +390,7 @@
 		return $con;
 	}
 
-	function query($sql, $err_s) // 查询语句
+	function query($sql, $err_s = "") // 查询语句
 	{
 		global $con, $is_connected;
 		if (!$is_connected)
@@ -438,20 +439,20 @@
 ?><?php // 字符串操作
 	function XML($str, $tag)
 	{
-		return "<" + $tag + ">" + $str + "</" + $tag + ">";
+		return "<" . $tag . ">" . $str . "</" . $tag . ">";
 	}
 
 	function getXML($str, $tag)
 	{
-		$left = "<" + $tag + ">";
-		$right = "</" + $tag + ">";
+		$left = "<" . $tag . ">";
+		$right = "</" . $tag . ">";
 		return getMid($str, $left, $right);
 	}
 
 	function getXMLs($str, $tag)
 	{
-		$left = "<" + $tag + ">";
-		$right = "</" + $tag + ">";
+		$left = "<" . $tag . ">";
+		$right = "</" . $tag . ">";
 		return getMid($str, $left, $right);
 	}
 

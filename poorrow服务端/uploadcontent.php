@@ -6,16 +6,18 @@ $password = seize0('password');
 check_account($userID, $password);
 
 // 上传文件文本到数据库
-$file_names = array('bills', 'cards',
+$fields = array('nickname',
+	'bills', 'cards',
 	'kinds_spending', 'kinds_income', 'kinds_borrowing' );
-$count = count($filenames);
+$count = count($fields);
 
 for ($i=0; $i < $count; $i++) {
-	$content = seize($file_names[$i]);
+	$field = $fields[$i]; // "${$fields[$i]}" 将变量名转换成字符串
+	$content = seize($fields[$i]);
 	if ($content)
 	{
-		$sql = "UPDATE users set ${$file_names[$i]} = '$content' where userID = '$userID'";
-		query($sql, "保存 ${$file_names[$i]} = $content 出错");
+		$sql = "UPDATE users set $field = '$content' where userID = '$userID'";
+		query($sql, "保存 $field = $content 出错");
 	}
 }
 

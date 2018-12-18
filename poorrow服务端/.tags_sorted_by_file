@@ -1,19 +1,17 @@
-file_names	downloadvals.php	/^$file_names = array('bills', 'cards',$/;"	v
-name	downloadvals.php	/^$name = seize0('filename');$/;"	v
-password	downloadvals.php	/^$password = seize0('password');$/;"	v
-row	downloadvals.php	/^	$row = row("SELECT $name from users where userID = '$userID'");$/;"	v
-userID	downloadvals.php	/^$userID = seize0('userID');$/;"	v
+file_names	downloadcontent.php	/^$file_names = array('bills', 'cards',$/;"	v
+name	downloadcontent.php	/^$name = seize0('filename');$/;"	v
+password	downloadcontent.php	/^$password = seize0('password');$/;"	v
+row	downloadcontent.php	/^	$row = row("SELECT $name from users where userID = '$userID'");$/;"	v
+userID	downloadcontent.php	/^$userID = seize0('userID');$/;"	v
 sql	install.php	/^$sql = "CREATE TABLE `users`$/;"	v
-canLogin	login.php	/^function canLogin($username, $password)$/;"	f
 nickname	login.php	/^$nickname = $row['nickname'];$/;"	v
 password	login.php	/^$password = seize0('password');$/;"	v
 row	login.php	/^$row = row($sql);$/;"	v
-sql	login.php	/^	$sql = "SELECT * from users where username = '$username' && password = '$password'";$/;"	v
 sql	login.php	/^$sql = "SELECT userID from users where username = '$username' && password = '$password'";$/;"	v
 userID	login.php	/^$userID = $row['userID'];$/;"	v
 username	login.php	/^$username = seize0('username');$/;"	v
-sql	poorrow_module.php	/^	$sql = "SELECT * from users where userID = '$userID' && password = '$password'";$/;"	v
-user_login	poorrow_module.php	/^function user_login($userID, $password)$/;"	f
+sql	poorrow_module.php	/^	$sql = "SELECT * from users where username = '$username' && password = '$password'";$/;"	v
+user_login	poorrow_module.php	/^function user_login($username, $password)$/;"	f
 F	public_module.php	/^	define("F", "<state>Bad<\/state>");$/;"	d
 LOW	public_module.php	/^	define("LOW", 100);$/;"	d
 MOD	public_module.php	/^	define("MOD", 886);$/;"	d
@@ -116,25 +114,16 @@ verify_encode	public_module.php	/^	function verify_encode() \/\/ 返回加密后
 verify_uncode	public_module.php	/^	function verify_uncode($s) \/\/ 解密$/;"	f
 version	public_module.php	/^		$version = seize0("version");$/;"	v
 version	public_module.php	/^	$version = seize("version");$/;"	v
-createUserID	register.php	/^function createUserID() \/\/ 生成独一无二的ID$/;"	f
 nickname	register.php	/^$nickname = seize('nickname');$/;"	v
 password	register.php	/^$password = seize0('password');$/;"	v
-result	register.php	/^		$result = mysql_query($sql);$/;"	v
-row	register.php	/^		$row = mysql_fetch_array($result);$/;"	v
-sql	register.php	/^		$sql = "select * from users where userID='$userID'";$/;"	v
-sql	register.php	/^	$sql = "SELECT * from users where username = '$username'";$/;"	v
-sql	register.php	/^$sql = "INSERT INTO users (userID, username, password) values ('$userID', 'username', 'password')";$/;"	v
-userID	register.php	/^		$userID = rand(100000000, 999999999);$/;"	v
-userID	register.php	/^	$userID = 0;$/;"	v
-userID	register.php	/^$userID = createUserID();$/;"	v
+userID	register.php	/^do{ $userID = rand(100000000, 999999999); }$/;"	v
 username	register.php	/^$username = seize0('username');$/;"	v
-usernameExists	register.php	/^function usernameExists($username)$/;"	f
-content	uploadvals.php	/^	$content = seize($file_names[$i]);$/;"	v
-count	uploadvals.php	/^$count = count($filenames);$/;"	v
-file_names	uploadvals.php	/^$file_names = array('bills', 'cards',$/;"	v
-password	uploadvals.php	/^$password = seize0('password');$/;"	v
-sql	uploadvals.php	/^		$sql = "UPDATE users set ${$file_names[$i]} = '$content' where userID = '$userID'";$/;"	v
-userID	uploadvals.php	/^$userID = seize0('userID');$/;"	v
+content	uploadcontent.php	/^	$content = seize($file_names[$i]);$/;"	v
+count	uploadcontent.php	/^$count = count($filenames);$/;"	v
+file_names	uploadcontent.php	/^$file_names = array('bills', 'cards',$/;"	v
+password	uploadcontent.php	/^$password = seize0('password');$/;"	v
+sql	uploadcontent.php	/^		$sql = "UPDATE users set ${$file_names[$i]} = '$content' where userID = '$userID'";$/;"	v
+userID	uploadcontent.php	/^$userID = seize0('userID');$/;"	v
 !_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
 !_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
 !_TAG_PROGRAM_VERSION	5.8	//

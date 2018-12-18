@@ -23,21 +23,19 @@ blank	.\public_module.php	/^	function seize0($s, $blank = 0) \/\/ 获取必须�
 blank	.\public_module.php	/^	function seize1($s, $blank = 0) \/\/ 获取一个表单$/;"	v
 blank	.\public_module.php	/^	function seize2($s, &$a, $blank = 0) \/\/ 获取表单并引用赋值$/;"	v
 blank	.\public_module.php	/^	function seizeval($s, $blank = 0) \/\/ 获取一个非空表单，否则为NULL$/;"	v
-canLogin	.\login.php	/^function canLogin($username, $password)$/;"	f
 check_account	.\public_module.php	/^	function check_account($userID, $password)$/;"	f
 con	.\public_module.php	/^		$con = mysql_connect(MySQL_servername, MySQL_username, MySQL_password);$/;"	v
 con	.\public_module.php	/^	$con = NULL;$/;"	v
 connect_sql	.\public_module.php	/^	function connect_sql() \/\/ 连接数据库$/;"	f
-content	.\uploadvals.php	/^	$content = seize($file_names[$i]);$/;"	v
-count	.\uploadvals.php	/^$count = count($filenames);$/;"	v
-createUserID	.\register.php	/^function createUserID() \/\/ 生成独一无二的ID$/;"	f
+content	.\uploadcontent.php	/^	$content = seize($file_names[$i]);$/;"	v
+count	.\uploadcontent.php	/^$count = count($filenames);$/;"	v
 die_if	.\public_module.php	/^	function die_if($b, $s = "") \/\/ 必须OK，否则结束程序$/;"	f
 die_if2	.\public_module.php	/^	function die_if2($b, $s = "")$/;"	f
 e	.\public_module.php	/^	function printres($b, $e="", $t="") \/\/ 输出结果，OK \/ Bad$/;"	v
 enull	.\public_module.php	/^	function enull($s) \/\/ 表单为空时也是NULL$/;"	f
 err	.\public_module.php	/^	function query2($sql, $err = "")$/;"	v
-file_names	.\downloadvals.php	/^$file_names = array('bills', 'cards',$/;"	v
-file_names	.\uploadvals.php	/^$file_names = array('bills', 'cards',$/;"	v
+file_names	.\downloadcontent.php	/^$file_names = array('bills', 'cards',$/;"	v
+file_names	.\uploadcontent.php	/^$file_names = array('bills', 'cards',$/;"	v
 format_input	.\public_module.php	/^	function format_input($s, $blank = 0) \/\/ 格式化输入内容$/;"	f
 fuck	.\public_module.php	/^	function fuck($s = "") \/\/ 全部操作退出$/;"	f
 getMid	.\public_module.php	/^	function getMid($str, $left, $right)$/;"	f
@@ -63,15 +61,15 @@ l	.\public_module.php	/^		$l = (int)(time() % MOD2); \/\/ 前 10位数$/;"	v
 left	.\public_module.php	/^		$left = "<" + $tag + ">";$/;"	v
 m	.\public_module.php	/^		$m = $r * $r % MOD * $r * $version % MOD + LOW;$/;"	v
 m	.\public_module.php	/^		$m = (int)$s_m;$/;"	v
-name	.\downloadvals.php	/^$name = seize0('filename');$/;"	v
+name	.\downloadcontent.php	/^$name = seize0('filename');$/;"	v
 nickname	.\login.php	/^$nickname = $row['nickname'];$/;"	v
 nickname	.\register.php	/^$nickname = seize('nickname');$/;"	v
 now	.\public_module.php	/^		$now = time() % MOD2; \/\/ 10位时间戳后半部分（不含秒）$/;"	v
 num	.\public_module.php	/^			$num = func_num_args();$/;"	v
-password	.\downloadvals.php	/^$password = seize0('password');$/;"	v
+password	.\downloadcontent.php	/^$password = seize0('password');$/;"	v
 password	.\login.php	/^$password = seize0('password');$/;"	v
 password	.\register.php	/^$password = seize0('password');$/;"	v
-password	.\uploadvals.php	/^$password = seize0('password');$/;"	v
+password	.\uploadcontent.php	/^$password = seize0('password');$/;"	v
 php_end	.\public_module.php	/^	function php_end() \/\/ 结束操作：关闭数据库$/;"	f
 php_start	.\public_module.php	/^	function php_start() \/\/ 开启操作：安全验证$/;"	f
 pos	.\public_module.php	/^			$pos = strpos($str, $left, $pos2);$/;"	v
@@ -92,14 +90,12 @@ r	.\public_module.php	/^		$r = (int)$s_r;$/;"	v
 r	.\public_module.php	/^		$r = (int)($t1*1000); \/\/ 后 3位数$/;"	v
 res	.\public_module.php	/^		$res = $now - $ans < 10 && $now - $ans > -10;$/;"	v
 result	.\public_module.php	/^		$result = mysql_query($sql, $con);$/;"	v
-result	.\register.php	/^		$result = mysql_query($sql);$/;"	v
 reverify	.\public_module.php	/^	function reverify() \/\/ 发送加密后的验证码$/;"	f
 right	.\public_module.php	/^		$right = "<\/" + $tag + ">";$/;"	v
-row	.\downloadvals.php	/^	$row = row("SELECT $name from users where userID = '$userID'");$/;"	v
+row	.\downloadcontent.php	/^	$row = row("SELECT $name from users where userID = '$userID'");$/;"	v
 row	.\login.php	/^$row = row($sql);$/;"	v
 row	.\public_module.php	/^			$row = mysql_fetch_array($result);$/;"	v
 row	.\public_module.php	/^	function row($sql) \/\/ 查询一行，数据是否存在$/;"	f
-row	.\register.php	/^		$row = mysql_fetch_array($result);$/;"	v
 s	.\public_module.php	/^			$s = trim($s); \/\/ 去空格$/;"	v
 s	.\public_module.php	/^		$s = htmlspecialchars($s); \/\/ 防注入$/;"	v
 s	.\public_module.php	/^		$s = stripslashes($s); \/\/ 去转义$/;"	v
@@ -115,26 +111,19 @@ seize2	.\public_module.php	/^	function seize2($s, &$a, $blank = 0) \/\/ 获取�
 seizeor	.\public_module.php	/^	function seizeor() \/\/ 多个表单有一个就行了$/;"	f
 seizeval	.\public_module.php	/^	function seizeval($s, $blank = 0) \/\/ 获取一个非空表单，否则为NULL$/;"	f
 sql	.\install.php	/^$sql = "CREATE TABLE `users`$/;"	v
-sql	.\login.php	/^	$sql = "SELECT * from users where username = '$username' && password = '$password'";$/;"	v
 sql	.\login.php	/^$sql = "SELECT userID from users where username = '$username' && password = '$password'";$/;"	v
-sql	.\poorrow_module.php	/^	$sql = "SELECT * from users where userID = '$userID' && password = '$password'";$/;"	v
+sql	.\poorrow_module.php	/^	$sql = "SELECT * from users where username = '$username' && password = '$password'";$/;"	v
 sql	.\public_module.php	/^		$sql = "select * from users where userID = '$userID' && password = '$password'";$/;"	v
-sql	.\register.php	/^		$sql = "select * from users where userID='$userID'";$/;"	v
-sql	.\register.php	/^	$sql = "SELECT * from users where username = '$username'";$/;"	v
-sql	.\register.php	/^$sql = "INSERT INTO users (userID, username, password) values ('$userID', 'username', 'password')";$/;"	v
-sql	.\uploadvals.php	/^		$sql = "UPDATE users set ${$file_names[$i]} = '$content' where userID = '$userID'";$/;"	v
+sql	.\uploadcontent.php	/^		$sql = "UPDATE users set ${$file_names[$i]} = '$content' where userID = '$userID'";$/;"	v
 time	.\public_module.php	/^		$time = date("y-m-d h:i:s", time());$/;"	v
-userID	.\downloadvals.php	/^$userID = seize0('userID');$/;"	v
+userID	.\downloadcontent.php	/^$userID = seize0('userID');$/;"	v
 userID	.\login.php	/^$userID = $row['userID'];$/;"	v
 userID	.\public_module.php	/^	$userID = "";$/;"	v
-userID	.\register.php	/^		$userID = rand(100000000, 999999999);$/;"	v
-userID	.\register.php	/^	$userID = 0;$/;"	v
-userID	.\register.php	/^$userID = createUserID();$/;"	v
-userID	.\uploadvals.php	/^$userID = seize0('userID');$/;"	v
-user_login	.\poorrow_module.php	/^function user_login($userID, $password)$/;"	f
+userID	.\register.php	/^do{ $userID = rand(100000000, 999999999); }$/;"	v
+userID	.\uploadcontent.php	/^$userID = seize0('userID');$/;"	v
+user_login	.\poorrow_module.php	/^function user_login($username, $password)$/;"	f
 username	.\login.php	/^$username = seize0('username');$/;"	v
 username	.\register.php	/^$username = seize0('username');$/;"	v
-usernameExists	.\register.php	/^function usernameExists($username)$/;"	f
 veri_code	.\public_module.php	/^		$veri_code = seize0("vericode");$/;"	v
 verify	.\public_module.php	/^	function verify() \/\/ 开始验证，版本号是必须的$/;"	f
 verify_encode	.\public_module.php	/^	function verify_encode() \/\/ 返回加密后的验证码$/;"	f
