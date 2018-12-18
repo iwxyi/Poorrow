@@ -1,4 +1,4 @@
-package com.iwxyi;
+package com.iwxyi.BillsFragment;
 
 import android.content.Context;
 import android.net.Uri;
@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.iwxyi.R;
 
 public class BlankDataFragment extends Fragment {
 

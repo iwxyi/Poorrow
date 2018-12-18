@@ -1,4 +1,4 @@
-package com.iwxyi;
+package com.iwxyi.Utils;
 
 public class UserInfo {
     public static String userID;

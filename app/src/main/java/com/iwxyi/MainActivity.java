@@ -20,10 +20,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.iwxyi.BillsFragment.BillsFragment;
+import com.iwxyi.BillsFragment.BlankDataFragment;
 import com.iwxyi.BillsFragment.DummyContent;
 import com.iwxyi.Record.RecordActivity;
 import com.iwxyi.Utils.FileUtil;
 import com.iwxyi.Utils.SettingsUtil;
+import com.iwxyi.Utils.UserInfo;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, BlankDataFragment.OnFragmentInteractionListener,
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity
             UserInfo.logined = true;
 
             if ("".equals(UserInfo.nickname))
-                mNickTv.setText("穷光蛋");
+                mNickTv.setText(UserInfo.username);
             else
                 mNickTv.setText(UserInfo.nickname);
             if ("".equals(UserInfo.nickname))
