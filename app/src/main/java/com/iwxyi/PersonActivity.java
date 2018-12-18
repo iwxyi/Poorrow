@@ -8,7 +8,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -82,7 +84,36 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private String inputDialog(String title, String def) {
-        final EditText et = new EditText(this);
+        ;
+        return "";
+    }
+
+    private String inputDialog3(String title, String def) {
+        final String[] result = {""};
+        final EditDialog editDialog = new EditDialog(this);
+        editDialog.setTitle(title);
+        editDialog.setYesOnclickListener("确定", new EditDialog.onYesOnclickListener() {
+            @Override
+            public void onYesClick(String phone) {
+                result[0] = phone;
+                    editDialog.dismiss();
+                    //让软键盘隐藏
+                    InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(mCellphoneTv.getApplicationWindowToken(), 0);
+
+            }
+        });
+        editDialog.setNoOnclickListener("取消", new EditDialog.onNoOnclickListener() {
+            @Override
+            public void onNoClick() {
+                editDialog.dismiss();
+            }
+        });
+        editDialog.show();
+        return result[0];
+    }
+
+    private String inputDialog2(String title, String def) {final EditText et = new EditText(this);
         et.setText(def);
         final String[] result = {""};
         new AlertDialog.Builder(this)
@@ -153,6 +184,11 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
                 }
                 break;
             case R.id.btn_signout:// TODO 18/12/18
+                UserInfo.logined = false;
+                UserInfo.userID = "";
+                SettingsUtil.setVal(getApplicationContext(), "userID", "");
+                Toast.makeText(this, "您已成功退出登录", Toast.LENGTH_SHORT).show();
+                finish();
                 break;
             default:
                 break;
