@@ -38,7 +38,7 @@ public class SqlUtil {
         String s = FileUtil.readTextVals(field + ".txt");
         Log.i("==== backup to sql:" + field, s);
         s = java.net.URLEncoder.encode(s);
-        db.execSQL("UPDATE poorrow set content = '" + s + "'");
+        db.execSQL("UPDATE poorrow set content = '" + s + "' where field = '" + field + "'");
     }
 
     public static void restoreFromSql() {

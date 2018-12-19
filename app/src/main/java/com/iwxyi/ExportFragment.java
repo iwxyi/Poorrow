@@ -139,7 +139,7 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.btn_toSql:
                 backupToSql();
-                Toast.makeText(getContext(), "备份到数据库成功", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "备份到数据库成功\n可使用钛备份等工具统一保存", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_fromSql:
                 resotreFromSql();

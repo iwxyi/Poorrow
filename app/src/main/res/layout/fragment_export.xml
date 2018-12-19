@@ -19,7 +19,7 @@
 
         <Button
             android:id="@+id/btn_toSql"
-            android:text="备份到到数据库"
+            android:text="备份到数据库"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
