@@ -35,4 +35,6 @@ dependencies {
 
     //implementation 'com.afollestad.material-dialogs:core:2.0.0-rc3'   // MD 风格对话框核心
     //implementation 'com.afollestad.material-dialogs:input:2.0.0-rc3'  // MD 风格输入对话框
+
+    compile 'com.github.f0ris.sweetalert:library:1.5.1'
 }

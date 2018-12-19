@@ -1,6 +1,7 @@
 package com.iwxyi;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,6 +31,8 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,6 +55,8 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
     private String mParam1;
     private String mParam2;
 
+    private SweetAlertDialog pDialog;
+
     private OnExportFragmentInteractionListener mListener;
     private Button mToSqlBtn;
     private Button mFromSqlBtn;
@@ -63,7 +68,7 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initView(@NonNull final View itemView) {
-
+        pDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
         mToSqlBtn = (Button) itemView.findViewById(R.id.btn_toSql);
         mToSqlBtn.setOnClickListener(this);
         mFromSqlBtn = (Button) itemView.findViewById(R.id.btn_fromSql);
@@ -146,12 +151,20 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
                 Toast.makeText(getContext(), "从数据库还原成功", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_toCloud:
+                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                pDialog.setTitleText("上传中");
+                pDialog.setCustomImage(R.drawable.ic_dan);
+                pDialog.setCancelable(false);
+                pDialog.show();
                 uploadAll();
-                Toast.makeText(getContext(), "开始上传", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_fromCloud:
+                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                pDialog.setTitleText("下载中 0/5 ...");
+                pDialog.setCustomImage(R.drawable.ic_dan);
+                pDialog.setCancelable(false);
+                pDialog.show();
                 downloadAll();
-                Toast.makeText(getContext(), "开始下载", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;
@@ -171,9 +184,11 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
             if (msg.what == SYNC_RESULT) {
                 String s = (String) msg.obj;
                 Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
+                pDialog.hide();
             } else if (msg.what == SYNC_PROCESS) {
                 int process = msg.arg1;
                 //Toast.makeText(getContext(), ""+process, Toast.LENGTH_SHORT).show();
+                pDialog.setTitle("下载中 " + (process+1) + "/5 ...");
             } else if (msg.what == SYNC_WRONG) {
                 Toast.makeText(getContext(), (String) msg.obj, Toast.LENGTH_SHORT).show();
             }
