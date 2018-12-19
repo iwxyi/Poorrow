@@ -24,6 +24,7 @@ import com.iwxyi.BillsFragment.BillsFragment;
 import com.iwxyi.BillsFragment.BlankDataFragment;
 import com.iwxyi.BillsFragment.DummyContent;
 import com.iwxyi.Record.RecordActivity;
+import com.iwxyi.Utils.DateTimeUtil;
 import com.iwxyi.Utils.FileUtil;
 import com.iwxyi.Utils.SettingsUtil;
 import com.iwxyi.Utils.UserInfo;
@@ -62,6 +63,11 @@ public class MainActivity extends AppCompatActivity
         FileUtil.ensureFolder();
 
         readUserInfo();
+
+        if (SettingsUtil.getLong(this, "firstStartTime") == 0) {
+            long timestamp = System.currentTimeMillis();
+            SettingsUtil.setVal(this, "firstStartTime", timestamp);
+        }
     }
 
     private void readUserInfo() {

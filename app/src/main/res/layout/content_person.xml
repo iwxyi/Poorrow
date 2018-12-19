@@ -84,10 +84,30 @@
             android:layout_height="1dp"
             android:background="@color/colorLightGray" />
 
+        <TextView
+            android:id="@+id/tv_usedDay"
+            android:text="您已经使用了 ？ 天"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:layout_marginBottom="3dp"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_recordCount"
+            android:text="共有账单记录 ？ 条"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:textSize="18sp" />
+
         <Button
             android:id="@+id/btn_signout"
             android:text="退出登录"
             android:background="@color/colorPrimaryDark"
+            android:textColor="@color/colorWhite"
             android:layout_marginTop="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

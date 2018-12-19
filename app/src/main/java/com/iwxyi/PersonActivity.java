@@ -10,16 +10,15 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.iwxyi.BillsFragment.DummyContent;
 import com.iwxyi.Utils.FileUtil;
 import com.iwxyi.Utils.Global;
 import com.iwxyi.Utils.SettingsUtil;
@@ -33,6 +32,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.regex.Pattern;
 
 public class PersonActivity extends AppCompatActivity implements View.OnClickListener {
@@ -46,6 +46,9 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
     private TextView mSignatureTv;
     private TextView mCellphoneTv;
     private Button mSignoutBtn;
+    private TextView mUsedDayTv;
+    private TextView mRecordCountTv;
+    private FloatingActionButton mFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +87,18 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
         mPasswordTv.setText("密　码：" + "********");
         mSignatureTv.setText("签　名：" + UserInfo.signature);
         mCellphoneTv.setText("手机号：" + UserInfo.cellphone);
+
+        int day = 1;
+        long first = SettingsUtil.getLong(this, "firstStartTime");
+        if (first > 0) {
+            long t = System.currentTimeMillis();
+            long delta = t - first;
+            double res = delta / 1000 / 60 / 60 / 24;
+            day = (int) (res + 1);
+        }
+        mUsedDayTv.setText("您已经使用了 " + day + "天");
+
+        mRecordCountTv.setText("共有账单记录 " + DummyContent.ITEMS.size() + " 条");
     }
 
     private void initView() {
@@ -99,19 +114,24 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
         mCellphoneTv.setOnClickListener(this);
         mSignoutBtn = (Button) findViewById(R.id.btn_signout);
         mSignoutBtn.setOnClickListener(this);
+        mUsedDayTv = (TextView) findViewById(R.id.tv_usedDay);
+        mUsedDayTv.setOnClickListener(this);
+        mRecordCountTv = (TextView) findViewById(R.id.tv_recordCount);
+        mFab = (FloatingActionButton) findViewById(R.id.fab);
+        mFab.setOnClickListener(this);
     }
 
     private String inputDialog(final String aim, String title, String def) {
         final String[] result = new String[1];
         LayoutInflater factory = LayoutInflater.from(PersonActivity.this);//提示框
         final View view = factory.inflate(R.layout.editbox, null);//这里必须是final的
-        final EditText edit=(EditText)view.findViewById(R.id.editText);//获得输入框对象
+        final EditText edit = (EditText) view.findViewById(R.id.editText);//获得输入框对象
         edit.setText(def);
         new AlertDialog.Builder(PersonActivity.this)
                 .setTitle(title)//提示框标题
                 .setView(view)
                 .setPositiveButton("确定",//提示框的两个按钮
-                        new android.content.DialogInterface.OnClickListener() {
+                        new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog,
                                                 int which) {
@@ -124,7 +144,8 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
         return result[0];
     }
 
-    private String inputDialog2(String title, String def) {final EditText et = new EditText(this);
+    private String inputDialog2(String title, String def) {
+        final EditText et = new EditText(this);
         et.setText(def);
         final String[] result = {""};
         new AlertDialog.Builder(this)
@@ -173,6 +194,9 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
                 Toast.makeText(this, "您已成功退出登录", Toast.LENGTH_SHORT).show();
                 setResult(RESULT_CODE_PERSON_OK);
                 finish();
+                break;
+            case R.id.fab:
+                syncAll();
                 break;
             default:
                 break;
@@ -235,7 +259,7 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             if (msg.what == SYNC_RESULT) {
-                String s = (String)msg.obj;
+                String s = (String) msg.obj;
                 //Toast.makeText(PersonActivity.this, reason, Toast.LENGTH_SHORT).show();
                 Snackbar.make(findViewById(R.id.fab), s, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
@@ -267,8 +291,7 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
                         msg.what = SYNC_RESULT;
                         if (!"OK".equals(StringUtil.getXml(content, "STATE"))) {
                             msg.obj = StringUtil.getXml(content, "REASON");
-                        }
-                        else {
+                        } else {
                             msg.obj = "上传成功";
                         }
                         handler.sendMessage(msg);
@@ -288,12 +311,12 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
                 String path = Global.URL_DOMAIN + "uploadcontent.php";
                 path += "?userID=" + UserInfo.userID + "&password=" + UserInfo.password;
 
-                path += "&bills=" + java.net.URLEncoder.encode(FileUtil.readTextVals("bills.txt"));
-                path += "&cards=" + java.net.URLEncoder.encode(FileUtil.readTextVals("cards.txt"));
-                path += "&kinds_spending=" + java.net.URLEncoder.encode(FileUtil.readTextVals("kinds_spending.txt"));
-                path += "&kinds_income=" + java.net.URLEncoder.encode(FileUtil.readTextVals("kinds_income.txt"));
-                path += "&kinds_borrowing=" + java.net.URLEncoder.encode(FileUtil.readTextVals("kinds_borrowing.txt"));
-Log.i("====sync", path);
+                path += "&bills=" + URLEncoder.encode(FileUtil.readTextVals("bills.txt"));
+                path += "&cards=" + URLEncoder.encode(FileUtil.readTextVals("cards.txt"));
+                path += "&kinds_spending=" + URLEncoder.encode(FileUtil.readTextVals("kinds_spending.txt"));
+                path += "&kinds_income=" + URLEncoder.encode(FileUtil.readTextVals("kinds_income.txt"));
+                path += "&kinds_borrowing=" + URLEncoder.encode(FileUtil.readTextVals("kinds_borrowing.txt"));
+                Log.i("====sync", path);
                 URL url = null;
                 try {
                     url = new URL(path);
@@ -312,8 +335,7 @@ Log.i("====sync", path);
                         msg.what = SYNC_RESULT;
                         if (!"OK".equals(StringUtil.getXml(content, "STATE"))) {
                             msg.obj = StringUtil.getXml(content, "REASON");
-                        }
-                        else {
+                        } else {
                             msg.obj = "上传成功";
                         }
                         handler.sendMessage(msg);

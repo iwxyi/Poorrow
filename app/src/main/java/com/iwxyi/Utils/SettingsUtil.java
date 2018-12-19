@@ -27,11 +27,26 @@ public class SettingsUtil {
         edit.commit();
     }
 
+    public static void setVal(Context ct, String key, long val) {
+        SharedPreferences sp = ct.getSharedPreferences("config", 0);
+        SharedPreferences.Editor edit = sp.edit();
+        edit.putLong(key, val);
+        edit.commit();
+    }
+
     public static int getInt(Context ct, String key) {
         if (ct == null) {
             return 0;
         }
         SharedPreferences sp = ct.getSharedPreferences("config", 0);
         return sp.getInt(key, 0);
+    }
+
+    public static long getLong(Context ct, String key) {
+        if (ct == null) {
+            return 0;
+        }
+        SharedPreferences sp = ct.getSharedPreferences("config", 0);
+        return sp.getLong(key, 0);
     }
 }
