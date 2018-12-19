@@ -13,7 +13,7 @@ import com.iwxyi.R;
 
 public class BlankDataFragment extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
+    private OnBlankFragmentInteractionListener mListener;
 
     public BlankDataFragment() {
         // Required empty public constructor
@@ -48,18 +48,18 @@ public class BlankDataFragment extends Fragment {
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onTvClicked(uri);
+            mListener.onBlankTvClicked(uri);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnBlankFragmentInteractionListener) {
+            mListener = (OnBlankFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnPlusOneButtonFragmentInteractionListener");
         }
     }
 
@@ -69,7 +69,7 @@ public class BlankDataFragment extends Fragment {
         mListener = null;
     }
 
-    public interface OnFragmentInteractionListener {
-        void onTvClicked(Uri uri);
+    public interface OnBlankFragmentInteractionListener {
+        void onBlankTvClicked(Uri uri);
     }
 }

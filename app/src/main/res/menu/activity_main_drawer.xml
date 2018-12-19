@@ -11,7 +11,7 @@
         <item
             android:id="@+id/nav_balance"
             android:icon="@drawable/ic_card"
-            android:title="余额查询" />
+            android:title="财务统计" />
         <item
             android:id="@+id/nav_future"
             android:icon="@drawable/ic_eye"

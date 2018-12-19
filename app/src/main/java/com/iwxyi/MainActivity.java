@@ -13,12 +13,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.iwxyi.BillsFragment.BillsFragment;
 import com.iwxyi.BillsFragment.BlankDataFragment;
@@ -29,8 +29,8 @@ import com.iwxyi.Utils.SettingsUtil;
 import com.iwxyi.Utils.UserInfo;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, BlankDataFragment.OnFragmentInteractionListener,
-                BillsFragment.OnListFragmentInteractionListener{
+        implements NavigationView.OnNavigationItemSelectedListener, BlankDataFragment.OnBlankFragmentInteractionListener,
+                BillsFragment.OnListFragmentInteractionListener, PlusOneButtonFragment.OnPlusOneButtonFragmentInteractionListener {
 
     private final int REQUEST_CODE_RECORD = 1;
     private final int REQUEST_CODE_MODIFY = 2;
@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity
             UserInfo.password = SettingsUtil.getVal(getApplicationContext(), "password");
             UserInfo.nickname = SettingsUtil.getVal(getApplicationContext(), "nickname");
             UserInfo.signature = SettingsUtil.getVal(getApplicationContext(), "signature");
+            UserInfo.cellphone = SettingsUtil.getVal(getApplicationContext(), "cellphone");
             UserInfo.logined = true;
 
             if ("".equals(UserInfo.nickname))
@@ -183,7 +184,9 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction ft = fm.beginTransaction();
         ft.add(R.id.frameLayout, BlankDataFragment.newInstance());
         ft.add(R.id.frameLayout, BillsFragment.newInstance(columns));
+        ft.add(R.id.frameLayout, PlusOneButtonFragment.newInstance("", ""));
         ft.hide(BillsFragment.newInstance(columns));
+        ft.hide(PlusOneButtonFragment.newInstance("",""));
         ft.commit();
 
         //switchFragment(BillsFragment.newInstance(1));
@@ -232,7 +235,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_future) {
 
         } else if (id == R.id.nav_export) {
-
+            switchFragment(ExportFragment.newInstance("", ""));
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
@@ -293,7 +296,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onTvClicked(Uri uri) {
+    public void onBlankTvClicked(Uri uri) {
         startActivityForResult(new Intent(getApplicationContext(), RecordActivity.class), REQUEST_CODE_RECORD);
+    }
+
+    @Override
+    public void onPlusOneFragmentInteraction(Uri uri) {
+        Toast.makeText(this, "+1", Toast.LENGTH_SHORT).show();
     }
 }

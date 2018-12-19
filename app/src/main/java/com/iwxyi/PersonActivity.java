@@ -186,7 +186,7 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
                 UserInfo.nickname = s;
                 SettingsUtil.setVal(getApplicationContext(), "nickname", s);
                 setResult(RESULT_CODE_PERSON_OK);
-                setTitle(s);
+                this.setTitle(s);
                 updateContent("nickname", s);
             } else {
                 Toast.makeText(this, "请输入正确的格式", Toast.LENGTH_SHORT).show();
@@ -288,11 +288,11 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
                 String path = Global.URL_DOMAIN + "uploadcontent.php";
                 path += "?userID=" + UserInfo.userID + "&password=" + UserInfo.password;
 
-                path += "&bills=" + FileUtil.readTextVals("bills.txt");
-                path += "&cards=" + FileUtil.readTextVals("cards.txt");
-                path += "&kinds_spending=" + FileUtil.readTextVals("kinds_spending.txt");
-                path += "&kinds_income=" + FileUtil.readTextVals("kinds_income.txt");
-                path += "&kinds_borrowing=" + FileUtil.readTextVals("kinds_borrowing.txt");
+                path += "&bills=" + java.net.URLEncoder.encode(FileUtil.readTextVals("bills.txt"));
+                path += "&cards=" + java.net.URLEncoder.encode(FileUtil.readTextVals("cards.txt"));
+                path += "&kinds_spending=" + java.net.URLEncoder.encode(FileUtil.readTextVals("kinds_spending.txt"));
+                path += "&kinds_income=" + java.net.URLEncoder.encode(FileUtil.readTextVals("kinds_income.txt"));
+                path += "&kinds_borrowing=" + java.net.URLEncoder.encode(FileUtil.readTextVals("kinds_borrowing.txt"));
 Log.i("====sync", path);
                 URL url = null;
                 try {
