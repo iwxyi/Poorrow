@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardElevation="1dp"
     android:layout_margin="8dp"
     android:layout_marginLeft="3dp"
     android:layout_marginRight="3dp"
+    app:cardElevation="1dp"
     app:cardCornerRadius="2dp"
     android:foreground="?android:attr/selectableItemBackground">
 

@@ -30,7 +30,8 @@ import com.iwxyi.Utils.UserInfo;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, BlankDataFragment.OnBlankFragmentInteractionListener,
-                BillsFragment.OnListFragmentInteractionListener, PlusOneButtonFragment.OnPlusOneButtonFragmentInteractionListener {
+                BillsFragment.OnListFragmentInteractionListener, PlusOneButtonFragment.OnPlusOneButtonFragmentInteractionListener,
+                ExportFragment.OnExportFragmentInteractionListener{
 
     private final int REQUEST_CODE_RECORD = 1;
     private final int REQUEST_CODE_MODIFY = 2;
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity
     private final int RESULT_CODE_LOGIN_OK  = 103;
     private final int RESULT_CODE_PERSON_OK = 104;
     private int columns = 1; // 实现列表多列形式
+
+    private static int currentFragmentIndex = 0;
 
     private Fragment currentFragment = new Fragment();
     //private BlankDataFragment blankDataFragment = BlankDataFragment.newInstance();
@@ -180,16 +183,18 @@ public class MainActivity extends AppCompatActivity
         // 初始化碎片
         columns = SettingsUtil.getInt(getApplicationContext(), "columns");
         if (columns < 1) columns = 1; // 读取保存的列数
-        FragmentManager fm = getSupportFragmentManager();
+        /*FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.add(R.id.frameLayout, BlankDataFragment.newInstance());
         ft.add(R.id.frameLayout, BillsFragment.newInstance(columns));
         ft.add(R.id.frameLayout, PlusOneButtonFragment.newInstance("", ""));
+        ft.add(R.id.frameLayout, ExportFragment.newInstance("", ""));
         ft.hide(BillsFragment.newInstance(columns));
         ft.hide(PlusOneButtonFragment.newInstance("",""));
-        ft.commit();
+        ft.hide(ExportFragment.newInstance("",""));
+        ft.commit();*/
 
-        //switchFragment(BillsFragment.newInstance(1));
+        switchFragment(BillsFragment.newInstance(1));
     }
 
     @Override
@@ -228,14 +233,18 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_history) {
             switchFragment(BillsFragment.newInstance(1));
-            if (DummyContent.ITEMS.size() == 0)
+            currentFragmentIndex = 1;
+            if (DummyContent.ITEMS.size() == 0) {
                 switchFragment(BlankDataFragment.newInstance());
+                currentFragmentIndex = 0;
+            }
         } else if (id == R.id.nav_balance) {
-
+            currentFragmentIndex = 2;
         } else if (id == R.id.nav_future) {
-
+            currentFragmentIndex = 3;
         } else if (id == R.id.nav_export) {
             switchFragment(ExportFragment.newInstance("", ""));
+            currentFragmentIndex = 4;
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
@@ -249,7 +258,7 @@ public class MainActivity extends AppCompatActivity
 
     private void switchFragment(android.support.v4.app.Fragment fragment) {
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        /*FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if (!fragment.isAdded()) {
             if (currentFragment != null) {
                 transaction.hide(currentFragment);
@@ -260,22 +269,24 @@ public class MainActivity extends AppCompatActivity
                     .show(fragment);
         }
         currentFragment = fragment;
-        transaction.commitAllowingStateLoss();
+        transaction.commitAllowingStateLoss();*/
 
-        /*// 隐藏现有的Fragment避免显示重叠
+        // 隐藏现有的Fragment避免显示重叠
         for (android.support.v4.app.Fragment frag : getSupportFragmentManager().getFragments())
             getSupportFragmentManager().beginTransaction().hide(frag).commitAllowingStateLoss();// commit 会导致错误
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frameLayout, fragment, "history").commitAllowingStateLoss();*/
+                .replace(R.id.frameLayout, fragment, "history").commitAllowingStateLoss();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_CODE_RECORD_OK) { // 添加账单结束
             //switchFragment(billsFragment);
-            switchFragment(BillsFragment.newInstance(columns));
+            if (currentFragmentIndex != 1)
+                switchFragment(BillsFragment.newInstance(columns));
         } else if (resultCode == RESULT_CODE_MODIFY_OK) { // 修改账单。与添加唯一不同的是保留滚动位置
-            switchFragment(BillsFragment.newInstance(columns));
+            if (currentFragmentIndex != 1)
+                switchFragment(BillsFragment.newInstance(columns));
         } else if (resultCode == RESULT_CODE_LOGIN_OK) {
             readUserInfo();
         } else if (resultCode == RESULT_CODE_PERSON_OK) {
@@ -303,5 +314,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onPlusOneFragmentInteraction(Uri uri) {
         Toast.makeText(this, "+1", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onExportFragmentInteraction(Uri uri) {
+
     }
 }

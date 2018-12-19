@@ -3,12 +3,72 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ExportFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ExportFragment"
+    android:layout_gravity="center">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical"
+        android:layout_margin="15dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+
+        <Button
+            android:id="@+id/btn_toSql"
+            android:text="备份到到数据库"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="20dp"
+            android:textSize="20sp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/colorWhite"/>
+
+        <Button
+            android:id="@+id/btn_fromSql"
+            android:text="从数据库还原"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="20dp"
+            android:textSize="20sp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/colorWhite" />
+
+        <Button
+            android:id="@+id/btn_toCloud"
+            android:text="备份到云端"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="20dp"
+            android:textSize="20sp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/colorWhite" />
+
+        <Button
+            android:id="@+id/btn_fromCloud"
+            android:text="从云端还原"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="20dp"
+            android:textSize="20sp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/colorWhite" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+
+    </LinearLayout>
 
 </FrameLayout>
