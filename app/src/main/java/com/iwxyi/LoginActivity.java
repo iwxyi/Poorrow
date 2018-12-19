@@ -17,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -362,12 +363,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         private Boolean parseLoginRegister(String content) {
+            Log.i("====parse login register:", content);
             if (!"OK".equals(StringUtil.getXml(content, "STATE")))
                 return false;
             if ("login".equals(StringUtil.getXml(content, "KIND"))) {
                 UserInfo.isNew = false;
                 UserInfo.nickname = StringUtil.getXml(content, "NICKNAME");
                 UserInfo.signature = StringUtil.getXml(content, "SIGNATURE");
+                UserInfo.cellphone = StringUtil.getXml(content, "CELLPHONE");
             } else {
                 UserInfo.isNew = true;
                 UserInfo.nickname = "";
