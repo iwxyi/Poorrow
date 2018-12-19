@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,10 +21,10 @@ import android.widget.Toast;
 import com.iwxyi.BillsFragment.BillsFragment;
 import com.iwxyi.BillsFragment.BlankDataFragment;
 import com.iwxyi.BillsFragment.DummyContent;
-import com.iwxyi.Record.RecordActivity;
-import com.iwxyi.Utils.DateTimeUtil;
+import com.iwxyi.RecordActivity.RecordActivity;
 import com.iwxyi.Utils.FileUtil;
 import com.iwxyi.Utils.SettingsUtil;
+import com.iwxyi.Utils.SqlUtil;
 import com.iwxyi.Utils.UserInfo;
 
 public class MainActivity extends AppCompatActivity
@@ -48,7 +46,7 @@ public class MainActivity extends AppCompatActivity
 
     private Fragment currentFragment = new Fragment();
     //private BlankDataFragment blankDataFragment = BlankDataFragment.newInstance();
-    //private BillsFragment billsFragment = BillsFragment.newInstance(columns);
+    //private com.iwxyi.BillsFragment.BillsFragment billsFragment = com.iwxyi.BillsFragment.BillsFragment.newInstance(columns);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +66,8 @@ public class MainActivity extends AppCompatActivity
             long timestamp = System.currentTimeMillis();
             SettingsUtil.setVal(this, "firstStartTime", timestamp);
         }
+
+        SqlUtil.init(getApplicationContext());
     }
 
     private void readUserInfo() {
@@ -192,10 +192,10 @@ public class MainActivity extends AppCompatActivity
         /*FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.add(R.id.frameLayout, BlankDataFragment.newInstance());
-        ft.add(R.id.frameLayout, BillsFragment.newInstance(columns));
+        ft.add(R.id.frameLayout, com.iwxyi.BillsFragment.BillsFragment.newInstance(columns));
         ft.add(R.id.frameLayout, PlusOneButtonFragment.newInstance("", ""));
         ft.add(R.id.frameLayout, ExportFragment.newInstance("", ""));
-        ft.hide(BillsFragment.newInstance(columns));
+        ft.hide(com.iwxyi.BillsFragment.BillsFragment.newInstance(columns));
         ft.hide(PlusOneButtonFragment.newInstance("",""));
         ft.hide(ExportFragment.newInstance("",""));
         ft.commit();*/

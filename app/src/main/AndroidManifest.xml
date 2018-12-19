@@ -60,7 +60,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Record.RecordActivity"
+            android:name=".RecordActivity.RecordActivity"
             android:label="@string/title_activity_record" />
 
         <meta-data
@@ -69,7 +69,7 @@
 
         <service android:name="com.amap.api.location.APSService" />
 
-        <activity android:name=".Record.MapActivity" />
+        <activity android:name=".RecordActivity.MapActivity" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />

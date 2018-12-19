@@ -1,4 +1,4 @@
-package com.iwxyi.Record;
+package com.iwxyi.RecordActivity;
 
 import com.iwxyi.R;
 

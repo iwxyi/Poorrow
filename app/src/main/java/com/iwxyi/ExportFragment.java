@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +17,7 @@ import android.widget.Toast;
 import com.iwxyi.BillsFragment.DummyContent;
 import com.iwxyi.Utils.FileUtil;
 import com.iwxyi.Utils.Global;
-import com.iwxyi.Utils.SettingsUtil;
+import com.iwxyi.Utils.SqlUtil;
 import com.iwxyi.Utils.StreamUtil;
 import com.iwxyi.Utils.StringUtil;
 import com.iwxyi.Utils.UserInfo;
@@ -139,10 +138,12 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_toSql:
-                // TODO 18/12/19
+                backupToSql();
+                Toast.makeText(getContext(), "备份到数据库成功", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_fromSql:
-                // TODO 18/12/19
+                resotreFromSql();
+                Toast.makeText(getContext(), "从数据库还原成功", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_toCloud:
                 uploadAll();
@@ -158,11 +159,11 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
     }
 
     private void backupToSql() {
-        ;
+        SqlUtil.backupToSql();
     }
 
     private void resotreFromSql() {
-        ;
+        SqlUtil.restoreFromSql();
     }
 
     Handler handler = new Handler() {

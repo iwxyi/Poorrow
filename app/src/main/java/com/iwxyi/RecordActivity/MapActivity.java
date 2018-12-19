@@ -1,7 +1,6 @@
-package com.iwxyi.Record;
+package com.iwxyi.RecordActivity;
 import com.iwxyi.R;
 
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
