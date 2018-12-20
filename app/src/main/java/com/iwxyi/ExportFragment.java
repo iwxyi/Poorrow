@@ -43,17 +43,10 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
  * create an instance of this fragment.
  */
 public class ExportFragment extends Fragment implements View.OnClickListener {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+
     private final int SYNC_RESULT = 1;
     private final int SYNC_PROCESS = 2;
     private final int SYNC_WRONG = 3;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private SweetAlertDialog pDialog;
 
@@ -83,27 +76,17 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment ExportFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ExportFragment newInstance(String param1, String param2) {
+    public static ExportFragment newInstance() {
         ExportFragment fragment = new ExportFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -273,7 +256,7 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
                             Message msg = Message.obtain();
                             if ("OK".equals(StringUtil.getXml(content, "STATE"))) {
                                 msg.what = SYNC_PROCESS;
-                                msg.arg1 = i+1;
+                                msg.arg1 = i;
                                 if (!"".equals(content)) {
                                     content = StringUtil.getXml(content, "CONTENT");
                                     FileUtil.writeTextVals(fields[i]+".txt", content);

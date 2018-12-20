@@ -1,7 +1,6 @@
 package com.iwxyi;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -33,7 +32,8 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, BlankDataFragment.OnBlankFragmentInteractionListener,
                 BillsFragment.OnListFragmentInteractionListener, PlusOneButtonFragment.OnPlusOneButtonFragmentInteractionListener,
-                ExportFragment.OnExportFragmentInteractionListener{
+                ExportFragment.OnExportFragmentInteractionListener, FinanceFragment.OnFinanceFragmentInteractionListener,
+                PredictFragment.OnPredictFragmentInteractionListener{
 
     private final int REQUEST_CODE_RECORD = 1;
     private final int REQUEST_CODE_MODIFY = 2;
@@ -253,12 +253,14 @@ public class MainActivity extends AppCompatActivity
                 switchFragment(BlankDataFragment.newInstance());
                 currentFragmentIndex = 0;
             }
-        } else if (id == R.id.nav_balance) {
+        } else if (id == R.id.nav_finance) {
+            switchFragment(FinanceFragment.newInstance());
             currentFragmentIndex = 2;
-        } else if (id == R.id.nav_future) {
+        } else if (id == R.id.nav_predict) {
+            switchFragment(PredictFragment.newInstance());
             currentFragmentIndex = 3;
         } else if (id == R.id.nav_export) {
-            switchFragment(ExportFragment.newInstance("", ""));
+            switchFragment(ExportFragment.newInstance());
             currentFragmentIndex = 4;
         } else if (id == R.id.nav_share) {
 
@@ -333,6 +335,16 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onExportFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onFinanceFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onPredictFragmentInteraction(Uri uri) {
 
     }
 }
