@@ -1,6 +1,7 @@
 package com.iwxyi;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -26,6 +27,8 @@ import com.iwxyi.Utils.FileUtil;
 import com.iwxyi.Utils.SettingsUtil;
 import com.iwxyi.Utils.SqlUtil;
 import com.iwxyi.Utils.UserInfo;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, BlankDataFragment.OnBlankFragmentInteractionListener,
@@ -224,8 +227,14 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
+            startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
             return true;
         } else if (id == R.id.action_about) {
+            new SweetAlertDialog(this)
+                    .setTitleText("关于《穷光蛋的忧伤》")
+                    .setContentText("组员：王鑫益 胡玲华 郎秀心\n项目地址：https://github.com/MRXY001/Poorrow")
+                    .setCustomImage(R.drawable.ic_dan)
+                    .show();
             return true;
         }
 
