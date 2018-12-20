@@ -49,8 +49,11 @@ public class SqlUtil {
                 String field = cursor.getString(1);
                 String content = cursor.getString(2);
                 content = java.net.URLDecoder.decode(content);
-                if (FileUtil.exist(field + ".txt")) {
-                    FileUtil.writeTextVals(field+".txt", content);
+                if (!"".equals(content))
+                {
+                    if (FileUtil.exist(field + ".txt")) {
+                        FileUtil.writeTextVals(field+".txt", content);
+                    }
                 }
                 Log.i("==== restore from sql:" + field, content);
             }
