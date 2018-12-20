@@ -314,6 +314,11 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                                 tsMonth = month;
                                 tsDate = day;
 
+                                if (tsHour == 0 && tsMinute == 0) {
+                                    tsHour = addHour;
+                                    tsMinute = addMinute;
+                                }
+
                                 mDateTv.setText("日期：" + DateTimeUtil.dataToString(tsYear, tsMonth, tsDate));
                             }
 
@@ -339,6 +344,12 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                             public void onPositive(DialogInterface dialog, int hour, int minutes) {
                                 tsHour = hour;
                                 tsMinute = minutes;
+
+                                if (tsYear == 0) {
+                                    tsYear = addYear;
+                                    tsMonth = addMonth;
+                                    tsDate = addDate;
+                                }
 
                                 mTimeTv.setText("时间：" + DateTimeUtil.timeToString(tsHour, tsMinute));
                             }

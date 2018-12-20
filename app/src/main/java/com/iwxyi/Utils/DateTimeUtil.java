@@ -9,6 +9,73 @@ import java.util.Date;
 
 public class DateTimeUtil {
 
+    public static int getYearFromTimestamp(long timestamp) {
+        String s = null;
+        try {
+            s = longToString(timestamp, "yyyy");
+        } catch (ParseException e) {
+            return 0;
+        }
+        return Integer.parseInt(s);
+    }
+
+    public static int getMonthFromTimestamp(long timestamp) {
+        String s = null;
+        try {
+            s = longToString(timestamp, "mm");
+        } catch (ParseException e) {
+            return 0;
+        }
+        return Integer.parseInt(s);
+    }
+
+    public static int getDayFromTimestamp(long timestamp) {
+        String s = null;
+        try {
+            s = longToString(timestamp, "dd");
+        } catch (ParseException e) {
+            return 0;
+        }
+        return Integer.parseInt(s);
+    }
+
+    public static int getHourFromTimestamp(long timestamp) {
+        String s = null;
+        try {
+            s = longToString(timestamp, "hh");
+        } catch (ParseException e) {
+            return 0;
+        }
+        return Integer.parseInt(s);
+    }
+
+    public static int getMinuteFromTimestamp(long timestamp) {
+        String s = null;
+        try {
+            s = longToString(timestamp, "mm");
+        } catch (ParseException e) {
+            return 0;
+        }
+        return Integer.parseInt(s);
+    }
+
+    public static int getSecondFromTimestamp(long timestamp) {
+        String s = null;
+        try {
+            s = longToString(timestamp, "ss");
+        } catch (ParseException e) {
+            return 0;
+        }
+        return Integer.parseInt(s);
+    }
+
+    /**
+     * 散落的数字转换成文本（填充0）
+     * @param year
+     * @param month
+     * @param date
+     * @return
+     */
     public static String dataToString(int year, int month, int date) {
         String rst = year + "/";
         if (month < 10)
@@ -20,6 +87,12 @@ public class DateTimeUtil {
         return rst;
     }
 
+    /**
+     * 散落的时间转换到字符串
+     * @param hour
+     * @param minute
+     * @return
+     */
     public static String timeToString(int hour, int minute) {
         String rst = "";
         if (hour < 10)
@@ -31,30 +104,20 @@ public class DateTimeUtil {
         return rst;
     }
 
+    /**
+     * 散落的日期时间转换到具体的时间戳
+     * @param year
+     * @param month
+     * @param date
+     * @param hour
+     * @param minute
+     * @param second
+     * @return
+     */
     public static long valsToTimestamp(int year, int month, int date, int hour, int minute, int second) {
         String o = year + "-" + month+"-"+date + " " + hour + ":" + minute + ":" + second;
         if (year == 0)
             return 0;
-        /*String o;
-        if (year == 0)
-            o = "0000-";
-        else
-            o = year + "-";
-        if (month < 10)
-            o += "0";
-        o += month + "-";
-        if (date < 10)
-            o += "0";
-        o += date + " ";
-        if (hour < 10)
-            o += "0";
-        o += hour + ":";
-        if (minute < 10)
-            o += "0";
-        o += minute + ":";
-        if (second < 10)
-            o += "0";
-        o += second;*/
 
         Date d = null;
         try {

@@ -3,10 +3,14 @@ package com.iwxyi;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.iwxyi.BillsFragment.DummyContent;
 
 
 /**
@@ -20,6 +24,10 @@ import android.view.ViewGroup;
 public class FinanceFragment extends Fragment {
 
     private OnFinanceFragmentInteractionListener mListener;
+    private TextView mTodayTv;
+    private TextView mYesdayTv;
+    private TextView mWeekTv;
+    private TextView mMonthTv;
 
     public FinanceFragment() {
         // Required empty public constructor
@@ -46,7 +54,9 @@ public class FinanceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_finance, container, false);
+        View view = inflater.inflate(R.layout.fragment_finance, container, false);
+        initView(view);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -65,6 +75,24 @@ public class FinanceFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnPredictFragmentInteractionListener");
         }
+        financialStatistics();
+    }
+
+    private void financialStatistics() {
+        double todayIn, todayOut;
+        double yestodayIn, yestodayOut;
+        double weekIn, weekOut;
+        double monthIn, monthOut;
+        for (DummyContent.DummyItem item : DummyContent.ITEMS) {
+            ;
+        }
+    }
+
+    private void initView(@NonNull final View itemView) {
+        mTodayTv = (TextView) itemView.findViewById(R.id.tv_today);
+        mYesdayTv = (TextView) itemView.findViewById(R.id.tv_yesday);
+        mWeekTv = (TextView) itemView.findViewById(R.id.tv_week);
+        mMonthTv = (TextView) itemView.findViewById(R.id.tv_month);
     }
 
     @Override
