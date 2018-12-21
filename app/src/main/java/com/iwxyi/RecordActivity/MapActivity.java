@@ -34,6 +34,10 @@ public class MapActivity extends AppCompatActivity implements LocationSource, AM
     //标识，用于判断是否只显示一次定位信息和用户重新定位
     private boolean isFirstLoc = true;
 
+    /**
+     * 创建地图对象
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +59,9 @@ public class MapActivity extends AppCompatActivity implements LocationSource, AM
         location();
     }
 
+    /**
+     * 开始定位
+     */
     private void location() {
         //初始化定位
         mLocationClient = new AMapLocationClient(getApplicationContext());
@@ -110,6 +117,10 @@ public class MapActivity extends AppCompatActivity implements LocationSource, AM
         mapView.onSaveInstanceState(outState);
     }
 
+    /**
+     * 位置改变事件
+     * @param aMapLocation
+     */
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
         if (aMapLocation != null) {
@@ -165,7 +176,10 @@ public class MapActivity extends AppCompatActivity implements LocationSource, AM
         }
     }
 
-
+    /**
+     * 恢复时开始监听
+     * @param onLocationChangedListener
+     */
     @Override
     public void activate(OnLocationChangedListener onLocationChangedListener) {
         mListener = onLocationChangedListener;

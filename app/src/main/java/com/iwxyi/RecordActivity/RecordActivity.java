@@ -62,6 +62,10 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
     private int tsYear, tsMonth, tsDate, tsHour, tsMinute;
     private Button mDeleteBtn;
 
+    /**
+     * 开始创建
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +77,9 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         initModify();
     }
 
+    /**
+     * 初始化界面
+     */
     private void initView() {
         mSpendingRb = (RadioButton) findViewById(R.id.rb_spending);
         mIncomeRb = (RadioButton) findViewById(R.id.rb_income);
@@ -107,6 +114,9 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         });
     }
 
+    /**
+     * 初始化数据，设置卡片、种类、时间
+     */
     private void initData() {
         kindChoosing = -1;
         cardChoosing = "默认";
@@ -143,6 +153,9 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         mTimeTv.setText("" + DateTimeUtil.timeToString(addHour, addMinute));
     }
 
+    /**
+     * 如果是修改的，则读取修改的item的内容
+     */
     private void initModify() {
         // 如果是修改，读取修改的内容
         Intent intent = getIntent();
@@ -221,6 +234,10 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    /**
+     * 切换种类的方法
+     * @param x
+     */
     private void emitGVAdapter(int x) {
         String fileName, def;
         if (x == 1) { // 收入
@@ -257,6 +274,10 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         mKindGv.setAdapter(kindApdapter);
     }
 
+    /**
+     * click 事件
+     * @param v  单击对象
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -415,6 +436,14 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    /**
+     * 列表被单击
+     * 这里指的是种类列表
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (kindChoosing == position) { // 重新点击选中的，取消选中

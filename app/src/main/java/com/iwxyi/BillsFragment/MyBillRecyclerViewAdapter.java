@@ -25,11 +25,22 @@ public class MyBillRecyclerViewAdapter extends RecyclerView.Adapter<MyBillRecycl
     private final List<DummyItem> mValues;
     private final OnListFragmentInteractionListener mListener;
 
+    /**
+     * 设置数值和监听器
+     * @param items
+     * @param listener
+     */
     public MyBillRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
 
+    /**
+     * 创建Holder
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -37,6 +48,11 @@ public class MyBillRecyclerViewAdapter extends RecyclerView.Adapter<MyBillRecycl
         return new ViewHolder(view);
     }
 
+    /**
+     * 绑定 holder，设置数据和显示的内容
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
@@ -95,11 +111,18 @@ public class MyBillRecyclerViewAdapter extends RecyclerView.Adapter<MyBillRecycl
         });
     }
 
+    /**
+     * 列表的数量
+     * @return
+     */
     @Override
     public int getItemCount() {
         return mValues.size();
     }
 
+    /**
+     * ViewHolder 类，保存缓冲的内容
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mTvSource;

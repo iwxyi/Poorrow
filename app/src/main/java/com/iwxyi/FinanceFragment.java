@@ -81,6 +81,10 @@ public class FinanceFragment extends Fragment {
         }
     }
 
+    /**
+     * 通过读取每个ITEM的时间来判断收入支出了多少
+     * 分别是：今日、昨日、七天、本月
+     */
     private void financialStatistics() {
         long timestamp, addTime;
         int year, month, date, hour, minute;
@@ -137,6 +141,10 @@ public class FinanceFragment extends Fragment {
         mMonthTv.setText("本月收入：" + monthIn + "\n本月支出：" + monthOut + "\n本月统计：" + (monthIn+monthOut));
     }
 
+    /**
+     * 初始化控件
+     * @param itemView
+     */
     private void initView(@NonNull final View itemView) {
         mTodayTv = (TextView) itemView.findViewById(R.id.tv_today);
         mYesdayTv = (TextView) itemView.findViewById(R.id.tv_yesday);

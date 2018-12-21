@@ -9,6 +9,11 @@ import java.util.Date;
 
 public class DateTimeUtil {
 
+    /**
+     * 时间戳转换到年
+     * @param timestamp 时间戳
+     * @return 年
+     */
     public static int getYearFromTimestamp(long timestamp) {
         if (timestamp == 0) return 0;
         String s = null;
@@ -20,6 +25,11 @@ public class DateTimeUtil {
         return Integer.parseInt(s);
     }
 
+    /**
+     * 时间戳转换到月
+     * @param timestamp 时间戳
+     * @return 月
+     */
     public static int getMonthFromTimestamp(long timestamp) {
         if (timestamp == 0) return 0;
         String s = null;
@@ -31,6 +41,11 @@ public class DateTimeUtil {
         return Integer.parseInt(s);
     }
 
+    /**
+     * 时间戳转换到日
+     * @param timestamp 时间戳
+     * @return 日
+     */
     public static int getDateFromTimestamp(long timestamp) {
         if (timestamp == 0) return 0;
         String s = null;
@@ -42,6 +57,11 @@ public class DateTimeUtil {
         return Integer.parseInt(s);
     }
 
+    /**
+     * 时间戳转换到小时
+     * @param timestamp 时间戳
+     * @return 小时
+     */
     public static int getHourFromTimestamp(long timestamp) {
         if (timestamp == 0) return 0;
         String s = null;
@@ -53,6 +73,11 @@ public class DateTimeUtil {
         return Integer.parseInt(s);
     }
 
+    /**
+     * 时间戳转换到分钟
+     * @param timestamp 时间戳
+     * @return 分钟
+     */
     public static int getMinuteFromTimestamp(long timestamp) {
         if (timestamp == 0) return 0;
         String s = null;
@@ -64,6 +89,11 @@ public class DateTimeUtil {
         return Integer.parseInt(s);
     }
 
+    /**
+     * 时间戳转换到秒
+     * @param timestamp 时间戳
+     * @return 秒
+     */
     public static int getSecondFromTimestamp(long timestamp) {
         if (timestamp == 0) return 0;
         String s = null;

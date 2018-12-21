@@ -63,6 +63,9 @@ public class MainActivity extends AppCompatActivity
         initData();
     }
 
+    /**
+     * 初始化数据
+     */
     private void initData() {
         FileUtil.ensureFolder();
 
@@ -76,6 +79,9 @@ public class MainActivity extends AppCompatActivity
         SqlUtil.init(getApplicationContext());
     }
 
+    /**
+     * 读取用户信息
+     */
     private void readUserInfo() {
         // 修改抽屉头像
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -115,6 +121,9 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    /**
+     * 初始化控件
+     */
     private void initView() {
         // 初始化 工具栏
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -209,6 +218,9 @@ public class MainActivity extends AppCompatActivity
         switchFragment(BillsFragment.newInstance(1));
     }
 
+    /**
+     * 返回按钮被单击
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -225,6 +237,11 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * 菜单项被单击
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -244,6 +261,11 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * 抽屉导航被单击
+     * @param item
+     * @return
+     */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -286,6 +308,10 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * 获取分享账单的文本
+     * @return 文本
+     */
     private String getFinance() {
         long timestamp, addTime;
         int year, month, date, hour, minute;
@@ -339,6 +365,11 @@ public class MainActivity extends AppCompatActivity
         return "本日账单：" + todayIn+todayOut+"\n昨日账单："+yestodayIn+yestodayOut+"\n七天账单："+weekIn+weekOut+"\n本月账单："+monthIn+monthOut;
     }
 
+    /**
+     * 切换fragment
+     * 用于抽屉导航的单击事件
+     * @param fragment
+     */
     private void switchFragment(android.support.v4.app.Fragment fragment) {
 
         /*FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -361,6 +392,12 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.frameLayout, fragment, "history").commitAllowingStateLoss();
     }
 
+    /**
+     * 切换窗口返回完毕
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_CODE_RECORD_OK) { // 添加账单结束
@@ -389,11 +426,19 @@ public class MainActivity extends AppCompatActivity
         startActivityForResult(intent, REQUEST_CODE_MODIFY);
     }
 
+    /**
+     * 空白fragment被单击，打开添加activity
+     * @param uri
+     */
     @Override
     public void onBlankTvClicked(Uri uri) {
         startActivityForResult(new Intent(getApplicationContext(), RecordActivity.class), REQUEST_CODE_RECORD);
     }
 
+    /**
+     * google+1 按钮被单击，目前没有什么作用
+     * @param uri
+     */
     @Override
     public void onPlusOneFragmentInteraction(Uri uri) {
         Toast.makeText(this, "+1", Toast.LENGTH_SHORT).show();

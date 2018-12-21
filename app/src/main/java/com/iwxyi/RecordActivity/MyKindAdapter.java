@@ -19,27 +19,53 @@ public class MyKindAdapter extends BaseAdapter {
     private Context mContext = null;
     private ArrayList<KindBean> mData = null;
 
+    /**
+     * 构造方法，初始化
+     * @param context
+     * @param arrayList
+     */
     public MyKindAdapter(Context context, ArrayList<KindBean> arrayList) {
         mContext = context;
         mData = arrayList;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+    /**
+     * 获取数量
+     * @return
+     */
     @Override
     public int getCount() {
         return mData == null ? 0 : mData.size();
     }
 
+    /**
+     * 获取对象
+     * @param position
+     * @return
+     */
     @Override
     public Object getItem(int position) {
         return mData == null ? null : mData.get(position);
     }
 
+    /**
+     * 获取ID
+     * @param position
+     * @return
+     */
     @Override
     public long getItemId(int position) {
         return position;
     }
 
+    /**
+     * 返回一个 View，显示名字和图片
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;

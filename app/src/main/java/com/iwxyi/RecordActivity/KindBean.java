@@ -7,12 +7,21 @@ public class KindBean {
     public int img;
     public boolean choose;
 
+    /**
+     * 构造方法
+     * @param name 种类名字
+     */
     KindBean(String name) {
         this.name = name;
         img = nameToDrawable(name);
         choose = false;
     }
 
+    /**
+     * 将种类名字映射到资源图标ID
+     * @param name
+     * @return
+     */
     private int nameToDrawable(String name) {
         switch (name) {
             case "转账" :

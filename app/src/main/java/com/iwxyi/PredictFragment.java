@@ -39,6 +39,10 @@ public class PredictFragment extends Fragment implements View.OnClickListener {
         // Required empty public constructor
     }
 
+    /**
+     * 初始化控件
+     * @param itemView
+     */
     private void initView(@NonNull final View itemView) {
         pDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
         mStartPredictBtn = (Button) itemView.findViewById(R.id.btn_startPredict);
@@ -94,6 +98,11 @@ public class PredictFragment extends Fragment implements View.OnClickListener {
         mListener = null;
     }
 
+    /**
+     * 控件单击事件
+     * 弹出预测对话框
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -110,6 +119,10 @@ public class PredictFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    /**
+     * 多线程返回操作
+     * 弹出失败对话框
+     */
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             if (msg.what == MESSAGE_WHAT_PREDICT) {
@@ -123,6 +136,9 @@ public class PredictFragment extends Fragment implements View.OnClickListener {
         }
     };
 
+    /**
+     * 开始“预测”……
+     */
     private void predict() {
         new Thread() {
             public void run() {

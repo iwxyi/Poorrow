@@ -19,6 +19,10 @@ public class SqlUtil {
             "kinds_borrowing"
     };
 
+    /**
+     * 数据库工具类初始化
+     * @param context 上下文
+     */
     public static void init(Context context) {
         _context = context;
         inited = true;
@@ -27,12 +31,19 @@ public class SqlUtil {
         db = myOpenHelper.getWritableDatabase();
     }
 
+    /**
+     * 备份所有数据到数据库
+     */
     public static void backupToSql() {
         for (int i = 0; i < fields.length; i++) {
             backupToSql(fields[i]);
         }
     }
 
+    /**
+     * 备份某一项名字的文件到数据库
+     * @param field 文件名（不包括后缀名）（后缀名是txt）
+     */
     public static void backupToSql(String field) {
         if (!inited) return ;
         String s = FileUtil.readTextVals(field + ".txt");
@@ -41,6 +52,9 @@ public class SqlUtil {
         db.execSQL("UPDATE poorrow set content = '" + s + "' where field = '" + field + "'");
     }
 
+    /**
+     * 从数据库中恢复数据
+     */
     public static void restoreFromSql() {
         if (!inited) return ;
         Cursor cursor = db.rawQuery("SELECT * from poorrow", null);

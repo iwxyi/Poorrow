@@ -11,7 +11,9 @@ class MyOpenHelper extends SQLiteOpenHelper {
         super(context, "poorrow.db", null, 1);
     }
 
-    // 数据库第一次创建的时候用（仅一次），特别适合做表结构的初始化
+    /**
+     * 数据库第一次创建的时候用（仅一次），特别适合做表结构的初始化
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table poorrow( _id integer primary key autoincrement, field varchar(20), content text )");
@@ -22,7 +24,9 @@ class MyOpenHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO poorrow (field, content) values ('kinds_borrowing', '')");
     }
 
-    // 数据库升级的时候调用
+    /**
+     * 数据库升级的时候调用
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //例如：升级 info表 添加 phone字段

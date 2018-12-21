@@ -11,6 +11,11 @@ import java.net.ProtocolException;
 import java.net.URL;
 
 public class NetworkUtil {
+    /**
+     * 获取网页源码
+     * @param path 地址
+     * @return 源码
+     */
     public static String getWebpageSource(String path) {
         URL url = null;
         try {

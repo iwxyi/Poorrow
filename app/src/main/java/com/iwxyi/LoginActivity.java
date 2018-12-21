@@ -362,6 +362,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             return false;
         }
 
+        /**
+         * 解析登录注册传回来的文本
+         * 判断是注册还是登录
+         * 写入到 UserInfo里面
+         * @param content 内容
+         * @return 是否成功
+         */
         private Boolean parseLoginRegister(String content) {
             Log.i("====parse login register:", content);
             if (!"OK".equals(StringUtil.getXml(content, "STATE")))

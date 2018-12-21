@@ -50,6 +50,10 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
     private TextView mRecordCountTv;
     private FloatingActionButton mFab;
 
+    /**
+     * 创建完毕
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +85,9 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
         readUserInfo();
     }
 
+    /**
+     * 读取用户设置
+     */
     private void readUserInfo() {
         mNicknameTv.setText("昵　称：" + UserInfo.nickname);
         mUsernameTv.setText("用户名：" + UserInfo.username);
@@ -101,6 +108,9 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
         mRecordCountTv.setText("共有账单记录 " + DummyContent.ITEMS.size() + " 条");
     }
 
+    /**
+     * 初始化控件
+     */
     private void initView() {
         mNicknameTv = (TextView) findViewById(R.id.tv_nickname);
         mNicknameTv.setOnClickListener(this);
@@ -121,6 +131,13 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
         mFab.setOnClickListener(this);
     }
 
+    /**
+     * 弹出输入框
+     * @param aim 目标
+     * @param title 标题
+     * @param def 默认值
+     * @return 输入的字符串
+     */
     private String inputDialog(final String aim, String title, String def) {
         final String[] result = new String[1];
         LayoutInflater factory = LayoutInflater.from(PersonActivity.this);//提示框
@@ -144,6 +161,12 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
         return result[0];
     }
 
+    /**
+     * 淡出输入框2（没用了）
+     * @param title  标题
+     * @param def 默认值
+     * @return 输入的字符串
+     */
     private String inputDialog2(String title, String def) {
         final EditText et = new EditText(this);
         et.setText(def);
@@ -163,11 +186,21 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
         return result[0];
     }
 
+    /**
+     * 能否匹配正则表达式，用来判断输入的结构是否正确
+     * @param string  字符串
+     * @param pattern 正则表达式格式
+     * @return 能否匹配
+     */
     private boolean canMatch(String string, String pattern) {
         if ("".equals(string)) return false;
         return Pattern.matches(pattern, string);
     }
 
+    /**
+     * 控件单击事件
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         String s;
@@ -203,6 +236,11 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    /**
+     * 输入框结束事件
+     * @param aim 目标
+     * @param s   字符串
+     */
     private void onInputDialog(String aim, String s) {
         if (aim.equals("nickname")) {
             if (canMatch(s, "^[\\w_@]+$")) {
@@ -256,6 +294,9 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
+    /**
+     * 多线程返回处理函数
+     */
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             if (msg.what == SYNC_RESULT) {
@@ -267,6 +308,11 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
         }
     };
 
+    /**
+     * 上传用户信息
+     * @param field 文件名
+     * @param val   数值
+     */
     private void updateContent(final String field, final String val) {
         new Thread() {
             public void run() {
@@ -305,6 +351,9 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
         }.start();
     }
 
+    /**
+     * 同步所有内容（仅上传）
+     */
     private void syncAll() {
         new Thread() {
             public void run() {

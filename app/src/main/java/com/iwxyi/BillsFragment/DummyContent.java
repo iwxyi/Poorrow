@@ -150,6 +150,22 @@ public class DummyContent {
         FileUtil.writeTextVals("bills.txt", text);
     }
 
+    /**
+     * 添加一个新的账单记录，并且保存到文件
+     * @param id
+     * @param amount
+     * @param mode
+     * @param kind
+     * @param source
+     * @param note
+     * @param card
+     * @param place
+     * @param timestamp
+     * @param addTime
+     * @param changeTime
+     * @param reimburse
+     * @param remind
+     */
     public static void addNew(String id, double amount, int mode, String kind, String source, String note, String card, String place, long timestamp, long addTime, long changeTime, Boolean reimburse, long remind) {
         DummyItem item = createDummyItem(id, amount, mode, kind, source, note, card, place, timestamp, addTime, changeTime, reimburse, remind);
         addItem(item);
@@ -159,6 +175,10 @@ public class DummyContent {
         FileUtil.writeTextVals("bills.txt", text);
     }
 
+    /**
+     * 将新增加的item对象静态全局变量
+     * @param item
+     */
     private static void addItem(DummyItem item) {
         ITEMS.add(item);
         ITEM_MAP.put(item.id, item);
@@ -166,11 +186,29 @@ public class DummyContent {
 
     /**
      * 类似工厂模式添加 Dummy
+     * @param id
+     * @param amount
+     * @param mode
+     * @param kind
+     * @param source
+     * @param note
+     * @param card
+     * @param place
+     * @param timestamp
+     * @param addTime
+     * @param changeTime
+     * @param reimburse
+     * @param remind
+     * @return
      */
     private static DummyItem createDummyItem(String id, double amount, int mode, String kind, String source, String note, String card, String place, long timestamp, long addTime, long changeTime, Boolean reimburse, long remind) {
         return new DummyItem(id, amount, mode, kind, source, note, card, place, timestamp, addTime, changeTime, reimburse, remind);
     }
 
+    /**
+     * 删除一个账单记录
+     * @param businessID 账单ID
+     */
     public static void removeItem(String businessID) {
         DummyItem item = ITEM_MAP.get(businessID);
         if (item == null) return ;
@@ -186,6 +224,9 @@ public class DummyContent {
         FileUtil.writeTextVals("bills.txt", s);
     }
 
+    /**
+     * 账单对象的Bean
+     */
     public static class DummyItem {
 
         public String  id;         // 账单ID（根据时间随机）
@@ -202,11 +243,32 @@ public class DummyContent {
         public Boolean reimburse;  // 是否能报销/归还
         public long    remind;     // 提醒时间戳
 
+        /**
+         * 用来测试的构造方法
+         * @param id
+         * @param amount
+         */
         public DummyItem(String id, int amount) {
             this.id = id;
             this.amount = amount;
         }
 
+        /**
+         * 构造方法
+         * @param id
+         * @param amount
+         * @param mode
+         * @param kind
+         * @param source
+         * @param note
+         * @param card
+         * @param place
+         * @param timestamp
+         * @param addTime
+         * @param changeTime
+         * @param reimburse
+         * @param remind
+         */
         public DummyItem(String id, double amount, int mode, String kind, String source, String note, String card, String place, long timestamp, long addTime, long changeTime, Boolean reimburse, long remind) {
             this.id = id;
             this.amount = amount;
@@ -223,6 +285,10 @@ public class DummyContent {
             this.remind = remind;
         }
 
+        /**
+         * 转换成 string，用来保存到文件和数据库
+         * @return string
+         */
         @Override
         public String toString() {
             return StringUtil.toXml(
@@ -243,6 +309,9 @@ public class DummyContent {
         }
     }
 
+    /**
+     * 如果没有任何数据，则加上默认的内容
+     */
     private static void initStartBills() {
         String text = "<BILL><ID>01</ID><SR>欢迎来到 穷光蛋的世界</SR><AM>1.00</AM><NT>你知道，自己只是个穷光蛋，一贫如洗</NT></BILL>";
         text += "<BILL><ID>02</ID><SR>其实啊，你很幸运</SR><AM>2.00</AM><NT>真的很幸运，能和本开发者一同品味着贫穷，品味着无力</NT></BILL>";

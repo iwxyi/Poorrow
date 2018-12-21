@@ -60,6 +60,10 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
         // Required empty public constructor
     }
 
+    /**
+     * 初始化控件
+     * @param itemView
+     */
     private void initView(@NonNull final View itemView) {
         pDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
         mToSqlBtn = (Button) itemView.findViewById(R.id.btn_toSql);
@@ -122,6 +126,10 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
         mListener = null;
     }
 
+    /**
+     * 控件点击事件
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -155,10 +163,16 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    /**
+     * 备份到数据库
+     */
     private void backupToSql() {
         SqlUtil.backupToSql();
     }
 
+    /**
+     * 从数据库中还原
+     */
     private void resotreFromSql() {
         SqlUtil.restoreFromSql();
     }
@@ -179,6 +193,9 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
         }
     };
 
+    /**
+     * 上传所有内容
+     */
     private void uploadAll() {
         if (UserInfo.userID.equals("")) {
             Toast.makeText(getContext(), "请先点击左上角进行注册/登录", Toast.LENGTH_SHORT).show();
@@ -230,6 +247,9 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
         }.start();
     }
 
+    /**
+     * 使用多线程下载所有内容
+     */
     private void downloadAll() {
         if (UserInfo.userID.equals("")) {
             Toast.makeText(getContext(), "请先点击左上角进行注册/登录", Toast.LENGTH_SHORT).show();
