@@ -35,6 +35,8 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.regex.Pattern;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class PersonActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final int RESULT_CODE_PERSON_OK = 104;
@@ -221,12 +223,23 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
                 s = inputDialog("cellphone", "请修改手机号", UserInfo.cellphone);
                 break;
             case R.id.btn_signout:
-                UserInfo.logined = false;
-                UserInfo.userID = "";
-                SettingsUtil.setVal(getApplicationContext(), "userID", "");
-                Toast.makeText(this, "您已成功退出登录", Toast.LENGTH_SHORT).show();
-                setResult(RESULT_CODE_PERSON_OK);
-                finish();
+                new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("是否退出？")
+                        .setContentText("您将退出当前账号，在下次登录之前无法从云端恢复（数据库备份不受影响）")
+                        .setConfirmText("确认退出")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismissWithAnimation();
+                                UserInfo.logined = false;
+                                UserInfo.userID = "";
+                                SettingsUtil.setVal(getApplicationContext(), "userID", "");
+                                Toast.makeText(getApplicationContext(), "您已成功退出登录", Toast.LENGTH_SHORT).show();
+                                setResult(RESULT_CODE_PERSON_OK);
+                                finish();
+                            }
+                        })
+                        .show();
                 break;
             case R.id.fab:
                 syncAll();

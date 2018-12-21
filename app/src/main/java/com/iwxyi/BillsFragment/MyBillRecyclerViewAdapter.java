@@ -121,18 +121,27 @@ public class MyBillRecyclerViewAdapter extends RecyclerView.Adapter<MyBillRecycl
         return mValues.size();
     }
 
+    /**
+     * 删除某个元素
+     * @param position
+     */
     @Override
     public void onItemDelete(int position) {
-        mValues.remove(position);
         DummyContent.removeItem(position);
+        mValues.remove(position);
         notifyItemRemoved(position);
     }
 
+    /**
+     * 交换某个元素
+     * @param fromPosition
+     * @param toPosition
+     */
     @Override
     public void onMove(int fromPosition, int toPosition) {
         Collections.swap(mValues, fromPosition, toPosition);
-        DummyContent.swapItem(fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
+        DummyContent.swapItem(fromPosition, toPosition);
     }
 
     /**

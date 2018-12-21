@@ -225,8 +225,22 @@ public class DummyContent {
         FileUtil.writeTextVals("bills.txt", s);
     }
 
+    /**
+     * 滑动删除，只删除文件，不操作ITEMS（不然会报错……）
+     * @param position
+     */
     public static void removeItem(int position) {
-        removeItem(ITEMS.get(position).id);
+        String ID = ITEMS.get(position).id;
+        //ITEM_MAP.remove(position);
+        //ITEMS.remove(position);
+        String s = FileUtil.readTextVals("bills.txt");
+        int pos = s.indexOf("<ID>" + ID + "</ID>");
+        if (pos == -1) return ;
+        int left = s.lastIndexOf("<BILL>", pos);
+        int right = s.indexOf("</BILL>", pos);
+        if (left == -1 || right == -1) return ;
+        s = s.substring(0, left) + s.substring(right+"</BILL>".length());
+        FileUtil.writeTextVals("bills.txt", s);
     }
 
     public static void swapItem(int fromPosition, int toPosition) {
