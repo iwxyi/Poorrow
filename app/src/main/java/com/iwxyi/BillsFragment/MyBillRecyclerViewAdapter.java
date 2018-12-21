@@ -51,7 +51,10 @@ public class MyBillRecyclerViewAdapter extends RecyclerView.Adapter<MyBillRecycl
         }
         if (holder.mItem.mode == 0) {
             holder.mTvAmount.setTextColor(Color.rgb(255, 99, 71));
-            holder.mTvAmount.setText("-" + holder.mItem.amount);
+            if (holder.mItem.amount >= 0)
+                holder.mTvAmount.setText("-" + holder.mItem.amount);
+            else
+                holder.mTvAmount.setText("" + holder.mItem.amount);
         } else if (holder.mItem.mode == 1) {
             holder.mTvAmount.setTextColor(Color.rgb(34, 139, 34));
             holder.mTvAmount.setText("+" + holder.mItem.amount);

@@ -193,6 +193,20 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
             if (!"".equals(place)) {
                 mPlaceTv.setText(place);
             }
+            tsYear = DateTimeUtil.getYearFromTimestamp(timestamp);
+            tsMonth = DateTimeUtil.getMonthFromTimestamp(timestamp);
+            tsDate = DateTimeUtil.getDateFromTimestamp(timestamp);
+            tsHour = DateTimeUtil.getHourFromTimestamp(timestamp);
+            tsMinute = DateTimeUtil.getMinuteFromTimestamp(timestamp);
+            addYear = DateTimeUtil.getYearFromTimestamp(addTime);
+            addMonth = DateTimeUtil.getMonthFromTimestamp(addTime);
+            addDate = DateTimeUtil.getDateFromTimestamp(addTime);
+            addHour = DateTimeUtil.getHourFromTimestamp(addTime);
+            addMinute = DateTimeUtil.getMinuteFromTimestamp(addTime);
+            if (tsYear > 2000) {
+                mDateTv.setText("" + DateTimeUtil.dataToString(tsYear, tsMonth, tsDate));
+                mTimeTv.setText("" + DateTimeUtil.timeToString(tsHour, tsMinute));
+            }
 
             mSubmitBtn.setText("确认修改");
         }
@@ -258,6 +272,9 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                 String card = cardChoosing;
                 String place = "";
                 double amount = Double.valueOf(mAmountEv.getText().toString());
+                if (mode == 0 && amount > 0) {
+                    amount *= -1;
+                }
                 String source;
                 String note = mNoteEv.getText().toString();
                 long timestamp = DateTimeUtil.valsToTimestamp(tsYear, tsMonth, tsDate, tsHour, tsMinute, 0);

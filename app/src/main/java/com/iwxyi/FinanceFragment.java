@@ -5,12 +5,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.iwxyi.BillsFragment.DummyContent;
+import com.iwxyi.Utils.DateTimeUtil;
+
+import java.util.Calendar;
 
 
 /**
@@ -75,17 +79,62 @@ public class FinanceFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnPredictFragmentInteractionListener");
         }
-        financialStatistics();
     }
 
     private void financialStatistics() {
-        double todayIn, todayOut;
-        double yestodayIn, yestodayOut;
-        double weekIn, weekOut;
-        double monthIn, monthOut;
+        long timestamp, addTime;
+        int year, month, date, hour, minute;
+        double amount;
+        double todayIn = 0, todayOut = 0;
+        double yestodayIn = 0, yestodayOut = 0;
+        double weekIn = 0, weekOut = 0;
+        double monthIn = 0, monthOut = 0;
+        Calendar c = Calendar.getInstance();
+        int _year = c.get(Calendar.YEAR);
+        int _month = c.get(Calendar.MONTH) + 1;
+        int _date = c.get(Calendar.DAY_OF_MONTH);
+        long todayTimestamp = DateTimeUtil.valsToTimestamp(_year, _month, _date, 0, 0, 0);
+        long yestodayTimestamp = todayTimestamp-1*24*3600*1000;
+        long weekTimestamp = todayTimestamp-7*24*3600*1000;
+        long monthTimestamp = DateTimeUtil.valsToTimestamp(_year, _month, _date, 0, 0, 0);
         for (DummyContent.DummyItem item : DummyContent.ITEMS) {
-            ;
+            timestamp = item.timestamp;
+            if (timestamp == 0) {
+                timestamp = item.addTime;
+            }
+            amount = item.amount;
+            if (timestamp > todayTimestamp) { // 今日
+                if (amount >= 0) {
+                    todayIn += amount;
+                } else {
+                    todayOut += amount;
+                }
+            } else if (timestamp > yestodayTimestamp) { // 昨日
+                if (amount > 0) {
+                    yestodayIn += amount;
+                } else {
+                    yestodayOut += amount;
+                }
+            }
+            if (timestamp > weekTimestamp) { // 七天
+                if (amount > 0) {
+                    weekIn += amount;
+                } else {
+                    weekOut += amount;
+                }
+            }
+            if (timestamp > monthTimestamp) { // 本月
+                if (amount > 0) {
+                    monthIn += amount;
+                } else {
+                    monthOut += amount;
+                }
+            }
         }
+        mTodayTv.setText("今日收入：" + todayIn + "\n今日支出：" + todayOut + "\n今日统计：" + (todayIn+todayOut));
+        mYesdayTv.setText("昨日收入：" + yestodayIn + "\n本月支出：" + yestodayOut + "\n昨日统计：" + (yestodayIn+yestodayOut));
+        mWeekTv.setText("七天收入：" + weekIn + "\n七天支出：" + weekOut + "\n七天统计：" + (weekIn+weekOut));
+        mMonthTv.setText("本月收入：" + monthIn + "\n本月支出：" + monthOut + "\n本月统计：" + (monthIn+monthOut));
     }
 
     private void initView(@NonNull final View itemView) {
@@ -93,6 +142,7 @@ public class FinanceFragment extends Fragment {
         mYesdayTv = (TextView) itemView.findViewById(R.id.tv_yesday);
         mWeekTv = (TextView) itemView.findViewById(R.id.tv_week);
         mMonthTv = (TextView) itemView.findViewById(R.id.tv_month);
+        financialStatistics();
     }
 
     @Override

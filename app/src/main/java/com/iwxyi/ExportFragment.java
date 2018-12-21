@@ -132,6 +132,7 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
             case R.id.btn_fromSql:
                 resotreFromSql();
                 Toast.makeText(getContext(), "从数据库还原成功", Toast.LENGTH_SHORT).show();
+                DummyContent.readFromFile();
                 break;
             case R.id.btn_toCloud:
                 pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
@@ -147,7 +148,7 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
                 pDialog.setCustomImage(R.drawable.ic_dan);
                 pDialog.setCancelable(false);
                 pDialog.show();
-                downloadAll();
+                downloadAll(); // 因为是多线程的，麻烦，所以就把重新读取bills放到这个方法里面了
                 break;
             default:
                 break;

@@ -10,6 +10,7 @@ import java.util.Date;
 public class DateTimeUtil {
 
     public static int getYearFromTimestamp(long timestamp) {
+        if (timestamp == 0) return 0;
         String s = null;
         try {
             s = longToString(timestamp, "yyyy");
@@ -20,6 +21,7 @@ public class DateTimeUtil {
     }
 
     public static int getMonthFromTimestamp(long timestamp) {
+        if (timestamp == 0) return 0;
         String s = null;
         try {
             s = longToString(timestamp, "mm");
@@ -29,7 +31,8 @@ public class DateTimeUtil {
         return Integer.parseInt(s);
     }
 
-    public static int getDayFromTimestamp(long timestamp) {
+    public static int getDateFromTimestamp(long timestamp) {
+        if (timestamp == 0) return 0;
         String s = null;
         try {
             s = longToString(timestamp, "dd");
@@ -40,6 +43,7 @@ public class DateTimeUtil {
     }
 
     public static int getHourFromTimestamp(long timestamp) {
+        if (timestamp == 0) return 0;
         String s = null;
         try {
             s = longToString(timestamp, "hh");
@@ -50,6 +54,7 @@ public class DateTimeUtil {
     }
 
     public static int getMinuteFromTimestamp(long timestamp) {
+        if (timestamp == 0) return 0;
         String s = null;
         try {
             s = longToString(timestamp, "mm");
@@ -60,6 +65,7 @@ public class DateTimeUtil {
     }
 
     public static int getSecondFromTimestamp(long timestamp) {
+        if (timestamp == 0) return 0;
         String s = null;
         try {
             s = longToString(timestamp, "ss");
