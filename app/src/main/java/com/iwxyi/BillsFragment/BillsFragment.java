@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,6 +81,12 @@ public class BillsFragment extends Fragment {
             }
             adapter = new MyBillRecyclerViewAdapter(DummyContent.ITEMS, mListener);
             recyclerView.setAdapter(adapter);
+
+            // 设置手势操作
+            ItemTouchHelper.Callback callback = new RecycleItemTouchHelper(adapter);
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+            itemTouchHelper.attachToRecyclerView(recyclerView);
+
         }
         return view;
     }

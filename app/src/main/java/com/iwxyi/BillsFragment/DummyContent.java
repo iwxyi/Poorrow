@@ -6,6 +6,7 @@ import com.iwxyi.Utils.FileUtil;
 import com.iwxyi.Utils.StringUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -222,6 +223,40 @@ public class DummyContent {
         if (left == -1 || right == -1) return ;
         s = s.substring(0, left) + s.substring(right+"</BILL>".length());
         FileUtil.writeTextVals("bills.txt", s);
+    }
+
+    public static void removeItem(int position) {
+        removeItem(ITEMS.get(position).id);
+    }
+
+    public static void swapItem(int fromPosition, int toPosition) {
+        String id1 = ITEMS.get(fromPosition).id, id2 = ITEMS.get(toPosition).id;
+        String s = FileUtil.readTextVals("bills.txt");
+
+        int pos = s.indexOf("<ID>" + id1 + "</ID>");
+        if (pos == -1) return ;
+        int left1 = s.lastIndexOf("<BILL>", pos);
+        int right1 = s.indexOf("</BILL>", pos);
+        if (left1 == -1 || right1 == -1) return ;
+        right1 += "</BILL>".length();
+
+        pos = s.indexOf("<ID>" + id2 + "</ID>");
+        if (pos == -1) return ;
+        int left2 = s.lastIndexOf("<BILL>", pos);
+        int right2 = s.indexOf("</BILL>", pos);
+        if (left2 == -1 || right2 == -1) return ;
+        right2 += "</BILL>".length();
+
+        String s1 = s.substring(left1, right1),
+               s2 = s.substring(left2, right2);
+        if (right1 <= left2) {
+            s = s.substring(0, left1) + s2 + s.substring(right1, left2) + s1 + s.substring(right2);
+        } else {
+            s = s.substring(0, left2) + s1 + s.substring(right2, left1) + s2 + s.substring(right1);
+        }
+        FileUtil.writeTextVals("bills.txt", s);
+
+        Collections.swap(ITEMS, fromPosition, toPosition);
     }
 
     /**

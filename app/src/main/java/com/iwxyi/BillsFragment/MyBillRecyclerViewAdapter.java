@@ -13,6 +13,7 @@ import com.iwxyi.R;
 import com.iwxyi.Utils.DateTimeUtil;
 
 import java.text.ParseException;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ import java.util.List;
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyBillRecyclerViewAdapter extends RecyclerView.Adapter<MyBillRecyclerViewAdapter.ViewHolder> {
+public class MyBillRecyclerViewAdapter extends RecyclerView.Adapter<MyBillRecyclerViewAdapter.ViewHolder> implements RecycleItemTouchHelper.ItemTouchHelperCallback {
 
     private final List<DummyItem> mValues;
     private final OnListFragmentInteractionListener mListener;
@@ -118,6 +119,20 @@ public class MyBillRecyclerViewAdapter extends RecyclerView.Adapter<MyBillRecycl
     @Override
     public int getItemCount() {
         return mValues.size();
+    }
+
+    @Override
+    public void onItemDelete(int position) {
+        mValues.remove(position);
+        DummyContent.removeItem(position);
+        notifyItemRemoved(position);
+    }
+
+    @Override
+    public void onMove(int fromPosition, int toPosition) {
+        Collections.swap(mValues, fromPosition, toPosition);
+        DummyContent.swapItem(fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
     }
 
     /**

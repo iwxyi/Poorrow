@@ -222,22 +222,22 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
                     urlConnection.setRequestMethod("POST");
                     urlConnection.setConnectTimeout(5000);
                     int code = urlConnection.getResponseCode();
+                    Message msg = Message.obtain();
                     if (code == 200) {
                         InputStream in = urlConnection.getInputStream();
                         String content = StreamUtil.readStream(in);
-                        Message msg = Message.obtain();
                         msg.what = SYNC_RESULT;
-                        if (!"OK".equals(StringUtil.getXml(content, "STATE"))) {
-                            msg.obj = StringUtil.getXml(content, "REASON");
-                        } else {
+                        if ("OK".equals(StringUtil.getXml(content, "STATE"))) {
                             msg.obj = "上传成功";
+                        } else {
+                            msg.obj = StringUtil.getXml(content, "REASON");
+                            Log.i("====upload false:", content);
                         }
-                        handler.sendMessage(msg);
                     } else {
-                        Message msg = Message.obtain();
                         msg.what = SYNC_WRONG;
                         msg.obj = "网络连接失败，请稍后再试";
                     }
+                    handler.sendMessage(msg);
                 } catch (ProtocolException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -262,6 +262,7 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
         final String finalPath = path;
         new Thread() {
             public void run() {
+                boolean wrong = false;
                 for (int i = 0; i < fields.length; i++) {
                     String tPath = finalPath + "&field=" + fields[i];
                     URL url = null;
@@ -270,6 +271,7 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
+
                     try {
                         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                         urlConnection.setRequestMethod("GET");
@@ -279,6 +281,7 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
                             InputStream in = urlConnection.getInputStream();
                             String content = StreamUtil.readStream(in);
                             Message msg = Message.obtain();
+
                             if ("OK".equals(StringUtil.getXml(content, "STATE"))) {
                                 msg.what = SYNC_PROCESS;
                                 msg.arg1 = i;
@@ -287,12 +290,13 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
                                     FileUtil.writeTextVals(fields[i]+".txt", content);
                                     Log.i("====write download content " + fields[i], content);
                                 }
+                                handler.sendMessage(msg);
                             } else {
-                                msg.what = SYNC_WRONG;
-                                msg.obj = "出现了问题：" + StringUtil.getXml(content, "REASON");
-                                Log.i("====download:", tPath);
+                                wrong = true;
+                                /*msg.what = SYNC_WRONG;
+                                msg.obj = "出现了问题：" + StringUtil.getXml(content, "REASON");*/
+                                Log.i("====download:" + tPath, content);
                             }
-                            handler.sendMessage(msg);
                         } else {
                             Message msg = Message.obtain();
                             msg.what = SYNC_WRONG;
@@ -306,7 +310,10 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
                 }
                 Message msg = Message.obtain();
                 msg.what = SYNC_RESULT;
-                msg.obj = "下载完毕";
+                if (wrong)
+                    msg.obj = "出现了一些错误，请稍后再试";
+                else
+                    msg.obj = "下载完毕";
                 handler.sendMessage(msg);
                 DummyContent.readFromFile();
             }

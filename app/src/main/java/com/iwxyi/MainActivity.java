@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity
     private final int RESULT_CODE_MODIFY_OK = 102;
     private final int RESULT_CODE_LOGIN_OK  = 103;
     private final int RESULT_CODE_PERSON_OK = 104;
-    private int columns = 1; // 实现列表多列形式
+    private int columns = 2; // 实现列表多列形式
 
     private static int currentFragmentIndex = 0;
 
@@ -202,8 +202,8 @@ public class MainActivity extends AppCompatActivity
         });
 
         // 初始化碎片
-        columns = SettingsUtil.getInt(getApplicationContext(), "columns");
-        if (columns < 1) columns = 1; // 读取保存的列数
+        int _columns = SettingsUtil.getInt(getApplicationContext(), "columns");
+        if (_columns > 0) columns = _columns; // 读取保存的列数
         /*FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.add(R.id.frameLayout, BlankDataFragment.newInstance());
@@ -215,7 +215,10 @@ public class MainActivity extends AppCompatActivity
         ft.hide(ExportFragment.newInstance("",""));
         ft.commit();*/
 
-        switchFragment(BillsFragment.newInstance(1));
+        if (DummyContent.ITEMS.size() == 0)
+            switchFragment(BlankDataFragment.newInstance());
+        else
+            switchFragment(BillsFragment.newInstance(columns));
     }
 
     /**
@@ -256,6 +259,14 @@ public class MainActivity extends AppCompatActivity
                     .setCustomImage(R.drawable.ic_dan)
                     .show();
             return true;
+        } else if (id == R.id.action_columns) {
+            if (columns == 2) {
+                columns = 1;
+            } else {
+                columns = 2;
+            }
+            SettingsUtil.setVal(getApplicationContext(), "columns", columns);
+            switchFragment(BillsFragment.newInstance(columns));
         }
 
         return super.onOptionsItemSelected(item);
