@@ -22,10 +22,13 @@ import com.iwxyi.BillsFragment.BillsFragment;
 import com.iwxyi.BillsFragment.BlankDataFragment;
 import com.iwxyi.BillsFragment.DummyContent;
 import com.iwxyi.RecordActivity.RecordActivity;
+import com.iwxyi.Utils.DateTimeUtil;
 import com.iwxyi.Utils.FileUtil;
 import com.iwxyi.Utils.SettingsUtil;
 import com.iwxyi.Utils.SqlUtil;
 import com.iwxyi.Utils.UserInfo;
+
+import java.util.Calendar;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -232,7 +235,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.action_about) {
             new SweetAlertDialog(this)
                     .setTitleText("关于《穷光蛋的忧伤》")
-                    .setContentText("组员：王鑫益 胡玲华 郎秀心\n项目地址：https://github.com/MRXY001/Poorrow")
+                    .setContentText("组员：王鑫益 胡伶华 郎秀心\n项目地址：https://github.com/MRXY001/Poorrow")
                     .setCustomImage(R.drawable.ic_dan)
                     .show();
             return true;
@@ -263,14 +266,77 @@ public class MainActivity extends AppCompatActivity
             switchFragment(ExportFragment.newInstance());
             currentFragmentIndex = 4;
         } else if (id == R.id.nav_share) {
-
+            Intent intent = new Intent();
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
+            intent.putExtra(Intent.EXTRA_TEXT, "推荐您使用：穷光蛋的忧伤 https://github.com/MRXY001/Poorrow");
+            intent = Intent.createChooser(intent, "分享APP给好友");
+            startActivity(intent);
         } else if (id == R.id.nav_send) {
-
+            Intent intent = new Intent();
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
+            intent.putExtra(Intent.EXTRA_TEXT, getFinance());
+            intent = Intent.createChooser(intent, "穷光蛋账单");
+            startActivity(intent);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private String getFinance() {
+        long timestamp, addTime;
+        int year, month, date, hour, minute;
+        double amount;
+        double todayIn = 0, todayOut = 0;
+        double yestodayIn = 0, yestodayOut = 0;
+        double weekIn = 0, weekOut = 0;
+        double monthIn = 0, monthOut = 0;
+        Calendar c = Calendar.getInstance();
+        int _year = c.get(Calendar.YEAR);
+        int _month = c.get(Calendar.MONTH) + 1;
+        int _date = c.get(Calendar.DAY_OF_MONTH);
+        long todayTimestamp = DateTimeUtil.valsToTimestamp(_year, _month, _date, 0, 0, 0);
+        long yestodayTimestamp = todayTimestamp-1*24*3600*1000;
+        long weekTimestamp = todayTimestamp-7*24*3600*1000;
+        long monthTimestamp = DateTimeUtil.valsToTimestamp(_year, _month, _date, 0, 0, 0);
+        for (DummyContent.DummyItem item : DummyContent.ITEMS) {
+            timestamp = item.timestamp;
+            if (timestamp == 0) {
+                timestamp = item.addTime;
+            }
+            amount = item.amount;
+            if (timestamp > todayTimestamp) { // 今日
+                if (amount >= 0) {
+                    todayIn += amount;
+                } else {
+                    todayOut += amount;
+                }
+            } else if (timestamp > yestodayTimestamp) { // 昨日
+                if (amount > 0) {
+                    yestodayIn += amount;
+                } else {
+                    yestodayOut += amount;
+                }
+            }
+            if (timestamp > weekTimestamp) { // 七天
+                if (amount > 0) {
+                    weekIn += amount;
+                } else {
+                    weekOut += amount;
+                }
+            }
+            if (timestamp > monthTimestamp) { // 本月
+                if (amount > 0) {
+                    monthIn += amount;
+                } else {
+                    monthOut += amount;
+                }
+            }
+        }
+        return "本日账单：" + todayIn+todayOut+"\n昨日账单："+yestodayIn+yestodayOut+"\n七天账单："+weekIn+weekOut+"\n本月账单："+monthIn+monthOut;
     }
 
     private void switchFragment(android.support.v4.app.Fragment fragment) {

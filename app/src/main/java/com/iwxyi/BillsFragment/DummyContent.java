@@ -10,13 +10,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * 账单的工厂类
+ */
 public class DummyContent {
 
     public static final List<DummyItem> ITEMS = new ArrayList<DummyItem>();
     public static final Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
     public static String _text = "not inited";
 
+    /**
+     * 初始化
+     */
     static {
         // 如果文件不存在，则初始化文件
         if (!FileUtil.exist("bills.txt")) {
@@ -26,6 +31,9 @@ public class DummyContent {
         readFromFile();
     }
 
+    /**
+     * 从文件 bills.txt 中读取所有的账单（用于更新操作）
+     */
     public static void readFromFile() {
         ITEMS.clear();
         ITEM_MAP.clear();
@@ -56,6 +64,15 @@ public class DummyContent {
 
     /**
      * 手动新添加的列表，为其分配 ID
+     * @param amount
+     * @param mode
+     * @param kind
+     * @param source
+     * @param note
+     * @param card
+     * @param place
+     * @param timestamp
+     * @param addTime
      */
     public static void addNew(double amount, int mode, String kind, String source, String note, String card, String place, long timestamp, long addTime) {
         String id = addTime + "_" + ITEMS.size();
@@ -65,6 +82,16 @@ public class DummyContent {
     /**
      * 修改某个选项
      * 修改方式是全部删掉，重新建立
+     * @param id
+     * @param amount
+     * @param mode
+     * @param kind
+     * @param source
+     * @param note
+     * @param card
+     * @param place
+     * @param timestamp
+     * @param changeTime
      */
     public static void moidfyItem(String id, double amount, int mode, String kind, String source, String note, String card, String place, long timestamp, long changeTime) {
         DummyItem item = ITEM_MAP.get(id);
@@ -97,6 +124,22 @@ public class DummyContent {
         FileUtil.writeTextVals("bills.txt", text);
     }
 
+    /**
+     * 插入一个新的账单记录
+     * @param id
+     * @param amount
+     * @param mode
+     * @param kind
+     * @param source
+     * @param note
+     * @param card
+     * @param place
+     * @param timestamp
+     * @param addTime
+     * @param changeTime
+     * @param reimburse
+     * @param remind
+     */
     public static void insertNew(String id, double amount, int mode, String kind, String source, String note, String card, String place, long timestamp, long addTime, long changeTime, Boolean reimburse, long remind) {
         DummyItem item = createDummyItem(id, amount, mode, kind, source, note, card, place, timestamp, addTime, changeTime, reimburse, remind);
         ITEMS.add(0, item);

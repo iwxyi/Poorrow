@@ -226,7 +226,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         if (x == 1) { // 收入
             mIncomeRb.setChecked(true);
             fileName = "kinds_income.txt";
-            def = "工资\n理财\n捡到\n礼物";
+            def = "工资\n理财\n投资\n奖金\n兼职\n捡到\n礼物";
         } else if (x == 2) { // 借贷
             mBorrowingRb.setChecked(true);
             fileName = "kinds_borrowing.txt";

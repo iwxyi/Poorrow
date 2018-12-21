@@ -216,6 +216,10 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
                             msg.obj = "上传成功";
                         }
                         handler.sendMessage(msg);
+                    } else {
+                        Message msg = Message.obtain();
+                        msg.what = SYNC_WRONG;
+                        msg.obj = "网络连接失败，请稍后再试";
                     }
                 } catch (ProtocolException e) {
                     e.printStackTrace();
@@ -269,6 +273,10 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
                                 Log.i("====download:", tPath);
                             }
                             handler.sendMessage(msg);
+                        } else {
+                            Message msg = Message.obtain();
+                            msg.what = SYNC_WRONG;
+                            msg.obj = "网络连接失败，请稍后再试";
                         }
                     } catch (ProtocolException e) {
                         e.printStackTrace();

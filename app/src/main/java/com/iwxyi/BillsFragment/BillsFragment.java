@@ -21,9 +21,7 @@ import com.iwxyi.R;
  */
 public class BillsFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
     private int mColumnCount = 3;
     private OnListFragmentInteractionListener mListener;
 
@@ -37,6 +35,11 @@ public class BillsFragment extends Fragment {
     public BillsFragment() {
     }
 
+    /**
+     * 返回一个 Fragment 对象
+     * @param columnCount 列数
+     * @return
+     */
     public static BillsFragment newInstance(int columnCount) {
         BillsFragment fragment = new BillsFragment();
         Bundle args = new Bundle();
@@ -54,6 +57,13 @@ public class BillsFragment extends Fragment {
         }
     }
 
+    /**
+     * 创建一个 View 并且初始化
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -117,6 +127,9 @@ public class BillsFragment extends Fragment {
         }
     }
 
+    /**
+     * 重新使用时，进行更新数据显示
+     */
     @Override
     public void onResume() {
         super.onResume();
