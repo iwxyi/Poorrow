@@ -28,6 +28,8 @@ import net.steamcrafted.lineartimepicker.dialog.LinearTimePickerDialog;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class RecordActivity extends AppCompatActivity implements View.OnClickListener, OnItemClickListener {
 
     private int REQUEST_CODE_RECORD = 1;
@@ -58,6 +60,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
 
     private int addYear, addMonth, addDate, addHour, addMinute;
     private int tsYear, tsMonth, tsDate, tsHour, tsMinute;
+    private Button mDeleteBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +90,9 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         mTimeTv.setOnClickListener(this);
         mPlaceTv.setOnClickListener(this);
         mSubmitBtn.setOnClickListener(this);
+        mDeleteBtn = (Button) findViewById(R.id.btn_delete);
+        mDeleteBtn.setOnClickListener(this);
+        mDeleteBtn.setVisibility(View.GONE);
         mCardSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -145,7 +151,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
             DummyContent.DummyItem item = DummyContent.ITEM_MAP.get(businessID);
             if (item == null) {
                 businessID = "";
-                return ;
+                return;
             }
             double amount = item.amount;
             int mode = item.mode;
@@ -158,7 +164,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
             long addTime = item.addTime;
 
             if (amount != 0) {
-                mAmountEv.setText(amount+"");
+                mAmountEv.setText(amount + "");
             }
             if (mode == 1) {
                 mIncomeRb.setChecked(true);
@@ -184,8 +190,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
             if (!("".equals(source))) {
                 if ("".equals(note)) {
                     note = source;
-                }
-                else {
+                } else {
                     note = source + "\n" + note;
                 }
             }
@@ -193,22 +198,26 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
             if (!"".equals(place)) {
                 mPlaceTv.setText(place);
             }
-            tsYear = DateTimeUtil.getYearFromTimestamp(timestamp);
-            tsMonth = DateTimeUtil.getMonthFromTimestamp(timestamp);
-            tsDate = DateTimeUtil.getDateFromTimestamp(timestamp);
-            tsHour = DateTimeUtil.getHourFromTimestamp(timestamp);
-            tsMinute = DateTimeUtil.getMinuteFromTimestamp(timestamp);
-            addYear = DateTimeUtil.getYearFromTimestamp(addTime);
-            addMonth = DateTimeUtil.getMonthFromTimestamp(addTime);
-            addDate = DateTimeUtil.getDateFromTimestamp(addTime);
-            addHour = DateTimeUtil.getHourFromTimestamp(addTime);
-            addMinute = DateTimeUtil.getMinuteFromTimestamp(addTime);
-            if (tsYear > 2000) {
+            if (timestamp > 0) {
+                tsYear = DateTimeUtil.getYearFromTimestamp(timestamp);
+                tsMonth = DateTimeUtil.getMonthFromTimestamp(timestamp);
+                tsDate = DateTimeUtil.getDateFromTimestamp(timestamp);
+                tsHour = DateTimeUtil.getHourFromTimestamp(timestamp);
+                tsMinute = DateTimeUtil.getMinuteFromTimestamp(timestamp);
                 mDateTv.setText("" + DateTimeUtil.dataToString(tsYear, tsMonth, tsDate));
                 mTimeTv.setText("" + DateTimeUtil.timeToString(tsHour, tsMinute));
+            } else if (addTime > 0) {
+                addYear = DateTimeUtil.getYearFromTimestamp(addTime);
+                addMonth = DateTimeUtil.getMonthFromTimestamp(addTime);
+                addDate = DateTimeUtil.getDateFromTimestamp(addTime);
+                addHour = DateTimeUtil.getHourFromTimestamp(addTime);
+                addMinute = DateTimeUtil.getMinuteFromTimestamp(addTime);
+                mDateTv.setText("" + DateTimeUtil.dataToString(addYear, addMonth, addDate));
+                mTimeTv.setText("" + DateTimeUtil.timeToString(addHour, addMinute));
             }
 
             mSubmitBtn.setText("确认修改");
+            mDeleteBtn.setVisibility(View.VISIBLE);
         }
     }
 
@@ -282,7 +291,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                 int linePos = note.indexOf("\n");
                 if (linePos > -1) {
                     source = note.substring(0, linePos);
-                    note = note.substring(linePos+1, note.length());
+                    note = note.substring(linePos + 1, note.length());
                 } else {
                     if ("".equals(note))
                         source = kind;
@@ -380,9 +389,26 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                 dialog.show();
 
                 break;
-            case R.id.tv_place :
+            case R.id.tv_place:
                 //startActivityForResult(new Intent(getApplicationContext(), MapActivity.class), REQUEST_CODE_MAP);
                 startActivity(new Intent(getApplicationContext(), MapActivity.class));
+                break;
+            case R.id.btn_delete:
+                if ("".equals(businessID))
+                    break;
+                new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("是否删除？")
+                        .setContentText("此操作将无法恢复（但可从备份中还原）")
+                        .setConfirmText("确认删除")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismissWithAnimation();
+                                DummyContent.removeItem(businessID);
+                                finish();
+                            }
+                        })
+                        .show();
                 break;
             default:
                 break;

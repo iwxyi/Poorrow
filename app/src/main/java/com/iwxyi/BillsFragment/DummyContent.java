@@ -128,6 +128,21 @@ public class DummyContent {
         return new DummyItem(id, amount, mode, kind, source, note, card, place, timestamp, addTime, changeTime, reimburse, remind);
     }
 
+    public static void removeItem(String businessID) {
+        DummyItem item = ITEM_MAP.get(businessID);
+        if (item == null) return ;
+        ITEM_MAP.remove(item);
+        ITEMS.remove(item);
+        String s = FileUtil.readTextVals("bills.txt");
+        int pos = s.indexOf("<ID>" + businessID + "</ID>");
+        if (pos == -1) return ;
+        int left = s.lastIndexOf("<BILL>", pos);
+        int right = s.indexOf("</BILL>", pos);
+        if (left == -1 || right == -1) return ;
+        s = s.substring(0, left) + s.substring(right+"</BILL>".length());
+        FileUtil.writeTextVals("bills.txt", s);
+    }
+
     public static class DummyItem {
 
         public String  id;         // 账单ID（根据时间随机）

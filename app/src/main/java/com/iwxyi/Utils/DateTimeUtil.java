@@ -24,7 +24,7 @@ public class DateTimeUtil {
         if (timestamp == 0) return 0;
         String s = null;
         try {
-            s = longToString(timestamp, "mm");
+            s = longToString(timestamp, "MM"); // 大写M是月份，小写m是分钟
         } catch (ParseException e) {
             return 0;
         }
