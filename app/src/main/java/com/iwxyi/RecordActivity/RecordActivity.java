@@ -345,9 +345,8 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.tv_date:
                 boolean data_tutorial = false;
-                if (SettingsUtil.getInt(getApplicationContext(), "LinearDatePicker_tutorial") != 0) {
+                if (SettingsUtil.getInt(getApplicationContext(), "LinearDatePicker_tutorial") != 1) {
                     data_tutorial = true;
-                    SettingsUtil.setVal(getApplicationContext(), "LinearDataPicker__tutorial", 0);
                 }
                 LinearDatePickerDialog.Builder.with(RecordActivity.this)
                         .setYear(addYear)
@@ -367,6 +366,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                                 }
 
                                 mDateTv.setText("日期：" + DateTimeUtil.dataToString(tsYear, tsMonth, tsDate));
+                                SettingsUtil.setVal(getApplicationContext(), "LinearDataPicker_tutorial", 1);
                             }
 
                             @Override
@@ -380,9 +380,8 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.tv_time:
                 boolean time_tutorial = false;
-                if (SettingsUtil.getInt(getApplicationContext(), "LinearTimePicker_tutorial") != 0) {
+                if (SettingsUtil.getInt(getApplicationContext(), "LinearTimePicker_tutorial") != 1) {
                     time_tutorial = true;
-                    SettingsUtil.setVal(getApplicationContext(), "LinearTimePicker__tutorial", 0);
                 }
                 LinearTimePickerDialog dialog = LinearTimePickerDialog.Builder.with(RecordActivity.this)
                         .setShowTutorial(time_tutorial)
@@ -399,6 +398,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                                 }
 
                                 mTimeTv.setText("时间：" + DateTimeUtil.timeToString(tsHour, tsMinute));
+                                SettingsUtil.setVal(getApplicationContext(), "LinearDataPicker_tutorial", 1);
                             }
 
                             @Override

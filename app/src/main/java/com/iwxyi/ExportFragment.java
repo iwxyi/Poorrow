@@ -189,6 +189,7 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
                 pDialog.setTitle("下载中 " + (process+1) + "/5 ...");
             } else if (msg.what == SYNC_WRONG) {
                 Toast.makeText(getContext(), (String) msg.obj, Toast.LENGTH_SHORT).show();
+                pDialog.hide();
             }
         }
     };
@@ -235,12 +236,15 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
                         }
                     } else {
                         msg.what = SYNC_WRONG;
-                        msg.obj = "网络连接失败，请稍后再试";
+                        msg.obj = "上传结束";
+                        sleep(3000);
                     }
                     handler.sendMessage(msg);
                 } catch (ProtocolException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
@@ -311,7 +315,7 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
                 Message msg = Message.obtain();
                 msg.what = SYNC_RESULT;
                 if (wrong)
-                    msg.obj = "出现了一些错误，请稍后再试";
+                    msg.obj = "下载结束";
                 else
                     msg.obj = "下载完毕";
                 handler.sendMessage(msg);

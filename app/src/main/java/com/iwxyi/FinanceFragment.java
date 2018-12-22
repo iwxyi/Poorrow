@@ -136,7 +136,7 @@ public class FinanceFragment extends Fragment {
             }
         }
         mTodayTv.setText("今日收入：" + todayIn + "\n今日支出：" + todayOut + "\n今日统计：" + (todayIn+todayOut));
-        mYesdayTv.setText("昨日收入：" + yestodayIn + "\n本月支出：" + yestodayOut + "\n昨日统计：" + (yestodayIn+yestodayOut));
+        mYesdayTv.setText("昨日收入：" + yestodayIn + "\n昨日支出：" + yestodayOut + "\n昨日统计：" + (yestodayIn+yestodayOut));
         mWeekTv.setText("七天收入：" + weekIn + "\n七天支出：" + weekOut + "\n七天统计：" + (weekIn+weekOut));
         mMonthTv.setText("本月收入：" + monthIn + "\n本月支出：" + monthOut + "\n本月统计：" + (monthIn+monthOut));
     }

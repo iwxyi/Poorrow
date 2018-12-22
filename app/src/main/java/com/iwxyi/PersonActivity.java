@@ -340,7 +340,7 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
                 }
                 try {
                     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                    urlConnection.setRequestMethod("GET");
+                    urlConnection.setRequestMethod("POST");
                     urlConnection.setConnectTimeout(5000);
                     int code = urlConnection.getResponseCode();
                     if (code == 200) {
@@ -354,10 +354,18 @@ public class PersonActivity extends AppCompatActivity implements View.OnClickLis
                             msg.obj = "上传成功";
                         }
                         handler.sendMessage(msg);
+                    } else {
+                        sleep(4000);
+                        Message msg = Message.obtain();
+                        msg.what = SYNC_RESULT;
+                        msg.obj = "上传结束";
+                        handler.sendMessage(msg);
                     }
                 } catch (ProtocolException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }

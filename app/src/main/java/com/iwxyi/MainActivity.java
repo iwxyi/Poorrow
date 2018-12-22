@@ -283,7 +283,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_history) {
-            switchFragment(BillsFragment.newInstance(1));
+            switchFragment(BillsFragment.newInstance(columns));
             currentFragmentIndex = 1;
             if (DummyContent.ITEMS.size() == 0) {
                 switchFragment(BlankDataFragment.newInstance());

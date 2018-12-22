@@ -130,7 +130,7 @@ public class PredictFragment extends Fragment implements View.OnClickListener {
 
                 new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
                         .setTitleText("预测结束...")
-                        .setContentText("此功能基于大数据AI预测，您当前只有" + DummyContent.ITEMS.size() + "条数据，数据量远远不足，请过一段时间再试。")
+                        .setContentText("此功能基于大数据AI预测，您当前只有" + DummyContent.ITEMS.size() + " / 1000条数据，数据量不足。")
                         .show();
             }
         }
